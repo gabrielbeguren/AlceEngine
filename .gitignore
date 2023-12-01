@@ -5,6 +5,5 @@ Build/Temp/
 Build/Temp/**
 Build/Out
 Build/Out/**
-Build/settings.json
 .vscode/launch.json
 .vscode/settings.json
