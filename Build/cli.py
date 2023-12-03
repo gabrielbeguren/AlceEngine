@@ -146,6 +146,7 @@ def handleArguments(argument_stack):
                     if not isAliasValid(v.split('=')[-1]):
                         error(f"Invalid alias name \"{v.split('=')[-1]}\"")
                         sys.exit(1)
+
                     tasks.remove("compile 0")
                     tasks.append(f"compile {v.split('=')[-1]}")
 
@@ -203,7 +204,6 @@ def handleArguments(argument_stack):
                     error(f"Invalid argument \"v\". Use [alce --run --help] for more info.")
                     sys.exit(1)
                             
-
             # Generation options (component, scene, object)
             elif first == "--generate" or first == "-g":
 
