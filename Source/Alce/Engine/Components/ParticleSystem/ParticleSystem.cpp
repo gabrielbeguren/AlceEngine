@@ -213,15 +213,51 @@ ParticleSystem::ParticleSystem() : Component("ParticleSystem")
 
 }
 
-void ParticleSystem::Init()
-{
+#pragma region implementation
 
+
+void ParticleSystem::SetDelay(Time delay)
+{
+    this->delay = delay;
 }
 
-void ParticleSystem::Start()
+void ParticleSystem::SetEmitArea(ShapePtr emitArea)
 {
+    this->emitArea = emitArea;
 
+    if(emitArea->GetType() == ShapeType::polygon)
+    {
+        auto polygon = (PolygonShape*) emitArea.get();
+        offset -= polygon->GetAverageEdgeLength() / 2.0f;
+    }
 }
+
+void ParticleSystem::Emit()
+{
+    if(!behaviorLambda)
+    {
+        Debug.Warning("There is no particle behavior defined");
+        return;
+    }
+
+    emit = true;
+}
+
+void ParticleSystem::Stop()
+{
+    if(!emit)
+    {
+        Debug.Warning("ParticleSystem is not emitting");
+        return;
+    }
+
+    emit = false;
+    elapsed.Reset();
+}
+
+#pragma endregion
+
+#pragma region generic
 
 void ParticleSystem::Update()
 {
@@ -366,43 +402,6 @@ void ParticleSystem::DebugRender()
     }
 }
 
-void ParticleSystem::SetDelay(Time delay)
-{
-    this->delay = delay;
-}
-
-void ParticleSystem::SetEmitArea(ShapePtr emitArea)
-{
-    this->emitArea = emitArea;
-
-    if(emitArea->GetType() == ShapeType::polygon)
-    {
-        auto polygon = (PolygonShape*) emitArea.get();
-        offset -= polygon->GetAverageEdgeLength() / 2.0f;
-    }
-}
-
-void ParticleSystem::Emit()
-{
-    if(!behaviorLambda)
-    {
-        Debug.Warning("There is no particle behavior defined");
-        return;
-    }
-
-    emit = true;
-}
-
-void ParticleSystem::Stop()
-{
-    if(!emit)
-    {
-        Debug.Warning("ParticleSystem is not emitting");
-        return;
-    }
-
-    emit = false;
-    elapsed.Reset();
-}
+#pragma endregion
 
 #pragma endregion

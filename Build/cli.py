@@ -635,8 +635,7 @@ def generateImplementation(target_type, target_name):
             line = line.replace("\t", "")
             line = line.replace("\n", "")
             line = line.replace(";", "")
-
-            #TODO: quitar valores opcionales (a = 2)
+            line = line.strip()
             
             method_stack.append([line.split(" ")[0], " ".join(line.split(" ")[1:])])
             add_to_stack = False
@@ -682,7 +681,6 @@ def generateImplementation(target_type, target_name):
             if not line in extra_lines:
                 hpp_w.writelines([line])
         
-
 #endregion
 
 #region regex functions

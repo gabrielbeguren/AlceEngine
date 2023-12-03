@@ -12,53 +12,7 @@ SpriteRenderer::SpriteRenderer() : Component("SpriteRenderer")
     cardinals.Set("bottom-right", std::make_shared<Vector2>());
 }
 
-void SpriteRenderer::Init()
-{
-    if(transform == nullptr)
-    {
-        Debug.Warning("Component SpriteRenderer has no association with any GameObject");
-    }
-}
-
-void SpriteRenderer::Start()
-{
-    if(transform == nullptr)
-    {
-        Debug.Warning("Component SpriteRenderer has no association with any GameObject");
-    }
-}
-
-void SpriteRenderer::Render()
-{
-    if(transform == nullptr) return;
-
-    Kernel.GetWindow().draw(*sprite);
-}
-
-void SpriteRenderer::Update()
-{
-    if(transform == nullptr) return;
-
-    sprite->setPosition(transform->position.ToPixels().ToVector2f());
-    sprite->setOrigin(sprite->getLocalBounds().width / 2.0f, sprite->getLocalBounds().height / 2.0f);
-    sprite->setScale(transform->scale.ToVector2f());
-    sprite->setRotation(transform->rotation);
-
-    RectShape bounds(sprite->getLocalBounds());
-    Vector2 pixelpos = transform->position.ToPixels();
-
-    cardinals["top-left"]->x = pixelpos.x - (bounds.width / 2.0f);
-    cardinals["top-left"]->y = pixelpos.y - (bounds.height / 2.0f);
-
-    cardinals["top-right"]->x = pixelpos.x + (bounds.width / 2.0f);
-    cardinals["top-right"]->y = pixelpos.y - (bounds.height / 2.0f);
-
-    cardinals["bottom-left"]->x = pixelpos.x - (bounds.width / 2.0f);
-    cardinals["bottom-left"]->y = pixelpos.y + (bounds.height / 2.0f);
-
-    cardinals["bottom-right"]->x = pixelpos.x + (bounds.width / 2.0f);
-    cardinals["bottom-right"]->y = pixelpos.y + (bounds.height / 2.0f);
-}
+#pragma region implementation
 
 void SpriteRenderer::AddTexture(String file, String name)
 {
@@ -123,3 +77,57 @@ Dictionary<String, Vector2Ptr> SpriteRenderer::GetCardinals()
 {
     return cardinals;
 }
+
+#pragma endregion
+
+#pragma region generic
+
+void SpriteRenderer::Init()
+{
+    if(transform == nullptr)
+    {
+        Debug.Warning("Component SpriteRenderer has no association with any GameObject");
+    }
+}
+
+void SpriteRenderer::Start()
+{
+    if(transform == nullptr)
+    {
+        Debug.Warning("Component SpriteRenderer has no association with any GameObject");
+    }
+}
+
+void SpriteRenderer::Render()
+{
+    if(transform == nullptr) return;
+
+    Kernel.GetWindow().draw(*sprite);
+}
+
+void SpriteRenderer::Update()
+{
+    if(transform == nullptr) return;
+
+    sprite->setPosition(transform->position.ToPixels().ToVector2f());
+    sprite->setOrigin(sprite->getLocalBounds().width / 2.0f, sprite->getLocalBounds().height / 2.0f);
+    sprite->setScale(transform->scale.ToVector2f());
+    sprite->setRotation(transform->rotation);
+
+    RectShape bounds(sprite->getLocalBounds());
+    Vector2 pixelpos = transform->position.ToPixels();
+
+    cardinals["top-left"]->x = pixelpos.x - (bounds.width / 2.0f);
+    cardinals["top-left"]->y = pixelpos.y - (bounds.height / 2.0f);
+
+    cardinals["top-right"]->x = pixelpos.x + (bounds.width / 2.0f);
+    cardinals["top-right"]->y = pixelpos.y - (bounds.height / 2.0f);
+
+    cardinals["bottom-left"]->x = pixelpos.x - (bounds.width / 2.0f);
+    cardinals["bottom-left"]->y = pixelpos.y + (bounds.height / 2.0f);
+
+    cardinals["bottom-right"]->x = pixelpos.x + (bounds.width / 2.0f);
+    cardinals["bottom-right"]->y = pixelpos.y + (bounds.height / 2.0f);
+}
+
+#pragma endregion

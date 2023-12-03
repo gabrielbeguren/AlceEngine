@@ -85,11 +85,7 @@ namespace alce
     public:
 
         ParticleSystem();
-
-        void Init();
-
-        void Start();
-
+        
         void Update();
 
         void Render();

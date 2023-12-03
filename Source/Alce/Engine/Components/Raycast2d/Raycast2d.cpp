@@ -7,6 +7,12 @@ Raycast2D::Raycast2D() : Component("Raycast2d")
     
 }
 
+#pragma region implementation
+
+#pragma endregion
+
+#pragma region generic
+
 void Raycast2D::Init()
 {
     contactListener = std::make_shared<ContactListener>();
@@ -44,3 +50,5 @@ void Raycast2D::DebugRender()
 
     Kernel.GetWindow().draw(rs);
 }
+
+#pragma endregion

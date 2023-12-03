@@ -12,6 +12,8 @@ Rigidbody2D::~Rigidbody2D()
     DestroyBody();   
 }
 
+#pragma region implementation
+
 void Rigidbody2D::CreateBody(ShapePtr shape, BodyType bodyType, bool fixedRotation, MaskType maskType)
 {
     if(shape == nullptr)
@@ -529,6 +531,32 @@ void Rigidbody2D::SetFixedRotation(bool flag)
     body->SetFixedRotation(flag);
 }
 
+void Rigidbody2D::SetTag(String tag)
+{
+    if(!enabled)
+    {
+        Debug.Warning("Component Rigidbody2D is not enabled");
+        return;
+    }
+
+    if(body == nullptr)
+    {
+        Debug.Warning("Component Rigidbody2D has no body created");
+        return;
+    }
+
+    body->bodyTag = tag.ToAnsiString();
+}
+
+String Rigidbody2D::GetTag()
+{
+    return String(body->bodyTag);
+}
+
+#pragma endregion
+
+#pragma region generic
+
 void Rigidbody2D::DebugRender()
 {
     if(transform == nullptr)
@@ -633,24 +661,4 @@ void Rigidbody2D::Update()
         Kernel.GetScreenResolution().y - (body->GetPosition().y * PPM));
 }
 
-void Rigidbody2D::SetTag(String tag)
-{
-    if(!enabled)
-    {
-        Debug.Warning("Component Rigidbody2D is not enabled");
-        return;
-    }
-
-    if(body == nullptr)
-    {
-        Debug.Warning("Component Rigidbody2D has no body created");
-        return;
-    }
-
-    body->bodyTag = tag.ToAnsiString();
-}
-
-String Rigidbody2D::GetTag()
-{
-    return String(body->bodyTag);
-}
+#pragma endregion
