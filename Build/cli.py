@@ -813,7 +813,7 @@ def build():
     
 def createIcon():
 
-    if not os.path.exists(project_icon):
+    if not os.path.exists(project_icon): # type: ignore
         error(f"Project icon path \"{project_icon}\" is invalid")
         return False
 
@@ -882,7 +882,7 @@ def link(alias):
         for dll in sfml_dlls:
             shutil.copy(dll, "./Out/" + alias)
         
-        compiler_dlls = glob.glob(compiler_bin_path + "/*.dll")
+        compiler_dlls = glob.glob(f"{compiler_bin_path}/*.dll")
 
         for dll in compiler_dlls:
             shutil.copy(dll, "./Out/" + alias)
