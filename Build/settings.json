@@ -1,9 +1,0 @@
-{
-    "compiler": {
-        "bin-path": ""
-    },
-    "project": {
-        "name": "AlceProject",
-        "icon": "Assets/alce.ico"
-    }
-}
