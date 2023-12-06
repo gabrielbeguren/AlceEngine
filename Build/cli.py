@@ -23,6 +23,8 @@ hpp_files = None
 
 compile_stack = []
 
+initialized = False
+
 #endregion
 
 #region output functions
@@ -126,6 +128,7 @@ def handleArguments(argument_stack):
             # Generate element (component, scene, object)
             elif v == "--generate" or v == "-g":
                 tasks.append("generate 0")
+
             else:
                 error(f"Invalid argument \"{v}\"")
                 sys.exit(1)
@@ -681,6 +684,22 @@ def generateImplementation(target_type, target_name):
             if not line in extra_lines:
                 hpp_w.writelines([line])
         
+def initProject():
+
+    settings_json = open(f"./settings.json", "w")
+    settings_json.write("")
+    settings = {
+        "compiler": {
+            "bin-path": ""
+        },
+        "project": {
+            "name": "AlceProject",
+            "icon": "Assets/alce.ico"
+        }
+    }
+    settings_json.write(json.dumps(settings, indent=4))
+    settings_json.close()
+
 #endregion
 
 #region regex functions
@@ -964,8 +983,15 @@ def readSettings():
 
 if __name__ == '__main__':
 
-    # Read and set default settings
-    readSettings()
+    if not os.path.exists("./settings.json"):
+        prints("This project is not initialized, would you like to create default configuration? (y/n)\n")
+        if input().lower() == "y":
+            initProject()
+        else: 
+            sys.exit(0)
+    else:
+        initialized = True
+        readSettings()
 
     argument_stack = []
    
@@ -976,7 +1002,7 @@ if __name__ == '__main__':
 
     for task in tasks:
 
-        if task.split(" ")[0] == "compile":
+        if task.split(" ")[0] == "compile" and initialized:
             if task.split(" ")[-1] == "0":
                 error("Undefined alias. Use [alce --compile --help] for more info.")
                 sys.exit(1)
@@ -987,7 +1013,7 @@ if __name__ == '__main__':
             if build():
                 link(alias)
         
-        if task.split(" ")[0] == "run":
+        if task.split(" ")[0] == "run" and initialized:
             if task.split(" ")[1] == "0":
                 error("Undefined alias. Use [alce --run --help] for more info.")
                 sys.exit(1)
@@ -1020,4 +1046,3 @@ if __name__ == '__main__':
                 target_type = task.split(" ")[-1].split("$")[0]
                 target_name = "$".join(task.split(" ")[-1].split("$")[1:])
                 generateImplementation(target_type, target_name)
-    

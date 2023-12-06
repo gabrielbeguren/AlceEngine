@@ -1,9 +1,9 @@
 {
     "compiler": {
-        "bin-path": "C:/msys64/mingw32/bin"
+        "bin-path": ""
     },
     "project": {
-        "name": "test",
+        "name": "AlceProject",
         "icon": "Assets/alce.ico"
     }
 }
