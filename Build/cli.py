@@ -23,8 +23,6 @@ hpp_files = None
 
 compile_stack = []
 
-initialized = False
-
 #endregion
 
 #region output functions
@@ -984,15 +982,13 @@ def readSettings():
 if __name__ == '__main__':
 
     if not os.path.exists("./settings.json"):
-        prints("This project is not initialized, would you like to create default configuration? (y/n)\n")
+        prints("This project is not initialized, would you like to create the default configuration? (y/n)\n")
         if input().lower() == "y":
             initProject()
         else: 
             sys.exit(0)
-    else:
-        initialized = True
-        readSettings()
-
+    
+    readSettings()
     argument_stack = []
    
     for i, arg in enumerate(sys.argv[1:], start = 1):
@@ -1002,7 +998,7 @@ if __name__ == '__main__':
 
     for task in tasks:
 
-        if task.split(" ")[0] == "compile" and initialized:
+        if task.split(" ")[0] == "compile":
             if task.split(" ")[-1] == "0":
                 error("Undefined alias. Use [alce --compile --help] for more info.")
                 sys.exit(1)
@@ -1013,7 +1009,7 @@ if __name__ == '__main__':
             if build():
                 link(alias)
         
-        if task.split(" ")[0] == "run" and initialized:
+        if task.split(" ")[0] == "run":
             if task.split(" ")[1] == "0":
                 error("Undefined alias. Use [alce --run --help] for more info.")
                 sys.exit(1)
