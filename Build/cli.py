@@ -79,7 +79,7 @@ def printHelp():
     prints(": Generate elements like components, scenes, or objects. Use [alce --generate --help] for more info.\n")
 
     prints("\nNote:\n", "underline")
-    prints("Make sure to configure the MinGW (GCC v13.1.0) 32bits compiler path in the ")
+    prints("Make sure to configure the MinGW (GCC v13.1.0^) 32bits compiler path in the ")
     prints("Build/settings.json", "underline")
     prints(" file.\n\n")
 
@@ -780,7 +780,6 @@ def initCompile():
         for cpp in cpp_files:
             mtime = os.path.getmtime(cpp)
             cpp_tracking_file.write(cpp + ":" + mtime.__str__() + "\n")
-            compile_stack.append(cpp)
         
         cpp_tracking_file.close()
 
@@ -830,7 +829,7 @@ def build():
     
 def createIcon():
 
-    if not os.path.exists(project_icon): # type: ignore
+    if not os.path.exists(project_icon):
         error(f"Project icon path \"{project_icon}\" is invalid")
         return False
 
@@ -982,10 +981,14 @@ def readSettings():
 if __name__ == '__main__':
 
     if not os.path.exists("./settings.json"):
-        prints("This project is not initialized, would you like to create the default configuration? (y/n)\n")
+        prints("This project is not initialized, would you like to create the default configuration? (y/n)\n", "green")
         if input().lower() == "y":
             initProject()
-        else: 
+            prints("Created -> Build/settings.json\n", "yellow")
+            prints("Do you want to keep using the CLI with the default settings? (y/n)\n", "green")
+            if not input().lower() == "y":
+                sys.exit(0)
+        else:
             sys.exit(0)
     
     readSettings()
