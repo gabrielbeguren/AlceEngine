@@ -21,23 +21,3 @@ Following the widely adopted Scene-GameObject-Component pattern, Alce ensures an
 * Time handling module
 * Debug log/tracking module
 * Alce CLI
-
-## Visuales del proyecto
-
-## How to use Alce Engine
-
-Tutorial "apto para todos los publicos" de como usar el motor.
-
-## How to develop with Alce Engine
-
-Tutorial para desarrolladores explicando como contribuir al proyecto.
-
-## Find a bug?
-
-Explicaciones para aquellos que hayan detectado un error o sugieran una mejora
-
-## Known Issues (work in progress)
-
-Lista de errores
-
-## Apoyo al proyecto
