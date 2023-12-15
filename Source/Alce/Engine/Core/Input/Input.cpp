@@ -132,14 +132,14 @@ bool alce::INPUT::IsMouseButtonDown(Mouse::Button button)
 
 Vector2 alce::INPUT::GetMousePosition()
 {
-	sf::Vector2i pixelPos = sf::Mouse::getPosition(Kernel.GetWindow());
+	sf::Vector2i pixelPos = sf::Mouse::getPosition(Alce.GetWindow());
 
-	return Vector2(Kernel.GetWindow().mapPixelToCoords(pixelPos));
+	return Vector2(Alce.GetWindow().mapPixelToCoords(pixelPos));
 }
 
 Vector2 alce::INPUT::GetMousePositionOnWindow()
 {
-	return Vector2(sf::Mouse::getPosition(Kernel.GetWindow()));
+	return Vector2(sf::Mouse::getPosition(Alce.GetWindow()));
 }
 
 Joystick::JoystickPtr alce::INPUT::GetJoystick(int joystick)

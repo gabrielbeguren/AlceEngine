@@ -16,7 +16,7 @@ void AudioChannel::Add(String name, String file)
         return;
     }
 
-    auto soundBuffer = Kernel.GetSoundBuffer(file);
+    auto soundBuffer = Alce.GetSoundBuffer(file);
 
     if(soundBuffer == nullptr)
     {

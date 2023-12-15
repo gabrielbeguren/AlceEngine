@@ -234,13 +234,13 @@ void Vector2::ConvertToMeters()
 
 Vector2 Vector2::ToPixels()
 {
-	return Vector2(x * PPM, Kernel.GetScreenResolution().y - y * PPM);
+	return Vector2(x * PPM, Alce.GetScreenResolution().y - y * PPM);
 }
 
 void Vector2::ConvertToPixels()
 {
 	x *= PPM;
-	y = Kernel.GetScreenResolution().y - y * PPM;
+	y = Alce.GetScreenResolution().y - y * PPM;
 }
 
 float Vector2::Distance(Vector2 other)

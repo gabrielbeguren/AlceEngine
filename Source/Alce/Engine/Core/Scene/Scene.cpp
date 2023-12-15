@@ -105,14 +105,14 @@ void Scene::EventsManager(sf::Event& e)
     switch(e.type)
     {
     case sf::Event::LostFocus:
-        if(Kernel.stanby)
+        if(Alce.stanby)
             paused = true;
         break;
     case sf::Event::GainedFocus:
         if(paused) paused = false;
         break;
     case sf::Event::Closed:
-        Kernel.GetWindow().close();
+        Alce.GetWindow().close();
         break;
     }
 
@@ -138,7 +138,7 @@ void Scene::Render()
 
         if(!camera->enabled) continue;
 
-        Kernel.GetWindow().setView(camera->view);
+        Alce.GetWindow().setView(camera->view);
 
         auto layers = sortingLayers.GetKeyList();
         int max = Math.Max<int>(~layers);

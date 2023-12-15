@@ -59,7 +59,7 @@ RectShape Camera::GetBounds()
 
 Vector2 Camera::GetSize()
 {
-    return Vector2(Kernel.GetWindowSize().x * viewport.width, Kernel.GetWindowSize().y * viewport.height);
+    return Vector2(Alce.GetWindowSize().x * viewport.width, Alce.GetWindowSize().y * viewport.height);
 }
 
 #pragma endregion
@@ -79,8 +79,8 @@ void Camera::Init()
 
 void Camera::Update()
 {
-    size.x = Kernel.GetWindowSize().x * viewport.width;
-    size.y = Kernel.GetWindowSize().y * viewport.height;
+    size.x = Alce.GetWindowSize().x * viewport.width;
+    size.y = Alce.GetWindowSize().y * viewport.height;
 
     size *= zoom;
 

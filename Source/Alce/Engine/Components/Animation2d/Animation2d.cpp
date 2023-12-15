@@ -15,7 +15,7 @@ Animation2d::Animation2d() : Component("Animation2d")
 void Animation2d::AddAnimation(String spritesheetFile, String name, int rows, int cols, int frameWidth, int frameHeight)
 {
     spritesheets.Set(name, new sf::Sprite());
-    spritesheets[name]->setTexture(*Kernel.GetTexture(spritesheetFile));
+    spritesheets[name]->setTexture(*Alce.GetTexture(spritesheetFile));
 
     List<RectShape*> frames;
 
@@ -210,7 +210,7 @@ void Animation2d::Render()
     if(!enabled) return;
     if(!IsDrawable()) return;
 
-    Kernel.GetWindow().draw(*spritesheets[currentAnimation]);
+    Alce.GetWindow().draw(*spritesheets[currentAnimation]);
 }
 
 void Animation2d::Update()

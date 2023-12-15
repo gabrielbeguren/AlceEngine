@@ -22,7 +22,7 @@ void SpriteRenderer::AddTexture(String file, String name)
         return;
     }
     
-    auto texture = Kernel.GetTexture(file);
+    auto texture = Alce.GetTexture(file);
 
     if(texture != nullptr)
     {
@@ -102,7 +102,7 @@ void SpriteRenderer::Render()
 {
     if(transform == nullptr) return;
 
-    Kernel.GetWindow().draw(*sprite);
+    Alce.GetWindow().draw(*sprite);
 }
 
 void SpriteRenderer::Update()

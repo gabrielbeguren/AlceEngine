@@ -24,7 +24,7 @@
 #include "../Scene/Scene.hpp"
 #include "../Color/Color.hpp"
 
-#define Kernel alce::KERNEL::Instance()
+#define Alce alce::KERNEL::Instance()
 
 namespace alce
 {

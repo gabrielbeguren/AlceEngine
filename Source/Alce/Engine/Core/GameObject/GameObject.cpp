@@ -155,7 +155,7 @@ void GameObject::DebugRender()
         top_left.setOutlineThickness(1.0f);
         top_left.setOutlineColor(sf::Color::Yellow);
         top_left.setPosition(cardinals["top-left"]->ToVector2f());
-        Kernel.GetWindow().draw(top_left);
+        Alce.GetWindow().draw(top_left);
     }
 
     if(cardinals.HasKey("top-right"))
@@ -164,7 +164,7 @@ void GameObject::DebugRender()
         top_right.setOutlineThickness(1.0f);
         top_right.setOutlineColor(sf::Color::Yellow);
         top_right.setPosition(cardinals["top-right"]->ToVector2f());
-        Kernel.GetWindow().draw(top_right);
+        Alce.GetWindow().draw(top_right);
     }
 
     if(cardinals.HasKey("bottom-left"))
@@ -173,7 +173,7 @@ void GameObject::DebugRender()
         bottom_left.setOutlineThickness(1.0f);
         bottom_left.setOutlineColor(sf::Color::Yellow);
         bottom_left.setPosition(cardinals["bottom-left"]->ToVector2f());
-        Kernel.GetWindow().draw(bottom_left);
+        Alce.GetWindow().draw(bottom_left);
     }
 
     if(cardinals.HasKey("bottom-right"))
@@ -182,6 +182,6 @@ void GameObject::DebugRender()
         bottom_right.setOutlineThickness(1.0f);
         bottom_right.setOutlineColor(sf::Color::Yellow);
         bottom_right.setPosition(cardinals["bottom-right"]->ToVector2f());
-        Kernel.GetWindow().draw(bottom_right);
+        Alce.GetWindow().draw(bottom_right);
     }
 }

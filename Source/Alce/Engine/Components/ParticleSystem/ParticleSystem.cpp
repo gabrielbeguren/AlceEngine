@@ -197,7 +197,7 @@ void Particle::Update()
 
     shapePos = Vector2(
         body->GetPosition().x * PPM,
-        Kernel.GetScreenResolution().y - (body->GetPosition().y * PPM)
+        Alce.GetScreenResolution().y - (body->GetPosition().y * PPM)
     );
 
     transform.position = body->GetPosition();
@@ -322,7 +322,7 @@ void ParticleSystem::Update()
         particle->body->SetTransform(summonPosition.Tob2Vec2(), particle->body->GetAngle());
         particle->Config(behaviorLambda);
         particles.Add(particle);
-        Kernel.GetCurrentScene()->AddGameObject(particle);
+        Alce.GetCurrentScene()->AddGameObject(particle);
         elapsed.Reset();
     }
 
@@ -356,7 +356,7 @@ void ParticleSystem::DebugRender()
         rectShape.setOutlineColor(Color("#FFFF00").ToSFMLColor());
         rectShape.setOutlineThickness(1.0f);
 
-        Kernel.GetWindow().draw(rectShape);
+        Alce.GetWindow().draw(rectShape);
     }
 
     if(emitArea->GetType() == ShapeType::circle)
@@ -373,7 +373,7 @@ void ParticleSystem::DebugRender()
         circleShape.setPosition(circleShapePos.ToVector2f());
         circleShape.setRadius(circle->radius);
 
-        Kernel.GetWindow().draw(circleShape);
+        Alce.GetWindow().draw(circleShape);
     }
 
     if(emitArea->GetType() == ShapeType::polygon)
@@ -398,7 +398,7 @@ void ParticleSystem::DebugRender()
         polygonShape.setOutlineColor(Color("#FFFF00").ToSFMLColor());
         polygonShape.setOutlineThickness(1.0f);
 
-        Kernel.GetWindow().draw(polygonShape);
+        Alce.GetWindow().draw(polygonShape);
     }
 }
 

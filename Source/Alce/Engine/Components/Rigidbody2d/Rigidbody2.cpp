@@ -580,7 +580,7 @@ void Rigidbody2D::DebugRender()
         rs.setOutlineThickness(1.0f);
         rs.setRotation(-1 * body->GetAngle() * DEG_PER_RAD);
 
-        Kernel.GetWindow().draw(rs);
+        Alce.GetWindow().draw(rs);
         return;
     }
 
@@ -598,7 +598,7 @@ void Rigidbody2D::DebugRender()
         circle.setOutlineColor(sf::Color::Green);
         circle.setOutlineThickness(1.0f);
 
-        Kernel.GetWindow().draw(circle);
+        Alce.GetWindow().draw(circle);
         return;
     }
 
@@ -625,7 +625,7 @@ void Rigidbody2D::DebugRender()
         cs.setOutlineColor(sf::Color::Green);
         cs.setOutlineThickness(1.0f);
 
-        Kernel.GetWindow().draw(cs);
+        Alce.GetWindow().draw(cs);
         return;
     }
 }
@@ -658,7 +658,7 @@ void Rigidbody2D::Update()
 
     shapePos = Vector2(
         body->GetPosition().x * PPM, 
-        Kernel.GetScreenResolution().y - (body->GetPosition().y * PPM));
+        Alce.GetScreenResolution().y - (body->GetPosition().y * PPM));
 }
 
 #pragma endregion

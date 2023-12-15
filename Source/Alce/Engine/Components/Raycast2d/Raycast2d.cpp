@@ -48,7 +48,7 @@ void Raycast2D::DebugRender()
     rs.setOutlineThickness(1.0f);
     rs.setSize(size.ToVector2f());
 
-    Kernel.GetWindow().draw(rs);
+    Alce.GetWindow().draw(rs);
 }
 
 #pragma endregion
