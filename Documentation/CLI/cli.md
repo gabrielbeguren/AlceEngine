@@ -2,12 +2,12 @@
 
 Alce Command Line Interface (CLI) provides functionality commands for building and managing Alce projects.
 
-## <u>Compilation Command</u>
+## <ins>Compilation Command</ins>
 
 This command initiates a compilation of the project using an alias name. There are two compilation methods available for building the project:
 
-* <u>__Full Compilation__</u>: This method includes all files inside the <u>./Source</u> folder in the compilation queue. It is recommended for releases and major tests.
-<br>
+* <u><ins>Full Compilation</ins></u>: This method includes all files inside the <u>./Source</u> folder in the compilation queue. It is recommended for releases and major tests.
+  
 * <u>__Express Compilation__</u>: This method only includes the last modified files inside the <u>./Source</u> folder in the compilation queue. It is recommended for minor changes and quick adjustments.
 
 <u>By default, full compilation will be the chosen compilation method</u>.
