@@ -6,13 +6,13 @@ Alce Command Line Interface (CLI) provides functionality commands for building a
 
 This command initiates a compilation of the project using an alias name. There are two compilation methods available for building the project:
 
-* <u><ins>Full Compilation</ins></u>: This method includes all files inside the <u>./Source</u> folder in the compilation queue. It is recommended for releases and major tests.
+* <ins>__Full Compilation__</ins>: This method includes all files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for releases and major tests.
   
-* <u>__Express Compilation__</u>: This method only includes the last modified files inside the <u>./Source</u> folder in the compilation queue. It is recommended for minor changes and quick adjustments.
+* <ins>__Express Compilation__</ins>: This method only includes the last modified files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for minor changes and quick adjustments.
 
-<u>By default, full compilation will be the chosen compilation method</u>.
+<ins>By default, full compilation will be the chosen compilation method</ins>.
 
-Once compilation succeded, output files will be generated inside the <u>./Build/Out</u> folder, following the next scheme:
+Once compilation succeded, output files will be generated inside the <ins>./Build/Out</ins> folder, following the next scheme:
 
 ```bash
 Build
@@ -54,10 +54,10 @@ __Note__: The use of express compilation does not involve the compilation of aff
 ./Build/alce -c -a=your_project_alias -f
 ```
 
-## <u>Run Command</u>
+## <ins>Run Command</ins>
 
 
-## <u>Generation Command</u>
+## <ins>Generation Command</ins>
 
 
 
