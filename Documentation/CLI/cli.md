@@ -4,7 +4,7 @@ Alce Command Line Interface (CLI) provides functionality commands for building a
 
 ## <ins>Compilation Command</ins>
 
-This command initiates a compilation of the project using an alias name. There are two compilation methods available for building the project:
+Initiates the compilation of a project using an alias name. There are two compilation methods available for building the project:
 
 * <ins>__Full Compilation__</ins>: This method includes all files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for releases and major tests.
   
@@ -33,21 +33,21 @@ __Note__: The use of express compilation does not involve the compilation of aff
 
 #### Usage Examples
 
-> Project compilation using default values:
+> Compile the project using default values:
 
 ```bash
 ./Build/alce --compile --alias=your_project_alias 
 ./Build/alce -c -a=your_project_alias
 ```
 
-> Project express compilation
+> Compile the project using the express method:
 
 ```bash
 ./Build/alce --compile --alias=your_project_alias --express
 ./Build/alce -c -a=your_project_alias -e
 ```
 
-> Project full compilation
+> Compile the project using the full method:
 
 ```bash
 ./Build/alce --compile --alias=your_project_alias --full
