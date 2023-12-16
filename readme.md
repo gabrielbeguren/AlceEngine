@@ -9,7 +9,7 @@
 
 Alce is a SFML/Box2D based Game Engine that provides all the tools needed to make 2D games.
 
-Following the widely adopted Scene-GameObject-Component pattern, Alce ensures an easy to learn experience, particularly for those familiar with Unity. Also provides an extended amount of tools for C++ development.
+Following the pupular Scene-GameObject-Component pattern, Alce ensures an easy to learn experience, particularly for those familiar with Unity. Also provides an extended amount of tools for C++ development.
 
 # Features
 
