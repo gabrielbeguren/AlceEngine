@@ -20,4 +20,4 @@ Following the widely adopted Scene-GameObject-Component pattern, Alce ensures an
 * Autoencoding String Class
 * Time handling module
 * Debug log/tracking module
-* Alce CLI
+* <a href="Documents/CLI/cli.md">Alce CLI</a>
