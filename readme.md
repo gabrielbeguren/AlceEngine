@@ -31,15 +31,13 @@ Following the popular Scene-GameObject-Component architecture, Alce can be easy 
 
 Alce requires these softwares as minimun requirements:
 
-* <p><img src="https://gcc.gnu.org/img/gccegg-65.png" style="width: 21px; background-color: white; position: relative; top: 3px"> GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)</p>
+* <p>GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)</p>
 
-* <p><img src="https://c.s-microsoft.com/favicon.ico" style="width: 21px; position: relative; top: 3px"> Windows 10, 11</p>
+* <p>Windows 10, 11</p>
 
 The next ones are optional, but recommended:
 
-* <p><img src="https://www.python.org/static/opengraph-icon-200x200.png" style="width: 25px; position: relative; top: 6px">Python v3.1.0^<p>
-
-* <p><img src="https://code.visualstudio.com/favicon.ico" style="width: 19px; position: relative; top: 4px"> Visual Studio Code</p>
+* <p>Python v3.1.0^<p>
 
 # External Libraries used by Alce
 
