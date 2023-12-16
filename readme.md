@@ -33,7 +33,7 @@ Following the popular Scene-GameObject-Component architecture, Alce can be easy 
 
 Alce requires these softwares as minimun requirements:
 
-* <p><img src="https://www.gnu.org/graphics/heckert_gnu.transp.small.png" style="width: 21px; background-color: white; position: relative; top: 3px"> GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)</p>
+* <p><img src="https://gcc.gnu.org/img/gccegg-65.png" style="width: 21px; background-color: white; position: relative; top: 3px"> GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)</p>
 
 * <p><img src="https://c.s-microsoft.com/favicon.ico" style="width: 21px; position: relative; top: 3px"> Windows 10, 11</p>
 
