@@ -1,6 +1,6 @@
 # Alce Command Line Interface (CLI)
 
-Alce Command Line Interface (CLI) provides functionality commands for building and managing Alce projects.
+Alce Command Line Interface (CLI) provides functionality for building and managing Alce projects.
 
 ## <ins>Compilation Command</ins>
 
