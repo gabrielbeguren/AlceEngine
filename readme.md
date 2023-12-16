@@ -5,8 +5,6 @@
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=flat-square"/></a>
 </p>
 
-## A SFML/Box2D based Game Engine
-
 Alce is a SFML/Box2D based Game Engine that provides all the tools needed to develop 2D games.
 
 Following the popular Scene-GameObject-Component architecture, Alce can be easy to learn, particularly for those familiar with Unity. Also provides an extended amount of tools for C++ development.
