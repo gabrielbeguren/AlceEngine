@@ -5,7 +5,7 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 ## <ins>Requirements</ins>
 
 * Windows 10, 11 (64/32bit)
-* GCC 13.1.0^
+* GCC v13.1.0^
 
 ## <ins>Compilation Command</ins>
 
