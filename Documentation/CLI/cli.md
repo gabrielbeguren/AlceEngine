@@ -15,7 +15,7 @@ Initiates the compilation of a project using an alias name. There are two compil
   
 * <ins>__Express Compilation__</ins>: This method only includes the last modified files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for minor changes and quick adjustments.
 
-__By default, full compilation will be the chosen method__
+__By default, full compilation will be the chosen method.__
 
 Once compilation succeded, output files will be generated inside the <ins>./Build/Out</ins> folder, following the next scheme:
 
