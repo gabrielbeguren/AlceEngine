@@ -32,7 +32,6 @@ Following the popular Scene-GameObject-Component architecture, Alce can be easy 
 Alce requires these softwares as minimun requirements:
 
 * <p>GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)</p>
-
 * <p>Windows 10, 11</p>
 
 The next ones are optional, but recommended:
