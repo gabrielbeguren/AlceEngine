@@ -1,15 +1,24 @@
-#include "TestBody.hpp"
+#include "Body.hpp"
 
 using namespace alce;
 
-test::TestBody::TestBody()
+Test1Scene::Body::Body()
 {
-
+	
 }
 
-void test::TestBody::Init()
+//Custom methods implementation
+#pragma region implementation
+
+
+#pragma endregion
+
+//Inherited methods
+#pragma region inherited
+
+void Test1Scene::Body::Init()
 {
-    AddTag("testbody");
+	AddTag("testbody");
     sortingLayer = 0;
     transform.position = Vector2(0, 50);
 
@@ -61,31 +70,16 @@ void test::TestBody::Init()
     }));
 
     AddComponent(ps);
-}   
-
-void test::TestBody::Start()
-{
-
 }
 
-void test::TestBody::OnCollisionEnter(GameObject* other)
+void Test1Scene::Body::Start()
 {
-    
+	
 }
 
-void test::TestBody::OnCollisionExit(GameObject* other)
+void Test1Scene::Body::Update()
 {
-    
-}
-
-void test::TestBody::OnImpact(GameObject* other)
-{
-    
-}
-
-void test::TestBody::Update()
-{  
-    if(Input.IsKeyDown(Keyboard::F))
+	 if(Input.IsKeyDown(Keyboard::F))
     {
         ps->Emit();
     }
@@ -133,5 +127,6 @@ void test::TestBody::Update()
             Debug.Log("presionado LEFT_STICK");
         }
     }
-
 }
+
+#pragma endregion

@@ -64,7 +64,7 @@ Vector2 Camera::GetSize()
 
 #pragma endregion
 
-#pragma region generic
+#pragma region inherited
 
 void Camera::Init()
 {

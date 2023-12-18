@@ -56,7 +56,7 @@ def warning(message):
 
 def printHelp():
 
-    prints("Alce CLI 1.0.0 for Windows (2023)\n\n", "magenta")
+    prints("Alce CLI Alpha for Windows (2023)\n\n", "magenta")
 
     print("Alce Command Line Interface (CLI) provides functionality for building and managing Alce projects.")
 
@@ -84,7 +84,7 @@ def printHelp():
     prints(" file.\n\n")
 
 def printVersion():    
-    prints("Alce CLI 1.0.0 for Windows (2023)\n", "magenta")
+    prints("Alce CLI Alpha for Windows (2023)\n", "magenta")
 
 #endregion
 
@@ -443,7 +443,7 @@ def generateComponent(name):
     cpp.write("#pragma region implementation\n\n")
     cpp.write("\n#pragma endregion\n\n")
     cpp.write("//Inherited methods\n")
-    cpp.write("#pragma region generic\n\n")
+    cpp.write("#pragma region inherited\n\n")
     cpp.write(f"void {name}::Init()\n")
     cpp.write("{\n\t\n}\n\n")
     cpp.write(f"void {name}::Start()\n")
@@ -464,6 +464,9 @@ def generateComponent(name):
     include.writelines(lines)
     include.write(f"\n#include \"{name}/{name}.hpp\"")
     include.close()
+
+    prints(f"Generated -> Source/Alce/Engine/Components/{name}/{name}.hpp\n", "green")
+    prints(f"Generated -> Source/Alce/Engine/Components/{name}/{name}.cpp\n", "green")
 
 def generateScene(name):
      
@@ -502,7 +505,7 @@ def generateScene(name):
     cpp.write("#pragma region implementation\n\n")
     cpp.write("\n#pragma endregion\n\n")
     cpp.write("//Inherited methods\n")
-    cpp.write("#pragma region generic\n\n")
+    cpp.write("#pragma region inherited\n\n")
     cpp.write(f"void {name}Scene::{name}::Init()\n")
     cpp.write("{\n\t\n}\n\n")
     cpp.write(f"void {name}Scene::{name}::Start()\n")
@@ -516,6 +519,9 @@ def generateScene(name):
     include.writelines(lines)
     include.write(f"\n#include \"{name}/{name}.hpp\"")
     include.close()
+
+    prints(f"Generated -> Source/Project/Scenes/{name}/{name}.hpp\n", "green")
+    prints(f"Generated -> Source/Project/Scenes/{name}/{name}.cpp\n", "green")
 
 def generateObject(scene, name):
 
@@ -556,7 +562,7 @@ def generateObject(scene, name):
     cpp.write("#pragma region implementation\n\n")
     cpp.write("\n#pragma endregion\n\n")
     cpp.write("//Inherited methods\n")
-    cpp.write("#pragma region generic\n\n")
+    cpp.write("#pragma region inherited\n\n")
     cpp.write(f"void {scene}Scene::{name}::Init()\n")
     cpp.write("{\n\t\n}\n\n")
     cpp.write(f"void {scene}Scene::{name}::Start()\n")
@@ -579,6 +585,8 @@ def generateObject(scene, name):
             include.write(f"#include \"{name}/{name}.hpp\"\n")
 
     include.close()
+    prints(f"Generated -> Source/Project/Scenes/{scene}/{name}/{name}.hpp\n", "green")
+    prints(f"Generated -> Source/Project/Scenes/{scene}/{name}/{name}.cpp\n", "green")
 
 def generateImplementation(target_type, target_name):
 
@@ -697,32 +705,36 @@ def initProject():
     }
     settings_json.write(json.dumps(settings, indent=4))
     settings_json.close()
+    prints("Created -> Build/settings.json\n", "green")
+    warning("The compiler bin path was set undefined by default.")
 
 #endregion
 
 #region regex functions
 
 def isClassNameValid(name):
-    cpp_keywords = set([
-        'alignas', 'alignof', 'and', 'and_eq', 'asm', 'auto', 'bitand', 'bitor',
-        'bool', 'break', 'case', 'catch', 'char', 'char16_t', 'char32_t', 'class',
-        'compl', 'concept', 'const', 'constexpr', 'const_cast', 'continue', 'decltype',
-        'default', 'delete', 'do', 'double', 'dynamic_cast', 'else', 'enum', 'explicit',
-        'export', 'extern', 'false', 'float', 'for', 'friend', 'goto', 'if', 'inline',
-        'int', 'long', 'mutable', 'namespace', 'new', 'noexcept', 'not', 'not_eq', 'nullptr',
-        'operator', 'or', 'or_eq', 'private', 'protected', 'public', 'register', 'reinterpret_cast',
+    keywords = set([
+        'alignas', 'alignof', 'and', 'and_eq', 'asm', 'atomic_cancel', 'atomic_commit',
+        'atomic_noexcept', 'bitand', 'bitor', 'bool', 'break', 'case', 'catch', 'char',
+        'char8_t', 'char16_t', 'char32_t', 'class', 'compl', 'concept', 'const', 'consteval',
+        'constexpr', 'const_cast', 'continue', 'co_await', 'co_return', 'co_yield', 'decltype',
+        'default', 'delete', 'do', 'double', 'dynamic_cast', 'else', 'enum', 'explicit', 'export',
+        'extern', 'false', 'float', 'for', 'friend', 'goto', 'if', 'import', 'inline', 'int',
+        'long', 'mutable', 'namespace', 'new', 'noexcept', 'not', 'not_eq', 'nullptr', 'operator',
+        'or', 'or_eq', 'private', 'protected', 'public', 'reflexpr', 'register', 'reinterpret_cast',
         'requires', 'return', 'short', 'signed', 'sizeof', 'static', 'static_assert', 'static_cast',
-        'struct', 'switch', 'template', 'this', 'thread_local', 'throw', 'true', 'try', 'typedef',
-        'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile', 'wchar_t',
-        'while', 'xor', 'xor_eq'
+        'struct', 'switch', 'synchronized', 'template', 'this', 'thread_local', 'throw', 'true',
+        'try', 'typedef', 'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void',
+        'volatile', 'wchar_t', 'while', 'xor', 'xor_eq'
     ])
 
-    regex = r'^[a-zA-Z_]\w*$'
-    return re.match(regex, name) is not None and name not in cpp_keywords
+    pattern = re.compile(r'^[a-zA-Z_]\w*$')
+
+    return bool(pattern.match(name)) and name not in keywords
 
 def isAliasValid(alias):
-    regex = r'^[a-zA-Z_]\w*$'
-    return re.match(regex, alias) is not None
+    pattern = re.compile(r'^[a-zA-Z_]\w*$')
+    return bool(pattern.match(alias))
 
 #endregion
 
@@ -824,7 +836,6 @@ def build():
         return False
     else:
         os.remove("Temp/Makefile")
-        os.system("cls")
         return True
     
 def createIcon():
@@ -907,7 +918,6 @@ def link(alias):
             os.remove("Temp/icon.res")
 
         os.remove("Temp/Makefile")
-        os.system("cls")
         return True
 
 #endregion
@@ -980,14 +990,17 @@ def readSettings():
 
 if __name__ == '__main__':
 
+    arguments = dict(enumerate(sys.argv[1:], start = 1))
+
+    if arguments.__len__() > 0:
+        if arguments[1] == "--init" or arguments[1] == "-i":
+            initProject()
+            sys.exit(0)
+
     if not os.path.exists("./settings.json"):
         prints("This project is not initialized, would you like to create the default configuration? (y/n)\n", "green")
         if input().lower() == "y":
             initProject()
-            prints("Created -> Build/settings.json\n", "yellow")
-            prints("Do you want to keep using the CLI with the default settings? (y/n)\n", "green")
-            if not input().lower() == "y":
-                sys.exit(0)
         else:
             sys.exit(0)
     
@@ -1000,7 +1013,6 @@ if __name__ == '__main__':
     tasks = handleArguments(argument_stack)
 
     for task in tasks:
-        print(task)
 
         if task.split(" ")[0] == "compile":
             if task.split(" ")[-1] == "0":

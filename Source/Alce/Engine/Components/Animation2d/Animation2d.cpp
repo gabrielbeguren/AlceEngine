@@ -203,7 +203,7 @@ Dictionary<String, Vector2Ptr> Animation2d::GetCardinals()
 
 #pragma endregion
 
-#pragma region generic
+#pragma region inherited
 
 void Animation2d::Render()
 {

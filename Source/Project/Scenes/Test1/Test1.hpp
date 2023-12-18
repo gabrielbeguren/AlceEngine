@@ -4,13 +4,13 @@
 
 using namespace alce;
 
-namespace NewTestScene
+namespace Test1Scene
 {
-	class NewTest : public Scene
+	class Test1 : public Scene
 	{
 	public:
 
-		NewTest();
+		Test1();
 
 		void Init();
 
@@ -18,5 +18,5 @@ namespace NewTestScene
 
 	};
 
-	typedef std::shared_ptr<NewTest> NewTestPtr;
+	typedef std::shared_ptr<Test1> Test1Ptr;
 }

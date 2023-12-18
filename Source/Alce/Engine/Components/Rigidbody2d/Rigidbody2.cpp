@@ -555,7 +555,7 @@ String Rigidbody2D::GetTag()
 
 #pragma endregion
 
-#pragma region generic
+#pragma region inherited
 
 void Rigidbody2D::DebugRender()
 {

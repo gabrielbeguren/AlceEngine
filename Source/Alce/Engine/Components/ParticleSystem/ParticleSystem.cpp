@@ -257,7 +257,7 @@ void ParticleSystem::Stop()
 
 #pragma endregion
 
-#pragma region generic
+#pragma region inherited
 
 void ParticleSystem::Update()
 {

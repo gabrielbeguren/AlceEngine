@@ -7,9 +7,8 @@ int main()
     Alce.Window("Alce Engine Test", DisplayMode::Default);
     Alce.stanby = true;
 
-    Alce.AddScene<test::TestScene>();
-    Alce.AddScene<NewTestScene::NewTest>();
-    Alce.SetCurrentScene("test");
+    Alce.AddScene<Test1Scene::Test1>();
+    Alce.SetCurrentScene("Test1");
 
     Alce.Run();
 
