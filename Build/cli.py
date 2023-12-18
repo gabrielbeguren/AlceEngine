@@ -56,7 +56,7 @@ def warning(message):
 
 def printHelp():
 
-    prints("Alce CLI Alpha for Windows (2023)\n\n", "magenta")
+    prints("Alce CLI Alpha (2023)\n\n", "magenta")
 
     print("Alce Command Line Interface (CLI) provides functionality for building and managing Alce projects.")
 
@@ -84,7 +84,7 @@ def printHelp():
     prints(" file.\n\n")
 
 def printVersion():    
-    prints("Alce CLI Alpha for Windows (2023)\n", "magenta")
+    prints("Alce CLI Alpha (2023)\n", "magenta")
 
 #endregion
 
