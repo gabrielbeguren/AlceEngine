@@ -229,9 +229,12 @@ void Scene::Update()
             }
         }
 
-        sortingLayer.second->RemoveIf([](GameObjectPtr gameObject){
-            return gameObject->destroyed;
-        });
+        if(sortingLayer.second != nullptr)
+        {
+            sortingLayer.second->RemoveIf([](GameObjectPtr gameObject){
+                return gameObject->destroyed;
+            });
+        }
     }
 }
 
