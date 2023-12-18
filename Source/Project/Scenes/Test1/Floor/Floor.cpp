@@ -2,14 +2,23 @@
 
 using namespace alce;
 
-test::Floor::Floor()
+Test1Scene::Floor::Floor()
 {
-    sortingLayer = 0;
+	
 }
 
-void test::Floor::Init()
+//Custom methods implementation
+#pragma region implementation
+
+
+#pragma endregion
+
+//Inherited methods
+#pragma region inherited
+
+void Test1Scene::Floor::Init()
 {
-    AddTag("Floor");
+	AddTag("Floor");
 
     transform.position = Vector2(0, 0);
     rb2d = std::make_shared<Rigidbody2D>();
@@ -20,12 +29,14 @@ void test::Floor::Init()
     rb2d->CreateBody(rs, BodyType::kinematic_body, true);
 }
 
-void test::Floor::Start()
+void Test1Scene::Floor::Start()
 {
-
+	
 }
 
-void test::Floor::Update()
+void Test1Scene::Floor::Update()
 {
-    
+	
 }
+
+#pragma endregion

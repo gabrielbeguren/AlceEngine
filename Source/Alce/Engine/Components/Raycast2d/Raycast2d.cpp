@@ -11,7 +11,7 @@ Raycast2D::Raycast2D() : Component("Raycast2d")
 
 #pragma endregion
 
-#pragma region generic
+#pragma region inherited
 
 void Raycast2D::Init()
 {

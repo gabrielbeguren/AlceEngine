@@ -80,7 +80,7 @@ Dictionary<String, Vector2Ptr> SpriteRenderer::GetCardinals()
 
 #pragma endregion
 
-#pragma region generic
+#pragma region inherited
 
 void SpriteRenderer::Init()
 {

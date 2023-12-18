@@ -1,4 +1,3 @@
 #pragma once
 
-#include "Test/TestScene.hpp"
-#include "NewTest/NewTest.hpp"
+#include "Test1/Test1.hpp"
