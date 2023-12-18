@@ -8,6 +8,7 @@ int main()
     Alce.stanby = true;
 
     Alce.AddScene<test::TestScene>();
+    Alce.AddScene<NewTestScene::NewTest>();
     Alce.SetCurrentScene("test");
 
     Alce.Run();
