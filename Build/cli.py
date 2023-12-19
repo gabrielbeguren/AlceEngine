@@ -66,17 +66,21 @@ def printHelp():
     prints(" --help, -h", "green")
     prints(": Show help and usage information for Alce CLI commands\n")
 
+    prints("\nInit Command:\n\n", "underline")
+    prints(" --init, -i", "green")
+    prints(": Creates the required configuration file \"./Build/settings.json\" with the next fields.\n")
+
     prints("\nCompilation Commands:\n\n", "underline")
     prints(" --compile, -c", "green")
-    prints(": Compile the project. Use [alce --compile --help] for more info.\n")
+    prints(": Compile the project. Use [./Build/alce --compile --help] for more info.\n")
 
     prints("\nRun Commands:\n\n", "underline")
     prints(" --run, -r", "green")
-    prints(": Runs the project. Use [alce --run --help] for more info.\n")
+    prints(": Runs the project. Use [./Build/alce --run --help] for more info.\n")
 
     prints("\nGeneration Commands:\n\n", "underline")
     prints(" --generate, -g", "green")
-    prints(": Generate elements like components, scenes, or objects. Use [alce --generate --help] for more info.\n")
+    prints(": Generate elements like components, scenes, or objects. Use [./Build/alce --generate --help] for more info.\n")
 
     prints("\nNote:\n", "underline")
     prints("Make sure to configure the MinGW (GCC v13.1.0^) 32bits compiler path in the ")
@@ -151,13 +155,13 @@ def handleArguments(argument_stack):
                     tasks.remove("compile 0")
                     tasks.append(f"compile {v.split('=')[-1]}")
 
-                # Build mode (debug, release)
+                # Build mode (development, release)
                 elif v.split("=")[0] == "--mode" or v.split("=")[0] == "-m":
                     if len(v.split("=")) < 2:
                         error(f"Invalid use of argument \"{v.split('=')[0]}\", value is missing.")
                         sys.exit(1)
-                    if v.split("=")[-1] == "debug":
-                        build_mode = "debug"
+                    if v.split("=")[-1] == "development":
+                        build_mode = "development"
                     elif v.split("=")[-1] == "release":
                         build_mode = "release"
                     else:
@@ -271,11 +275,11 @@ def handleArguments(argument_stack):
                     prints("  [--full, -f]", "green")
                     prints(": compiles all files in the project.\n\n")
                     prints("Examples:\n\n", "underline")
-                    prints("  alce --compile --alias=compile_test", "grey")
+                    prints("  Build/alce --compile --alias=compile_test", "grey")
                     prints(": compiles the project as \"compile_test\".\n\n")
-                    prints("  alce --compile --alias=compile_test --express", "grey")
+                    prints("  ./Build/alce --compile --alias=compile_test --express", "grey")
                     prints(": only compiles modified and untracked files in the project.\n\n")
-                    prints("  alce --compile --alias=compile_test --full", "grey")
+                    prints("  ./Build/alce --compile --alias=compile_test --full", "grey")
                     prints(": compiles all files in the project.\n\n")
                 # Run command help
                 elif (last == "--run" or last == "-r") and not ("compile" in tasks):
@@ -288,9 +292,9 @@ def handleArguments(argument_stack):
                     prints("  [--release, -re]", "green")
                     prints(": run the project as release.\n\n")
                     prints("Examples:\n\n", "underline")
-                    prints("  alce --run --alias=run_test --debug", "grey")
+                    prints("  ./Build/alce --run --alias=run_test --debug", "grey")
                     prints(": executes alias \"run_test\" with gdb.\n\n")
-                    prints("  alce --run --alias=run_test", "grey")
+                    prints("  ./Build/alce --run --alias=run_test", "grey")
                     prints(": executes alias \"run_test\" as release (by default).\n\n")
                 # Generate command help
                 elif last == "--generate" or last == "-g":
@@ -300,17 +304,17 @@ def handleArguments(argument_stack):
                     prints("  [--generate, -g] [--implementation, -i]=<target_type>@<sceneName?>@<target_name>", "green")
                     prints(": implements all the methods with the \"//@impl\" decorator in the targeted class.\n\n")
                     prints("Examples:\n\n", "underline")
-                    prints("  alce --generate --component=MyComponent", "grey")
+                    prints("  ./Build/alce --generate --component=MyComponent", "grey")
                     prints(": generates a new component named \"MyComponent\"\n\n")
-                    prints("  alce --generate --scene=MyScene", "grey")
+                    prints("  ./Build/alce --generate --scene=MyScene", "grey")
                     prints(": generates a new scene named \"MyScene\"\n\n")
-                    prints("  alce --generate --object=MyScene@Player", "grey")
+                    prints("  ./Build/alce --generate --object=MyScene@Player", "grey")
                     prints(": generates a new object named \"Player\" in \"MyScene\"\n\n")      
-                    prints("  alce --generate --implementation=MyScene@Player", "grey")
+                    prints("  ./Build/alce --generate --implementation=MyScene@Player", "grey")
                     prints(": implements all methods with \"//@impl\" decorator in the \"Player\" object class of scene \"MyScene\"\n\n")  
                 else:
                     prints("\nUndefined help display for this command, use ")
-                    prints("alce --help", "green")
+                    prints("./Build/alce --help", "green")
                     prints(" to get more info.\n\n")
                 sys.exit(0)
         
@@ -691,6 +695,11 @@ def generateImplementation(target_type, target_name):
                 hpp_w.writelines([line])
         
 def initProject():
+
+    if os.path.exists("./settings.json"):
+        warning("File Build/settings.json already exists, do you want to replace it? (y/n)")
+        if(input().lower() != "y"):
+            return
 
     settings_json = open(f"./settings.json", "w")
     settings_json.write("")

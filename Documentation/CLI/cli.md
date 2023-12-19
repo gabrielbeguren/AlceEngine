@@ -4,18 +4,40 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 
 ## <ins>Requirements</ins>
 
+<hr>
+
 * Windows 10, 11 (64/32bit)
 * GCC v13.1.0^
 
-## <ins>Compilation Command</ins>
+## <ins>Init Command</ins>
 
-Initiates the compilation of a project using an alias name. There are two compilation methods available for building the project:
+<hr>
+
+Creates the required configuration file "<ins>Build/Settings.json</ins>" with the next fields:
+
+* __Compiler__:
+  * __"bin-path"__: the bin path of the MinGW32 compiler.
+* __Project__:
+  * __"name"__: Name of the current project.
+  * __"icon"__: .ico file for the executable.
+
+#### Command Syntax
+```bash
+./Build/alce [--init, -i]
+```
+
+## <ins>Compilation Command</ins>
+<hr>
+
+Initiates the compilation of a project using an alias name. 
+
+#### Compilation Method
+
+There are two compilation methods available:
 
 * <ins>__Full Compilation__</ins>: This method includes all files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for releases and major tests.
   
 * <ins>__Express Compilation__</ins>: This method only includes the last modified files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for minor changes and quick adjustments.
-
-__By default, full compilation will be the chosen method.__
 
 Once compilation succeded, output files will be generated inside the <ins>./Build/Out</ins> folder, following the next scheme:
 
@@ -31,10 +53,22 @@ Build
 
 __Note__: The use of express compilation does not involve the compilation of affected files; it solely adds modified files to the compilation queue.
 
+#### Build Mode
+
+There are two build modes available:
+
+* <ins>__Development__</ins>: In this mode, the project execution will be accompanied by a debugging console.
+* <ins>__Release__</ins>: In this mode, the project execution will be clean and free of debugging information.
+
 #### Command Syntax
 ```bash
-./Build/alce [--compile, -c] [--alias, -a]=alias_name [--full, -f]|[--express, -e]
+./Build/alce [--compile, -c] [--alias, -a]=<alias_name> [--mode, -m]=<development|release> [--full, -f]|[--express, -e]
 ```
+
+#### Default values:
+
+* __Compilation method:__ <i>--full</i>
+* __Build Mode:__ <i>--mode=development</i>
 
 #### Usage Examples
 
@@ -57,6 +91,13 @@ __Note__: The use of express compilation does not involve the compilation of aff
 ```bash
 ./Build/alce --compile --alias=your_project_alias --full
 ./Build/alce -c -a=your_project_alias -f
+```
+
+> Compile the project using the full method as a release:
+
+```bash
+./Build/alce --compile --alias=your_project_alias --mode=release --full
+./Build/alce -c -a=your_project_alias -m=release -f
 ```
 
 ## <ins>Run Command</ins>
