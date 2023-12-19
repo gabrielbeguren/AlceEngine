@@ -60,7 +60,7 @@ def printHelp():
 
     print("Alce Command Line Interface (CLI) provides functionality for building and managing Alce projects.")
 
-    prints("\nCommands:\n\n", "underline")
+    prints("\nInfo Commands:\n\n", "underline")
     prints(" --version, -v", "green")
     prints(": Display Alce CLI version information.\n")
     prints(" --help, -h", "green")
@@ -118,6 +118,9 @@ def handleArguments(argument_stack):
             if v == "--help" or v == "-h":
                 printHelp()
                 sys.exit(0)
+
+            if v == "--init" or v == "-i":
+                None
 
             # Compile the project
             elif v == "--compile" or v == "-c":
@@ -259,6 +262,9 @@ def handleArguments(argument_stack):
                     error(f"Invalid argument \"{v.split('=')[0]}\" for generation command.")
                     sys.exit(1)
 
+            elif first == "--init" or first == "-i":
+                None
+
             else:
                 error(f"Invalid argument \"{v}\"")
                 sys.exit(1)
@@ -336,6 +342,9 @@ def handleArguments(argument_stack):
                     prints(": generates a new object named \"Player\" in \"MyScene\"\n\n")      
                     prints("  ./Build/alce --generate --implementation=MyScene@Player", "grey")
                     prints(": implements all methods with \"//@impl\" decorator in the \"Player\" object class of scene \"MyScene\"\n\n")  
+                # TODO: Init command help
+                elif last == "--init" or last == "-i":
+                    prints("TODO:\n", "blue")
                 else:
                     prints("\nUndefined help display for this command, use ")
                     prints("./Build/alce --help", "green")
@@ -1025,7 +1034,7 @@ if __name__ == '__main__':
 
     arguments = dict(enumerate(sys.argv[1:], start = 1))
 
-    if arguments.__len__() > 0:
+    if arguments.__len__() == 1:
         if arguments[1] == "--init" or arguments[1] == "-i":
             initProject()
             sys.exit(0)
