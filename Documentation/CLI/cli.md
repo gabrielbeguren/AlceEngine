@@ -9,6 +9,11 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 
 ## <ins>Init Command</ins>
 
+#### Command Syntax
+```bash
+./Build/alce [--init, -i]
+```
+
 Creates the required configuration file "<ins>Build/Settings.json</ins>" with the next fields:
 
 * __Compiler__:
@@ -17,14 +22,14 @@ Creates the required configuration file "<ins>Build/Settings.json</ins>" with th
   * __"name"__: Name of the current project.
   * __"icon"__: .ico file for the executable.
 
-#### Command Syntax
-```bash
-./Build/alce [--init, -i]
-```
-
 ## <ins>Compilation Command</ins>
 
-Initiates the compilation of a project using an alias name. 
+#### Command Syntax
+```bash
+./Build/alce [--compile, -c] [--alias, -a]=<alias_name> [--mode, -m]=<development|release> [--full, -f]|[--express, -e]
+```
+
+Compiles the project using an alias name. 
 
 #### Compilation Method
 
@@ -54,11 +59,6 @@ There are two build modes available:
 
 * <ins>__Development__</ins>: In this mode, the project execution will be accompanied by a debugging console.
 * <ins>__Release__</ins>: In this mode, the project execution will be clean and free of debugging information.
-
-#### Command Syntax
-```bash
-./Build/alce [--compile, -c] [--alias, -a]=<alias_name> [--mode, -m]=<development|release> [--full, -f]|[--express, -e]
-```
 
 #### Default values:
 
