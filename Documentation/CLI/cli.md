@@ -4,14 +4,10 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 
 ## <ins>Requirements</ins>
 
-<hr>
-
 * Windows 10, 11 (64/32bit)
 * GCC v13.1.0^
 
 ## <ins>Init Command</ins>
-
-<hr>
 
 Creates the required configuration file "<ins>Build/Settings.json</ins>" with the next fields:
 
@@ -27,7 +23,6 @@ Creates the required configuration file "<ins>Build/Settings.json</ins>" with th
 ```
 
 ## <ins>Compilation Command</ins>
-<hr>
 
 Initiates the compilation of a project using an alias name. 
 
@@ -98,6 +93,13 @@ There are two build modes available:
 ```bash
 ./Build/alce --compile --alias=your_project_alias --mode=release --full
 ./Build/alce -c -a=your_project_alias -m=release -f
+```
+
+> Compile the project in development mode:
+
+```bash
+./Build/alce --compile --alias=your_project_alias --mode=development
+./Build/alce -c -a=your_project_alias -m=development
 ```
 
 ## <ins>Run Command</ins>
