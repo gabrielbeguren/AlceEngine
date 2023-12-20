@@ -9,7 +9,7 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 
 ## <ins>Init Command</ins>
 
-#### Command Syntax
+### Command Syntax
 ```bash
 ./Build/alce [--init, -i]
 ```
@@ -24,14 +24,14 @@ Creates the required configuration file "<ins>Build/Settings.json</ins>" with th
 
 ## <ins>Compilation Command</ins>
 
-#### Command Syntax
+### Command Syntax
 ```bash
 ./Build/alce [--compile, -c] [--alias, -a]=<alias_name> [--mode, -m]=<development|release> [--full, -f]|[--express, -e]
 ```
 
 Compiles the project using an alias name. 
 
-#### Compilation Method
+### Compilation Method
 
 There are two compilation methods available:
 
@@ -53,59 +53,103 @@ Build
 
 __Note__: The use of express compilation does not involve the compilation of affected files; it solely adds modified files to the compilation queue.
 
-#### Build Mode
+### Build Mode
 
 There are two build modes available:
 
 * <ins>__Development__</ins>: In this mode, the project execution will be accompanied by a debugging console.
 * <ins>__Release__</ins>: In this mode, the project execution will be clean and free of debugging information.
 
-#### Default values:
+### Default values:
 
 * __Compilation method:__ <i>--full</i>
 * __Build Mode:__ <i>--mode=development</i>
 
-#### Usage Examples
+### Usage Examples
 
 > Compile the project using default values:
 
 ```bash
-./Build/alce --compile --alias=your_project_alias 
-./Build/alce -c -a=your_project_alias
+./Build/alce --compile --alias=<your_project_alias> 
+./Build/alce -c -a=<your_project_alias>
 ```
 
 > Compile the project using the express method:
 
 ```bash
-./Build/alce --compile --alias=your_project_alias --express
-./Build/alce -c -a=your_project_alias -e
+./Build/alce --compile --alias=<your_project_alias> --express
+./Build/alce -c -a=<your_project_alias> -e
 ```
 
 > Compile the project using the full method:
 
 ```bash
-./Build/alce --compile --alias=your_project_alias --full
-./Build/alce -c -a=your_project_alias -f
+./Build/alce --compile --alias=<your_project_alias> --full
+./Build/alce -c -a=<your_project_alias> -f
 ```
 
 > Compile the project using the full method as a release:
 
 ```bash
-./Build/alce --compile --alias=your_project_alias --mode=release --full
-./Build/alce -c -a=your_project_alias -m=release -f
+./Build/alce --compile --alias=<your_project_alias> --mode=release --full
+./Build/alce -c -a=<your_project_alias> -m=release -f
 ```
 
 > Compile the project in development mode:
 
 ```bash
-./Build/alce --compile --alias=your_project_alias --mode=development
-./Build/alce -c -a=your_project_alias -m=development
+./Build/alce --compile --alias=<your_project_alias> --mode=development
+./Build/alce -c -a=<your_project_alias> -m=development
 ```
 
 ## <ins>Run Command</ins>
 
+### Command Syntax
+
+```bash
+./Build/alce [--run, -r] [--alias, -a]=<your_project_alias> [--standard, -s]|[--debug, -d]
+```
+
+Runs the project by alias name.
+
+### Run Mode
+
+There are two run modes available:
+
+* <ins>__Standard Mode__</ins>: Runs the project as a standard application.
+* <ins>__Debug Mode__</ins>: Runs the project with GDB, the GNU project debugger.
+
+__Note__: the use of <i>--debug</i> mode could affect the performance of the project.
+
+### Default Values:
+
+* __Run Mode:__ <i>--standard</i>
+
+### Usage Examples
+
+> Run the project by alias name using default values
+
+```bash
+./Build/alce --run --alias=<your_project_alias>
+./Build/alce -r -a=<your_project_alias>
+```
+
+> Run the project by alias name using the GDB debugger
+
+```bash
+./Build/alce --run --alias=<your_project_alias> --debug
+./BUild/alce -r -a=<your_project_alias> -d
+```
+
+> Run the project by alias name as a standard application
+
+```bash
+./Build/alce --run --alias=<your_project_alias> --standard
+./Build/alce -r -a=<your_project_alias> -s
+```
 
 ## <ins>Generation Command</ins>
+
 
 
 
