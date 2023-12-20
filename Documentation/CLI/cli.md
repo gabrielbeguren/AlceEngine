@@ -7,7 +7,7 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 * Windows 10, 11 (64/32bit)
 * GCC v13.1.0^
 
-## <ins>Init Command</ins>
+## <ins>alce --init</ins>
 
 ### Command Syntax
 ```bash
@@ -22,7 +22,7 @@ Creates the required configuration file "<ins>Build/Settings.json</ins>" with th
   * __"name"__: Name of the current project.
   * __"icon"__: .ico file for the executable.
 
-## <ins>Compilation Command</ins>
+## <ins>alce --compile</ins>
 
 ### Command Syntax
 ```bash
@@ -102,7 +102,7 @@ There are two build modes available:
 ./Build/alce -c -a=<your_project_alias> -m=development
 ```
 
-## <ins>Run Command</ins>
+## <ins>alce --run</ins>
 
 ### Command Syntax
 
@@ -148,8 +148,18 @@ __Note__: the use of <i>--debug</i> mode could affect the performance of the pro
 ./Build/alce -r -a=<your_project_alias> -s
 ```
 
-## <ins>Generation Command</ins>
+## <ins>alce --generate</ins>
 
+### Command Syntax
 
+```bash
+./Build/alce [--generate, -g] [--component, -c]=<component_name>|[--scene, -s]=<scene_name>|[--object, -o]=<scene_name>@<object_name>|[--implementation, -i]=<<object@scene_name@object_name>|<scene@scene_name>|<component@component_name>>
+```
 
+Generates and/or modifies files based on a schematic.
 
+### Generation Types:
+
+* __Component:__
+* __Scene:__
+* __Object:__
