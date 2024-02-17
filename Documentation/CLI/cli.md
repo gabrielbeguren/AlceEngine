@@ -7,11 +7,11 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 * Windows 10, 11 (64/32bit)
 * GCC v13.1.0^
 
-## <ins>alce --init</ins>
+## <ins>alce init</ins>
 
 ### Command Syntax
 ```bash
-./Build/alce [--init, -i]
+./Build/alce [init, i]
 ```
 
 Creates the required configuration file "<ins>Build/Settings.json</ins>" with the next fields:
@@ -22,11 +22,11 @@ Creates the required configuration file "<ins>Build/Settings.json</ins>" with th
   * __"name"__: Name of the current project.
   * __"icon"__: .ico file for the executable.
 
-## <ins>alce --compile</ins>
+## <ins>alce compile</ins>
 
 ### Command Syntax
 ```bash
-./Build/alce [--compile, -c] [--alias, -a]=<alias_name> [--mode, -m]=<development|release> [--full, -f]|[--express, -e]
+./Build/alce [compile, c] [alias, a]=<alias_name> [mode, m]=<development|release> [--full, -f]|[--express, -e]
 ```
 
 Compiles the project using an alias name. 
@@ -63,51 +63,51 @@ There are two build modes available:
 ### Default values:
 
 * __Compilation method:__ <i>--full</i>
-* __Build Mode:__ <i>--mode=development</i>
+* __Build Mode:__ <i>mode=development</i>
 
 ### Usage Examples
 
 > Compile the project using default values:
 
 ```bash
-./Build/alce --compile --alias=<your_project_alias> 
-./Build/alce -c -a=<your_project_alias>
+./Build/alce compile alias=<your_project_alias> 
+./Build/alce c a=<your_project_alias>
 ```
 
 > Compile the project using the express method:
 
 ```bash
-./Build/alce --compile --alias=<your_project_alias> --express
-./Build/alce -c -a=<your_project_alias> -e
+./Build/alce compile alias=<your_project_alias> --express
+./Build/alce c a=<your_project_alias> -e
 ```
 
 > Compile the project using the full method:
 
 ```bash
-./Build/alce --compile --alias=<your_project_alias> --full
-./Build/alce -c -a=<your_project_alias> -f
+./Build/alce compile alias=<your_project_alias> --full
+./Build/alce c a=<your_project_alias> -f
 ```
 
 > Compile the project using the full method as a release:
 
 ```bash
-./Build/alce --compile --alias=<your_project_alias> --mode=release --full
-./Build/alce -c -a=<your_project_alias> -m=release -f
+./Build/alce compile alias=<your_project_alias> mode=release --full
+./Build/alce c a=<your_project_alias> m=release -f
 ```
 
 > Compile the project in development mode:
 
 ```bash
-./Build/alce --compile --alias=<your_project_alias> --mode=development
-./Build/alce -c -a=<your_project_alias> -m=development
+./Build/alce compile alias=<your_project_alias> mode=development
+./Build/alce c a=<your_project_alias> m=development
 ```
 
-## <ins>alce --run</ins>
+## <ins>alce run</ins>
 
 ### Command Syntax
 
 ```bash
-./Build/alce [--run, -r] [--alias, -a]=<your_project_alias> [--standard, -s]|[--debug, -d]
+./Build/alce [run, r] [alias, a]=<your_project_alias> [--standard, -std]|[--debug, -d]
 ```
 
 Runs the project by alias name.
@@ -130,30 +130,30 @@ __Note__: the use of <i>--debug</i> mode could affect the performance of the pro
 > Run the project by alias name using default values
 
 ```bash
-./Build/alce --run --alias=<your_project_alias>
-./Build/alce -r -a=<your_project_alias>
+./Build/alce run alias=<your_project_alias>
+./Build/alce r a=<your_project_alias>
 ```
 
 > Run the project by alias name using the GDB debugger
 
 ```bash
-./Build/alce --run --alias=<your_project_alias> --debug
-./BUild/alce -r -a=<your_project_alias> -d
+./Build/alce run alias=<your_project_alias> --debug
+./BUild/alce r a=<your_project_alias> -d
 ```
 
 > Run the project by alias name as a standard application
 
 ```bash
-./Build/alce --run --alias=<your_project_alias> --standard
-./Build/alce -r -a=<your_project_alias> -s
+./Build/alce run alias=<your_project_alias> --standard
+./Build/alce r a=<your_project_alias> -std
 ```
 
-## <ins>alce --generate</ins>
+## <ins>alce generate</ins>
 
 ### Command Syntax
 
 ```bash
-./Build/alce [--generate, -g] [--component, -c]=<component_name>|[--scene, -s]=<scene_name>|[--object, -o]=<scene_name>@<object_name>|[--implementation, -i]=<<object@scene_name@object_name>|<scene@scene_name>|<component@component_name>>
+./Build/alce [generate, g] [component, c]=<component_name>|[scene, s]=<scene_name>|[object, o]=<scene_name>@<object_name>|[implementation, i]=<<object@scene_name@object_name>|<scene@scene_name>|<component@component_name>>
 ```
 
 Generates and/or modifies files based on a schematic.

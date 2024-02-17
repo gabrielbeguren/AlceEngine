@@ -128,7 +128,7 @@ def handleArguments(argument_stack):
 
             # Run the compiled project
             elif v == "run" or v == "r":
-                tasks.append("run 0 release")
+                tasks.append("run 0 standard")
 
             # Generate element (component, scene, object)
             elif v == "generate" or v == "g":
@@ -159,7 +159,7 @@ def handleArguments(argument_stack):
                     tasks.append(f"compile {v.split('=')[-1]}")
 
                 # Build mode (development, release)
-                elif v.split("=")[0] == "--mode" or v.split("=")[0] == "-m":
+                elif v.split("=")[0] == "mode" or v.split("=")[0] == "m":
                     if len(v.split("=")) < 2:
                         error(f"Invalid use of argument \"{v.split('=')[0]}\", value is missing.")
                         sys.exit(1)
@@ -194,12 +194,12 @@ def handleArguments(argument_stack):
                     tasks.remove(prev_run_task)
                     tasks.append(f"run {v.split('=')[-1]} {mode}")
 
-                # Run as release (no debugger)
-                elif v == "--release" or v == "-re":
+                # Standard run (no debugger)
+                elif v == "--standard" or v == "-std":
                     for task in tasks:
-                        if task.split(" ")[0] == "run" and task.split(" ")[2] != "release":
+                        if task.split(" ")[0] == "run" and task.split(" ")[2] != "standard":
                             tasks.remove(task)
-                            tasks.append(f"run {task.split(' ')[1]} release")
+                            tasks.append(f"run {task.split(' ')[1]} standard")
 
                 # Run with debugger (GNU's GDB)
                 elif v == "--debug" or v == "-d":
@@ -209,7 +209,7 @@ def handleArguments(argument_stack):
                             tasks.append(f"run {task.split(' ')[1]} debug")
 
                 elif v != "--help" and v != "-h":
-                    error(f"Invalid argument \"v\". Use [alce run --help] for more info.")
+                    error(f"Invalid argument \"{v}\". Use [alce run --help] for more info.")
                     sys.exit(1)
                             
             # Generation options (component, scene, object)
@@ -280,7 +280,7 @@ def handleArguments(argument_stack):
                     prints("=<")
                     prints("alias_name", "yellow")
                     prints("> ")
-                    prints("[--mode, -m]", "green")
+                    prints("[mode, m]", "green")
                     prints("<")
                     prints("development", "magenta")
                     prints("|")
@@ -295,15 +295,15 @@ def handleArguments(argument_stack):
                     prints("  [--full, -f]", "green")
                     prints(": compiles all files in the project.\n\n")
                     prints("Build modes:\n\n", "underline")
-                    prints("  [--mode, -m]=development", "green")
+                    prints("  [mode, m]=development", "green")
                     prints(": the project execution will be accompanied by a debugging console.\n\n")
-                    prints("  [--mode, -m]=release", "green")
+                    prints("  [mode, m]=release", "green")
                     prints(": the project execution will be clean and free of debugging information\n\n")
                     prints("Default values:\n\n", "underline")
                     prints("  Compilation Method: ")
                     prints("--full\n\n", "magenta")
                     prints("  Build Mode: ")
-                    prints("--mode=development\n\n", "magenta")
+                    prints("mode=development\n\n", "magenta")
                     prints("Examples:\n\n", "underline")
                     prints("  ./Build/alce compile alias=your_project_alias", "grey")
                     prints(": Compile the project using default values.\n\n")
@@ -319,13 +319,13 @@ def handleArguments(argument_stack):
                     prints("Options:\n\n", "underline")
                     prints("  [--debug, -d]", "green")
                     prints(": run the project with GNU gdb debugger.\n\n")
-                    prints("  [--release, -re]", "green")
-                    prints(": run the project as release.\n\n")
+                    prints("  [--standard, -std]", "green")
+                    prints(": run the project as standard.\n\n")
                     prints("Examples:\n\n", "underline")
                     prints("  ./Build/alce run alias=run_test --debug", "grey")
                     prints(": executes alias \"run_test\" with gdb.\n\n")
                     prints("  ./Build/alce run alias=run_test", "grey")
-                    prints(": executes alias \"run_test\" as release (by default).\n\n")
+                    prints(": executes alias \"run_test\" as standard (by default).\n\n")
                 # Generate command help
                 elif last == "generate" or last == "g":
                     prints("\nCommand usage:\n\n", "underline")
@@ -978,7 +978,7 @@ def run(alias, mode):
 
     if mode == "debug":
         subprocess.run(["gdb", f"./Out/{alias}/{project_name}.exe"])
-    if mode == "release":
+    if mode == "standard":
         subprocess.run(f"./Out/{alias}/{project_name}.exe")
 
 #endregion
