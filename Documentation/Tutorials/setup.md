@@ -3,8 +3,8 @@
 ### Table of Contents
 
 1. [Prerequisites](#prerequisites)
-2. [Compiler Setup](#Step-1:-Compiler-Setup)
-3. [Download Alce Engine](#Step-2:-Download-Alce-Engine)
+2. [Compiler Setup](#step-1-compiler-setup)
+3. [Download Alce Engine](#step-2-download-alce-engine)
 
 # Prerequisites
 
