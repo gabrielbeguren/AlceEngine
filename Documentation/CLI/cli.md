@@ -34,7 +34,7 @@ Optional:
 
 * Python v3.1.0^ (if you want to execute the source code)
 
-# How to Use {#how-to-use}
+# How to Use 
 
 
 To utilize the CLI, navigate to the <ins>./Build</ins> directory within your project context.
