@@ -27,9 +27,11 @@ Following the popular Scene-GameObject-Component architecture, Alce can be easy 
 * Debug log/tracking module
 * [Alce CLI](Documentation/CLI/cli.md)
 
-# Requirements
+# Setup
 
 Learn how to set up Alce Engine with ease through [this tutorial](./Documentation/Tutorials/setup.md).
+
+## Requirements
 
 Minimun requirements:
 * GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)
