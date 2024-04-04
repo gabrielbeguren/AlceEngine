@@ -36,7 +36,6 @@ Optional:
 
 # How to Use 
 
-
 To utilize the CLI, navigate to the <ins>./Build</ins> directory within your project context.
 
 ```bash
