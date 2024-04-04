@@ -770,7 +770,7 @@ def initProject():
             "bin-path": ""
         },
         "project": {
-            "name": "AlceProject",
+            "name": project_name,
             "icon": "Assets/alce.ico"
         }
     }
