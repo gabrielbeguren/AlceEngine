@@ -7,6 +7,29 @@ The Alce Command Line Interface (CLI) provides functionality for building and ma
 * Windows 10, 11 (64/32bit)
 * GCC v13.1.0^
 
+## <ins>How to use it</ins>
+
+
+To utilize the CLI, navigate to the <ins>./Build</ins> directory within your project context.
+
+```bash
+cd ./Build
+```
+
+Within this directory, you'll find 2 folders:
+
+* <ins>Assets</ins>: This folder serves as the asset repository for your project, where you should store all game resources.
+
+* <ins>SFML-2.6.1</ins>: This directory contains SFML stuff. Do not delete this folder.
+
+Additionally, there are 3 files:
+
+* <ins>cli.py</ins>: This file contains the source code for the CLI. You have full freedom to modify it. To use it instead of the official executable, replace the "./Build/alce" command with "python3 cli.py".
+
+* <ins>settings.json</ins>: This file holds essential project data such as name, icon, and the current compiler binary path (which is undefined by default but may be necessary for certain CLI commands).
+
+* <ins>alce.exe</ins>: This file is the official executable for the CLI.
+
 ## <ins>alce init</ins>
 
 ### Command Syntax
@@ -152,14 +175,32 @@ __Note__: the use of <i>--debug</i> mode could affect the performance of the pro
 
 ### Command Syntax
 
+> Syntax 1: Component/GameObject/Scene entity generation
 ```bash
-./Build/alce [generate, g] [component, c]=<component_name>|[scene, s]=<scene_name>|[object, o]=<scene_name>@<object_name>|[implementation, i]=<<object@scene_name@object_name>|<scene@scene_name>|<component@component_name>>
+./Build/alce [generate, g] [component, c]=<class_name> | [scene, s]=<scene_name> | [object, o]=<scene_name>@<object_name>]
 ```
 
-Generates and/or modifies files based on a schematic.
+Generates a new entity (Component or Scene or Object) in the project.
+
+> Syntax 2: code implementation generation
+```bash
+./Build/alce [generate, g] [implementation, i]=<target_type>@<sceneName?>@<target_name>
+```
+
+Implements all the methods with the "//@impl" decorator in the targeted class.
 
 ### Generation Types:
 
-* __Component:__
+* __Component:__ Creates a new component within the <ins>./Source/Alce/Engine/Components</ins> directory.
+
+  ```bash
+  Source
+    |-> Alce
+    |    |-> Engine
+    |    |     |-> Components
+    |    |     |     |-> (New Component)
+  ```
+
 * __Scene:__
 * __Object:__
+* __Implementation:__

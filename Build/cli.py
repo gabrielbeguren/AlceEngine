@@ -756,7 +756,7 @@ def initProject():
     while not is_valid:
 
         prints("\nInsert Project name: ")
-        project_name = input().lower()
+        project_name = input()
 
         is_valid = isProjectNameValid(project_name)
 
