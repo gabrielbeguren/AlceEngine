@@ -1,6 +1,11 @@
-# Alce Engine Setup Tutorial
+# Alce Engine Environment Setup Tutorial
 
-## Step 1: Compiler Setup
+### Table of Contents
+
+1. [Compiler Setup](#Step-1:-Compiler-Setup)
+2. [Download Alce Engine](#Step-2:-Download-Alce-Engine)
+
+# Step 1: Compiler Setup
 
 In order to compile the project along with the Alce Engine CLI, you'll need the GCC 13.1.0 MinGW 32-bit compiler. There are several ways to install it, but in this tutorial, we'll use MSYS2, as this tool greatly simplifies the process.
 
@@ -50,7 +55,7 @@ gdb --version
 
 If you didn't receive an error message indicating that the command is not recognized in all three commands, congratulations, you have successfully installed the compiler. The toughest part of this tutorial is now behind you! :smile:
 
-## Step 2: Download Alce Engine
+# Step 2: Download Alce Engine
 
 Once the compiler is installed, everything is ready to start using the engine.
 
