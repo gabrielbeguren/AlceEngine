@@ -1,13 +1,40 @@
-# Alce Command Line Interface (CLI)
+# Alce Command Line Interface
 
-The Alce Command Line Interface (CLI) provides functionality for building and managing Alce projects directly from a command shell.
+### Table of Contents
 
-## <ins>Requirements</ins>
+1. [Introduction](#Introduction)
+2. [Requirements](#Requirements)
+3. [How to Use](#how-to-use)
+   - [alce init](#alce-init)
+   - [alce compile](#alce-compile)
+   - [alce run](#alce-run)
+   - [alce generate](#alce-generate)
+4. [alce init](#alce-init)
+5. [alce compile](#alce-compile)
+6. [alce run](#alce-run)
+7. [alce generate](#alce-generate)
+   - [Generate Component](#generate-component)
+   - [Generate Scene](#generate-scene)
+   - [Generate Object](#generate-object)
+   - [Generate Implementation](#generate-implementation)
+
+# Introduction
+
+
+The Alce Command Line Interface (CLI) facilitates the construction and administration of Alce projects directly from a command shell. 
+
+It offers essential functionalities tailored for seamless project development and management, empowering users to efficiently handle various tasks associated with Alce projects within a command-line environment.
+
+# Requirements
 
 * Windows 10, 11 (64/32bit)
 * GCC v13.1.0^
 
-## <ins>How to use it</ins>
+Optional:
+
+* Python v3.1.0^ (if you want to execute the source code)
+
+# How to Use {#how-to-use}
 
 
 To utilize the CLI, navigate to the <ins>./Build</ins> directory within your project context.
@@ -30,7 +57,7 @@ Additionally, there are 3 files:
 
 * <ins>alce.exe</ins>: This file is the official executable for the CLI.
 
-## <ins>alce init</ins>
+# <ins>alce init</ins>
 
 ### Command Syntax
 ```bash
@@ -45,7 +72,7 @@ Creates the required configuration file "<ins>Build/Settings.json</ins>" with th
   * __"name"__: Name of the current project.
   * __"icon"__: .ico file for the executable.
 
-## <ins>alce compile</ins>
+# <ins>alce compile</ins>
 
 ### Command Syntax
 ```bash
@@ -62,7 +89,7 @@ There are two compilation methods available:
   
 * <ins>__Express Compilation__</ins>: This method only includes the last modified files inside the <ins>./Source</ins> folder in the compilation queue. It is recommended for minor changes and quick adjustments.
 
-Once compilation succeded, output files will be generated inside the <ins>./Build/Out</ins> folder, following the next scheme:
+Once compilation succeeded, output files are generated inside the <ins>./Build/Out</ins> folder, following the next scheme:
 
 ```bash
 Build
@@ -125,7 +152,7 @@ There are two build modes available:
 ./Build/alce c a=<your_project_alias> m=development
 ```
 
-## <ins>alce run</ins>
+# <ins>alce run</ins>
 
 ### Command Syntax
 
@@ -171,36 +198,94 @@ __Note__: the use of <i>--debug</i> mode could affect the performance of the pro
 ./Build/alce r a=<your_project_alias> -std
 ```
 
-## <ins>alce generate</ins>
+# <ins>alce generate</ins>
+
+Generates various entities within the project context, streamlining development processes.
+
+<h2>Generate Component</h2>
 
 ### Command Syntax
 
-> Syntax 1: Component/GameObject/Scene entity generation
 ```bash
-./Build/alce [generate, g] [component, c]=<class_name> | [scene, s]=<scene_name> | [object, o]=<scene_name>@<object_name>]
+./Build/alce generate component=<ComponentName>
+./Build/alce g c=<ComponentName>
 ```
 
-Generates a new entity (Component or Scene or Object) in the project.
+Creates a new component within the designated directory structure.
 
-> Syntax 2: code implementation generation
+### File Structure
+
 ```bash
-./Build/alce [generate, g] [implementation, i]=<target_type>@<sceneName?>@<target_name>
+Source
+  |-> Alce
+  |    |-> Engine
+  |    |     |-> Components
+  |    |     |     |-> (New Component)
 ```
 
-Implements all the methods with the "//@impl" decorator in the targeted class.
+<h2>Generate Scene</h2> 
 
-### Generation Types:
+### Command Syntax
 
-* __Component:__ Creates a new component within the <ins>./Source/Alce/Engine/Components</ins> directory.
+```bash
+./Build/alce generate scene=<SceneName>
+./Build/alce g s=<SceneName>
+```
 
-  ```bash
-  Source
-    |-> Alce
-    |    |-> Engine
-    |    |     |-> Components
-    |    |     |     |-> (New Component)
-  ```
+Creates a new scene within the specified directory structure.
 
-* __Scene:__
-* __Object:__
-* __Implementation:__
+### File Structure
+
+```bash
+Source
+  |-> Project
+  |    |-> Scenes
+  |    |     |-> (New Scene)
+```
+<h2>Generate Object</h2> 
+
+### Command Syntax
+
+```bash
+./Build/alce generate object=<SceneName>@<ObjectName>
+./Build/alce g o=<SceneName>@<ObjectName>
+```
+
+Generates a new game object within a designated scene.
+
+### File Structure
+
+```bash
+Source
+  |-> Project
+  |    |-> Scenes
+  |    |     |-> (Scene)
+  |    |     |     |-> (New Game Object)
+```
+
+<h2>Generate Implementation</h2> 
+
+Generates the implementation of declarations within a .hpp file. Placing a comment <ins>//@impl</ins> above a declaration in the .hpp file triggers the creation of the basic structure within the corresponding .cpp file's implementation region, expediting the development process.
+
+For instance, given the declaration in the .hpp file:
+
+```cpp
+class Particle
+{
+  //@impl
+  void SetDensity(float density);
+};
+```
+The following structure will be generated in the respective .cpp file within the implementation region:
+
+```cpp
+#pragma region implementation
+
+  void Particle::SetDensity(float density)
+  {
+    
+  }
+
+#pragma endregion
+```
+
