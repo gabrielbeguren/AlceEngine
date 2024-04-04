@@ -50,7 +50,7 @@ Within this directory, you'll find 2 folders:
 
 Additionally, there are 3 files:
 
-* <ins>cli.py</ins>: This file contains the source code for the CLI. You have full freedom to modify it. To use it instead of the official executable, replace the "./Build/alce" command with "python3 cli.py".
+* <ins>cli.py</ins>: This file contains the source code for the CLI. You have full freedom to modify it. To use it instead of the official executable, replace the "./Build/alce" command with "python3 ./Build/cli.py".
 
 * <ins>settings.json</ins>: This file holds essential project data such as name, icon, and the current compiler binary path (which is undefined by default but may be necessary for certain CLI commands).
 
