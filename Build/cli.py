@@ -776,7 +776,7 @@ def initProject():
     }
     settings_json.write(json.dumps(settings, indent=4))
     settings_json.close()
-    prints("Created -> Build/settings.json\n", "green")
+    prints("\nCreated -> Build/settings.json\n", "green")
     warning("The compiler bin path was set undefined by default.")
 
 #endregion
