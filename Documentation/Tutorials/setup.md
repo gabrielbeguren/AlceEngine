@@ -68,7 +68,9 @@ If you didn't receive an error message indicating that the command is not recogn
 
 Once the compiler is installed, everything is ready to start using the engine.
 
-However, it's important to clarify something before proceeding. Alce Engine is not an installable software per se. For each project you wish to develop using this engine, you'll need to clone or download the source code from the engine's repository. Within the repository, you'll find both the source code and the compilation tools. This design choice aims for versatility and simplification of the compilation process (Alce Engine doesn't use CMake; instead, the CLI programmed in Python handles the compilation and project building).
+However, it's crucial to understand before moving forward: Alce Engine isn't a traditional installable software. Instead, to develop projects with this engine, you must obtain the source code from its repository by cloning or downloading it. This repository contains not only the source code but also the necessary compilation tools. This approach offers flexibility and streamlines the compilation process. Unlike traditional methods using CMake, Alce Engine utilizes a custom CLI programmed in Python specifically tailored to handle compilation and project building, enhancing usability to the fullest extent possible.
+
+Having direct access to the engine's source code allows users the freedom to modify it according to their preferences, adding components, or even expanding its core functionality. While this decision may slightly increase compilation time for larger projects, it significantly reduces common linking issues often encountered in C++ development.
 
 Now that we understand this, let's proceed to download the engine's repository. If you have Git installed, simply clone the repository using the following command:
 
