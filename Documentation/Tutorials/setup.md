@@ -2,8 +2,17 @@
 
 ### Table of Contents
 
-1. [Compiler Setup](#Step-1:-Compiler-Setup)
-2. [Download Alce Engine](#Step-2:-Download-Alce-Engine)
+1. [Prerequisites](#prerequisites)
+2. [Compiler Setup](#Step-1:-Compiler-Setup)
+3. [Download Alce Engine](#Step-2:-Download-Alce-Engine)
+
+# Prerequisites
+
+Before proceeding, you must meet the following requirements to complete this tutorial:
+
+* Operating System: Windows 10-11; we do not provide support for earlier versions.
+
+As of now, Alce Engine is primarily focused on the Windows environment. However, we intend to expand the engine's usage to Mac and Linux platforms in the future.
 
 # Step 1: Compiler Setup
 
@@ -69,4 +78,4 @@ git clone https://github.com/gabrielbeguren/AlceEngine
 
 If, on the other hand, you don't have Git installed (though we highly recommend it), you can also download the source code as a zip file from the GitHub interface.
 
-<img src="./../resources/setup/setup_5.png" width="450px">
+<img src="./../resources/setup/setup_5.png">
