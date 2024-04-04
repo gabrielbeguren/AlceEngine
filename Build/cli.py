@@ -344,7 +344,22 @@ def handleArguments(argument_stack):
                     prints(": implements all methods with \"//@impl\" decorator in the \"Player\" object class of scene \"MyScene\"\n\n")  
                 # TODO: Init command help
                 elif last == "init" or last == "i":
-                    prints("TODO:\n", "blue")
+                    prints("\nCommand usage:\n\n", "underline")
+                    prints("  [init, i]", "green")
+                    prints(": creates the required configuration file ")
+                    prints("Build/Settings", "underline")
+                    prints("with the next fields:\n\n")
+                    prints("  -> Compiler\n\n", "green")
+                    prints("    -> bin-path", "blue")
+                    prints(": the bin path of the MinGW32 compiler.\n\n")
+                    prints("  -> Project\n\n", "green")
+                    prints("    -> name", "blue")
+                    prints(": the name of the current project.\n")
+                    prints("    -> icon", "blue")
+                    prints(": the .ico file for the executable.\n\n")
+                    prints("Examples:\n\n", "underline")
+                    #TODO:
+
                 else:
                     prints("\nUndefined help display for this command, use ")
                     prints("./Build/alce --help", "green")
@@ -729,10 +744,24 @@ def generateImplementation(target_type, target_name):
         
 def initProject():
 
+    global project_name
+
     if os.path.exists("./settings.json"):
         warning("File Build/settings.json already exists, do you want to replace it? (y/n)")
         if(input().lower() != "y"):
             return
+    
+    is_valid = False
+
+    while not is_valid:
+
+        prints("\nInsert Project name: ")
+        project_name = input().lower()
+
+        is_valid = isProjectNameValid(project_name)
+
+        if not is_valid:
+            error("Invalid project name. The project name must have more than 3 characters and less than 60 characters.")
 
     settings_json = open(f"./settings.json", "w")
     settings_json.write("")
@@ -777,6 +806,12 @@ def isClassNameValid(name):
 def isAliasValid(alias):
     pattern = re.compile(r'^[a-zA-Z_]\w*$')
     return bool(pattern.match(alias))
+
+def isProjectNameValid(name):
+    if len(name) > 3 and len(name) < 60:
+        return True
+    else:
+        return False
 
 #endregion
 
