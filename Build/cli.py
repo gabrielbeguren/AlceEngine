@@ -48,17 +48,18 @@ def prints(message, style=None):
         else:
             print(message, end="")
 
-def error(message):
-    print("\033[91m❌ " + message + "\033[97m")
+def error(message, newline = True):
+    if newline:
+        print("\033[91m❌ " + message + "\033[97m")
+    else:
+        print("\033[91m❌ " + message + "\033[97m", end="")
 
 def warning(message):
     print("\033[93m⚠️ " + message + "\033[97m")
 
 def printHelp():
 
-    prints("Alce CLI Alpha (2023)\n\n", "magenta")
-
-    print("Alce Command Line Interface (CLI) provides functionality for building and managing Alce projects.")
+    print("\nAlce Command Line Interface (CLI) provides functionality for building and managing Alce projects.")
 
     prints("\nInfo Commands:\n\n", "underline")
     prints(" --version, -v", "green")
@@ -88,7 +89,7 @@ def printHelp():
     prints(" file.\n\n")
 
 def printVersion():    
-    prints("Alce CLI Alpha (2023)\n", "magenta")
+    prints("Alce CLI 1.0 (2024)\n", "magenta")
 
 #endregion
 
@@ -108,16 +109,6 @@ def handleArguments(argument_stack):
         v = i.split(":")[-1]
 
         if k == 1:
-
-            # Display Alce CLI version
-            if v == "--version" or v == "-v":
-                printVersion()    
-                sys.exit(0)  
-            
-            # Display help
-            if v == "--help" or v == "-h":
-                printHelp()
-                sys.exit(0)
 
             if v == "init" or v == "i":
                 None
@@ -1074,12 +1065,18 @@ if __name__ == '__main__':
             initProject()
             sys.exit(0)
 
+    if arguments[1] == "--version" or arguments[1] == "-v":
+        printVersion()
+        sys.exit(0)
+
+    if arguments[1] == "--help" or arguments[1] == "-h":
+        printHelp()
+        sys.exit(0)
+
     if not os.path.exists("./settings.json"):
-        prints("This project is not initialized, would you like to create the default configuration? (y/n)\n", "green")
-        if input().lower() == "y":
-            initProject()
-        else:
-            sys.exit(0)
+        error("This project is not initialized yet, please use the folling command: ", False)
+        prints("alce init\n", "yellow")
+        sys.exit(0)
     
     readSettings()
     argument_stack = []
