@@ -108,9 +108,7 @@ To begin, open Visual Studio Code and navigate to the left margin of the window.
 
 Once the extensions bar is open, we'll install the following extensions:
 
-Una vez abierta la barra de extensiones, vamos a instalar las siguientes extensiones:
-
-### C/C++ and C/C++ Extension Pack
+## C/C++ and C/C++ Extension Pack
 
 <img src="./../resources/setup/setup_7.png">
 <hr>
@@ -121,20 +119,20 @@ These extensions are probably the most important ones as they provide IntelliSen
 
 It also provides the ability to execute code from a small button located at the top right of the window. We won't use this button to compile/execute our project; instead, we'll use the Alce CLI from a command line.
 
-### Path Intellisense
+## Path Intellisense
 
 <img src="./../resources/setup/setup_9.png">
 
 This extension facilitates handling paths for any programming language thanks to its IntelliSense specifically dedicated to this task.
 
-### Todo Tree
+## Todo Tree
 
 <img src="./../resources/setup/setup_10.png">
 
 
 This extension is very useful for visualizing all the TODO comments in our project in a small diagram. If you're not aware, it's quite common to use these comments in software development to indicate pending tasks or sections awaiting review. If your project is of significant size, it's quite likely that you'll end up with dozens of these comments and consequently forget about them. This extension is quite useful for keeping your code up to date!
 
-### Material Icon Theme
+## Material Icon Theme
 
 <img src="./../resources/setup/setup_11.png">
 
