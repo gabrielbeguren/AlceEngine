@@ -26,7 +26,9 @@ void _log_task(String str, List<String> values, Folder* debugFolder, File* logFi
 
 void DEBUG::Log(String str, List<String> values, bool persist) 
 {
-	if(clock.getElapsedTime().asMilliseconds() < waitTime) return;
+	if(clock.getElapsedTime().asMilliseconds() < waitTime && initialized) return;
+	if(!initialized) initialized = true;
+
 	clock.restart();
 
 	std::ostringstream oss, timess;
@@ -56,7 +58,9 @@ void DEBUG::Log(String str, List<String> values, bool persist)
 
 void DEBUG::Warning(String str, List<String> values, bool persist)
 {
-	if(clock.getElapsedTime().asMilliseconds() < waitTime) return;
+	if(clock.getElapsedTime().asMilliseconds() < waitTime && initialized) return;
+	if(!initialized) initialized = true;
+
 	clock.restart();
 
 	std::ostringstream oss, timess;

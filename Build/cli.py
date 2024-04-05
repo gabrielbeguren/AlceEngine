@@ -69,7 +69,7 @@ def printHelp():
 
     prints("\nInit Command:\n\n", "underline")
     prints(" init, i", "green")
-    prints(": Creates the required configuration file \"./Build/settings.json\" with the next fields.\n")
+    prints(": Creates the required configuration file \"./Build/settings.json\".\n")
 
     prints("\nCompilation Commands:\n\n", "underline")
     prints(" compile, c", "green")

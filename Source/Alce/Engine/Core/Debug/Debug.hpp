@@ -43,6 +43,7 @@ namespace alce
 
 		friend class KERNEL;
 
+		bool initialized = false;
 		bool persist = false;
 		File logFile = File("Debug/logFile.txt");
 		Folder debugFolder = Folder("Debug");
