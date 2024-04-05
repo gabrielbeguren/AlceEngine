@@ -31,7 +31,7 @@ Following the popular Scene-GameObject-Component architecture, Alce can be easy 
 
 Learn how to set up Alce Engine with ease through [this tutorial](./Documentation/Tutorials/setup.md).
 
-## Requirements
+### Requirements
 
 Minimun requirements:
 * GCC 32bit v13.1.0^ (g++, mingw32-make, gdb)
@@ -39,6 +39,12 @@ Minimun requirements:
 
 Recommended:
 * Python v3.1.0^
+
+# Contact
+
+For any professional inquiries, please contact me at gabrielbeguren@outlook.com. If you wish to contribute ideas or report any bugs, feel free to use the tools that GitHub provides.
+
+No formal language is necessary!
 
 # External Libraries used by Alce Engine
 
