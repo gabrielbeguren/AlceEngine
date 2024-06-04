@@ -9,6 +9,7 @@ int main()
 
     Alce.AddScene<Test1Scene::Test1>();
     Alce.AddScene<SampleScene::Sample>();
+    
     Alce.SetCurrentScene("Sample");
     
     Alce.Run();

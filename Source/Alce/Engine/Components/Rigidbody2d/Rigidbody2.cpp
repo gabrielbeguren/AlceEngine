@@ -280,7 +280,7 @@ void Rigidbody2D::SetLinearVelocity(Vector2 linearVelocity)
     body->SetLinearVelocity(linearVelocity.Tob2Vec2());
 }
 
-void Rigidbody2D::SetHorizontalVelocity(float vy)
+void Rigidbody2D::SetVerticalVelocity(float vy)
 {
     if(!enabled)
     {
@@ -298,7 +298,7 @@ void Rigidbody2D::SetHorizontalVelocity(float vy)
 	body->SetLinearVelocity(b2Vec2(vx, vy));
 }
 
-void Rigidbody2D::SetVerticalVelocity(float vx)
+void Rigidbody2D::SetHorizontalVelocity(float vx)
 {
     if(!enabled)
     {

@@ -48,9 +48,9 @@ namespace alce
 
         Vector2 GetLinearVelocity();
 
-        void SetHorizontalVelocity(float vy);
+        void SetVerticalVelocity(float vy);
 
-        void SetVerticalVelocity(float vx);
+        void SetHorizontalVelocity(float vx);
 
         void SetAngularVelocity(float va);
 

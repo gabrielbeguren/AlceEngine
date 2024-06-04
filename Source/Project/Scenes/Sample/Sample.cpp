@@ -1,4 +1,5 @@
 #include "Sample.hpp"
+#include "Ground/Ground.hpp"
 #include "Player/Player.hpp"
 
 using namespace alce;
@@ -6,7 +7,7 @@ using namespace alce;
 SampleScene::Sample::Sample() : Scene("Sample")
 {
 	DebugMode(true);
-	InitPhysics(Vector2(0.0f, -9.8f));
+	InitPhysics(Vector2(0.0f, -1.0f));
 }
 
 //Custom methods implementation
@@ -22,6 +23,10 @@ void SampleScene::Sample::Init()
 {
 	SampleScene::PlayerPtr player = std::make_shared<SampleScene::Player>();
 	AddGameObject(player);
+
+	SampleScene::GroundPtr ground = std::make_shared<SampleScene::Ground>();
+	AddGameObject(ground);
+ 
 }
 
 void SampleScene::Sample::Start()

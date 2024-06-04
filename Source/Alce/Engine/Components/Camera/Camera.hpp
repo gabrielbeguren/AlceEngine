@@ -16,8 +16,6 @@ namespace alce
 
         void SetViewport(RectShape viewport);
 
-        void SetSmoothFactor(float sf);
-
         float GetZoom();
 
         RectShape GetBounds();
@@ -37,7 +35,6 @@ namespace alce
         RectShape viewport = RectShape(Vector2(0.0f, 0.0f), 1, 1);
 
         float zoom = 1.0f;
-        float smoothFactor = 1.0f;
     };
 
     typedef std::shared_ptr<Camera> CameraPtr;

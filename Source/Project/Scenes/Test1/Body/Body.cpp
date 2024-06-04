@@ -83,19 +83,20 @@ void Test1Scene::Body::Update()
     {
         ps->Emit();
     }
-
+        
     if(Input.IsKeyDown(Keyboard::G))
     {
-        ps->Stop();
+        Alce.SetCurrentScene("Sample");
     }
+
 
     if(Input.IsKeyPressed(Keyboard::D))
     {
-        rb2d->SetVerticalVelocity(1);
+        rb2d->SetHorizontalVelocity(1);
     }
     else if(Input.IsKeyPressed(Keyboard::A))
     {
-        rb2d->SetVerticalVelocity(-1);
+        rb2d->SetHorizontalVelocity(-1);
     }
     else
     {
@@ -104,15 +105,15 @@ void Test1Scene::Body::Update()
 
     if(Input.IsKeyPressed(Keyboard::W))
     {
-        rb2d->SetHorizontalVelocity(1);
+        rb2d->SetVerticalVelocity(1);
     }
     else if(Input.IsKeyPressed(Keyboard::S))
     {
-        rb2d->SetHorizontalVelocity(-1);
+        rb2d->SetVerticalVelocity(-1);
     }
     else
     {
-        rb2d->SetHorizontalVelocity(0.0f);
+        rb2d->SetVerticalVelocity(0.0f);
     }
 
     if(Input.IsJoystickConnected(0))

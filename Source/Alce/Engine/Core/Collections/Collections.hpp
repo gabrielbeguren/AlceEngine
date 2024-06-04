@@ -36,6 +36,23 @@ namespace alce
 			vector.push_back(element);
 		}
 
+		void AddFirst(T element)
+		{
+			vector.insert(vector.begin(), element);
+		}
+
+		void SetFirst(size_t index)
+		{
+			if (index >= this->Length()) 
+			{
+            	throw exception::collections::OutOfBoundsException("<?> Here -> alce::List::MoveToFront(size_t index)\n<!> Reason -> Index out of bounds");
+			}
+
+        	T element = vector[index];
+        	vector.erase(vector.begin() + index);
+        	vector.insert(vector.begin(), element);
+		}
+
 		void PopFirst()
 		{
 			if (this->Length() == 0) 

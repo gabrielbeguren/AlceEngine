@@ -255,6 +255,26 @@ namespace alce
 
 		bool operator==(float dec);
 
+		bool operator!=(const char* cstr);
+
+		bool operator!=(const wchar_t* cstr);
+
+		bool operator!=(std::string& str);
+
+		bool operator!=(std::wstring& str);
+
+		bool operator!=(String str);
+
+		bool operator!=(size_t size);
+
+		bool operator!=(bool boolean);
+
+		bool operator!=(int integer);
+
+		bool operator!=(long long_int);
+
+		bool operator!=(float dec);
+
 	private:
 
 		sf::String str;

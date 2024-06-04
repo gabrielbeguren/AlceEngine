@@ -114,7 +114,7 @@ namespace alce
         sf::RenderWindow window;
         String windowTitle;
         Color clearColor = Colors::Black;
-        String iconFile = "alce.png";
+        String iconFile = "meteor.png";
 
         bool exit = false;
         float fps = 0;

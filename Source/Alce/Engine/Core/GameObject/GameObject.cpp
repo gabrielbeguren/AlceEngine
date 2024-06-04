@@ -85,7 +85,10 @@ void GameObject::AddComponent(ComponentPtr component)
         else
         {
             Rigidbody2D* rb2D = dynamic_cast<Rigidbody2D*>(component.get());
-            if(rb2D) rb2D->world = ((Scene*) scene)->world;
+            if(rb2D) {
+                rb2D->world = ((Scene*) scene)->world;
+                components.SetFirst(components.Length() - 1);
+            }
             else
             {
                 Raycast2D* rc2d = dynamic_cast<Raycast2D*>(component.get());

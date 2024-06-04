@@ -30,17 +30,6 @@ void Camera::SetViewport(RectShape viewport)
     this->viewport = viewport;
 }
 
-void Camera::SetSmoothFactor(float sf)
-{
-    if(sf < 0.f)
-    {
-        Debug.Warning("Smooth factor cannot be less than 0");
-        return;
-    }
-
-    smoothFactor = sf;
-}
-
 float Camera::GetZoom()
 {
     return zoom;
@@ -86,10 +75,7 @@ void Camera::Update()
 
     sf::Vector2f targetCenter = transform->position.ToPixels().ToVector2f();
 
-    sf::Vector2f displacement = (targetCenter - view.getCenter()) * smoothFactor;
-    sf::Vector2f newPosition = view.getCenter() + displacement;
-
-    view.setCenter(newPosition);
+    view.setCenter(targetCenter);
 
     view.setSize(size.ToVector2f());
     view.setRotation(transform->rotation);

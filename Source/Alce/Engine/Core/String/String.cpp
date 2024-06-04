@@ -649,3 +649,66 @@ bool alce::String::operator==(float dec)
 
 #pragma endregion
 
+#pragma region operator!=
+
+bool alce::String::operator!=(const char* cstr)
+{
+    return str != cstr;
+}
+
+bool alce::String::operator!=(const wchar_t* cstr)
+{
+    return str != cstr;
+}
+
+bool alce::String::operator!=(std::string& str)
+{
+    return this->str != str;
+}
+
+bool alce::String::operator!=(std::wstring& str)
+{
+    return this->str != str;
+}
+
+bool alce::String::operator!=(alce::String str)
+{
+    return this->str != str.str;
+}
+
+bool alce::String::operator!=(size_t size)
+{
+    if (!IsInteger()) return true; 
+
+    return ParseInt() != size;
+}
+
+bool alce::String::operator!=(bool boolean)
+{
+    if (boolean && (str == "true" || str == "\"true\"")) return false; 
+
+    return true; 
+}
+
+bool alce::String::operator!=(int integer)
+{
+    if (!IsInteger()) return true; 
+
+    return ParseInt() != integer;
+}
+
+bool alce::String::operator!=(long long_int)
+{
+    if (!IsInteger()) return true; 
+
+    return ParseLong() != long_int;
+}
+
+bool alce::String::operator!=(float dec)
+{
+    if (!IsFloat()) return true; 
+
+    return ParseFloat() != dec;
+}
+
+#pragma endregion

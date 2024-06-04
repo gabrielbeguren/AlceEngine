@@ -107,6 +107,11 @@ namespace alce
 
         }
 
+        virtual void OnImpactEnd(GameObject* other)
+        {
+            
+        }
+
         bool enabled = true;
 
     private:
