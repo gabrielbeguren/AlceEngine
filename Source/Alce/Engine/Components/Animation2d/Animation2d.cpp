@@ -72,6 +72,11 @@ void Animation2d::SetAnimationMode(AnimationMode mode)
     currentMode = mode;
 }
 
+String Animation2d::GetCurrentAnimation()
+{
+    return this->currentAnimation;
+}
+
 #pragma region AnimationEngine
 
 void Animation2d::DetermineNumFrames()

@@ -29,9 +29,6 @@ void SampleScene::Player::Init()
     rigidbody2d = std::make_shared<Rigidbody2D>();
     AddComponent(rigidbody2d);
 
-    spriteRenderer = std::make_shared<SpriteRenderer>();
-    AddComponent(spriteRenderer);   
-
     animation = std::make_shared<Animation2d>();
     AddComponent(animation);
 
@@ -44,39 +41,53 @@ void SampleScene::Player::Init()
 
 void SampleScene::Player::Start()
 {   
+    walking = false;
+    status = "idle-forward";
+
     transform.position = Vector2(0.0f, 0.0f);
     velocity = 1.5f;
 
     rigidbody2d->CreateBody(
-        std::make_shared<RectShape>(Vector2(40.0f, 60.0f)),
+        std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
         BodyType::dynamic_body,
         true,
         MaskType::mask_2
     );
     rigidbody2d->SetFixedRotation();
 
-    spriteRenderer->AddTexture("player/idle.png", "idle");
-    //spriteRenderer->SetTexture("idle");
+    animation->AddAnimation("player/walk-forward.png", "walk-forward", 1, 4, 54, 63);
+    animation->AddAnimation("player/walk-backward.png", "walk-backward", 1, 4, 54, 63);
+    animation->AddAnimation("player/idle-forward.png", "idle-forward", 1, 1, 54, 63);
+    animation->AddAnimation("player/idle-backward.png", "idle-backward", 1, 1, 54, 63);
+    animation->AddAnimation("player/jump-forward.png", "jump-forward", 1, 1, 54, 63);
+    animation->AddAnimation("player/jump-backward.png", "jump-backward", 1, 1, 54, 63);
 
-    animation->AddAnimation("player/bear-sheet.png", "walk", 1, 4, 54, 63);
     animation->transform->scale = Vector2(0, 0);
-    animation->PlayAnimation("walk");
-
     leftRaycast2d->direction = Vector2(-0.447f, -0.894f);
-    leftRaycast2d->length = 1.2f;
+    leftRaycast2d->length = 1.5f;
 
     rightRaycast2d->direction = Vector2(0.447f, -0.894f);
-    rightRaycast2d->length = 1.2f;
+    rightRaycast2d->length = 1.5f;
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)
 {
-    grounded = true;
+    if(other->HasTag("Ground"))
+    {
+        grounded = true;
+        if(status == "jump-forward") status = "idle-forward";
+        if(status == "jump-backward") status = "idle-backward";
+    }
 }
 
 void SampleScene::Player::OnImpactEnd(GameObject* other)
 {
-    grounded = false;
+    if(other->HasTag("Ground"))
+    {
+        grounded = false;
+        if(status == "idle-forward") status = "jump-forward";
+        if(status == "idle-backward") status = "jump-backward";
+    }
 }
 
 void SampleScene::Player::Update()
@@ -84,20 +95,76 @@ void SampleScene::Player::Update()
     if(Input.IsKeyPressed(Keyboard::A))
     {
         rigidbody2d->SetHorizontalVelocity(-velocity);
+        if(grounded) status = "walk-backward";
+        else status = "jump-backward";
     }
     else if(Input.IsKeyPressed(Keyboard::D))
     {
         rigidbody2d->SetHorizontalVelocity(velocity);
+        if(grounded) status = "walk-forward";
+        else status = "jump-forward";
     }
     else
     {
         rigidbody2d->SetHorizontalVelocity(0.0f);
+        
+        if(grounded)
+        {
+            if(status == "walk-forward") status = "idle-forward";
+            if(status == "walk-backward") status = "idle-backward";
+        }
     }
 
     if (Input.IsKeyDown(Keyboard::Space) && grounded)
     {
-        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 60.0f));
+        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 100.0f));
+
+        if(status == "walk-forward") status = "jump-forward";
+        if(status == "idle-forward") status = "jump-forward";
+        if(status == "walk-backward") status = "jump-backward";
+        if(status == "idle-backward") status = "jump-backward";
+        grounded = false; 
+    }
+
+    AnimationManager();
+}
+#pragma endregion
+
+void SampleScene::Player::AnimationManager()
+{
+    if(status == "idle-forward")
+    {
+        if(animation->GetCurrentAnimation() != "idle-forward")
+            animation->PlayAnimation("idle-forward");
+    }
+
+    if(status == "idle-backward")
+    {
+        if(animation->GetCurrentAnimation() != "idle-backward")
+            animation->PlayAnimation("idle-backward");
+    }
+
+    if(status == "walk-forward")
+    {
+        if(animation->GetCurrentAnimation() != "walk-forward")
+            animation->PlayAnimation("walk-forward");
+    }
+
+    if(status == "walk-backward")
+    {
+        if(animation->GetCurrentAnimation() != "walk-backward")
+            animation->PlayAnimation("walk-backward");
+    }
+
+    if(status == "jump-forward")
+    {
+        if(animation->GetCurrentAnimation() != "jump-forward")
+            animation->PlayAnimation("jump-forward");
+    }
+
+    if(status == "jump-backward")
+    {
+        if(animation->GetCurrentAnimation() != "jump-backward")
+            animation->PlayAnimation("jump-backward");
     }
 }
-
-#pragma endregion

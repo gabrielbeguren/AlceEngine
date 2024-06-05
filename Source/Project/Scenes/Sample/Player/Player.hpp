@@ -26,13 +26,18 @@ namespace SampleScene
 
 		CameraPtr camera;
 		Rigidbody2DPtr rigidbody2d;
-		SpriteRendererPtr spriteRenderer;
 		Animation2dPtr animation;
 		Raycast2DPtr leftRaycast2d;
 		Raycast2DPtr rightRaycast2d;
 
+		void AnimationManager();
+
 		float velocity;
 		bool grounded;
+		bool walking;
+		bool jumping;
+
+		String status;
 	};
 	typedef std::shared_ptr<Player> PlayerPtr;
 }

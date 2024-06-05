@@ -50,6 +50,8 @@ namespace alce
 
         Dictionary<String, Vector2Ptr> GetCardinals();
 
+        String GetCurrentAnimation();
+
         void Render();
 
         void Update();
@@ -73,6 +75,8 @@ namespace alce
         int currentFrameNum;
 
         bool paused = false;
+        bool flipHorizontal = false;
+        bool flipVertical = false;
 
         void DetermineNumFrames();
         void DetermineFirstFrameNum();
