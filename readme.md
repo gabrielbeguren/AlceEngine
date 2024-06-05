@@ -1,9 +1,10 @@
-<center>
+<p align="center">
 <img src="./Build/Assets/alce.png">
+</p>
 
-# Alce Game Engine
-</center>
-<p>
+<h1 align="center">Alce Game Engine</h1>
+
+<p align="center">
 <img src="https://img.shields.io/badge/C++-20-00599C?style=flat-square&logo=c%2B%2B">
 <img src="https://img.shields.io/badge/SFML-v2.6.1-8CC445?logo=SFML&style=flat-square">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=flat-square"/></a>
