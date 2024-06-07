@@ -22,6 +22,7 @@ namespace SampleScene
 
 		void Update();
 
+
 	private:
 
 		CameraPtr camera;
@@ -29,6 +30,7 @@ namespace SampleScene
 		Animation2dPtr animation;
 		Raycast2DPtr leftRaycast2d;
 		Raycast2DPtr rightRaycast2d;
+		CanvasPtr canvas;
 
 		void AnimationManager();
 

@@ -1,4 +1,5 @@
 #include "Sample.hpp"
+#include "Tree/Tree.hpp"
 #include "Ground/Ground.hpp"
 #include "Player/Player.hpp"
 
@@ -26,7 +27,12 @@ void SampleScene::Sample::Init()
 
 	SampleScene::GroundPtr ground = std::make_shared<SampleScene::Ground>();
 	AddGameObject(ground);
- 
+
+	SampleScene::TreePtr tree1 = std::make_shared<SampleScene::Tree>(Vector2(5, 3.5f));
+	AddGameObject(tree1);	
+	
+	SampleScene::TreePtr tree2 = std::make_shared<SampleScene::Tree>(Vector2(3, 3.5f));
+	AddGameObject(tree2);
 }
 
 void SampleScene::Sample::Start()

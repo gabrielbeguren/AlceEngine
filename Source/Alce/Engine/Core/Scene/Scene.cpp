@@ -59,15 +59,18 @@ List<GameObjectPtr> Scene::GetAllGameObjects()
     return gameObjects;
 }
 
-void Scene::AddUILayer(UILayerPtr _UILayer)
+void Scene::AddCanvas(CanvasPtr canvas, ComponentPtr camera)
 {
-    if(UILayer.Contains(_UILayer))
+    if(canvasList.Contains(canvas))
     {
-        Debug.Warning("Scene already contains UILayer \"{}\"", {_UILayer->id});
+        Debug.Warning("Scene already contains Canvas \"{}\"", {canvas->id});
         return;
     }
 
-    UILayer.Add(_UILayer);
+    canvasList.Add(canvas);
+    canvas->view = &((Camera*)camera.get())->view;
+    canvas->rotation = &camera->transform->rotation;
+    canvas->scale = &((Camera*)camera.get())->zoom;
 }
 
 String Scene::GetName()
@@ -199,6 +202,14 @@ void Scene::Render()
                 }
             }
         }
+    
+        for(auto& canvas: canvasList)
+        {
+            if(canvas->enabled)
+            {
+                canvas->Render();
+            }
+        }
     }
 }
 
@@ -234,6 +245,14 @@ void Scene::Update()
             sortingLayer.second->RemoveIf([](GameObjectPtr gameObject){
                 return gameObject->destroyed;
             });
+        }
+    }
+
+    for(auto& canvas: canvasList)
+    {
+        if(canvas->enabled)
+        {
+            canvas->Update();
         }
     }
 }

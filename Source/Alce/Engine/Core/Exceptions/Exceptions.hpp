@@ -193,5 +193,18 @@ namespace alce
 				}
 			};
 		}
+
+		namespace resources
+		{
+			class InvalidFont : public Exception
+			{
+			public:
+				
+				InvalidFont(std::string title, std::string cause = "") : Exception("Resources::" + title, cause)
+				{
+					
+				}
+			};
+		}
 	}
 }

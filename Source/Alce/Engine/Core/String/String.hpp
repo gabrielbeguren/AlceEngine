@@ -275,7 +275,7 @@ namespace alce
 
 		bool operator!=(float dec);
 
-	private:
+	protected:
 
 		sf::String str;
 	};

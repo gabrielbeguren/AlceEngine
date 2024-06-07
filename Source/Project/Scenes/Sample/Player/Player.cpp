@@ -19,7 +19,7 @@ SampleScene::Player::Player()
 void SampleScene::Player::Init()
 {
     AddTag("Player");
-    sortingLayer = 0;
+    sortingLayer = 1;
 
     transform.position = Vector2(0, 50);
 
@@ -37,6 +37,8 @@ void SampleScene::Player::Init()
 
     rightRaycast2d = std::make_shared<Raycast2D>();
     AddComponent(rightRaycast2d);
+
+    canvas = std::make_shared<Canvas>();
 }
 
 void SampleScene::Player::Start()
@@ -45,7 +47,7 @@ void SampleScene::Player::Start()
     status = "idle-forward";
 
     transform.position = Vector2(0.0f, 0.0f);
-    velocity = 1.5f;
+    velocity = 1.0f;
 
     rigidbody2d->CreateBody(
         std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
@@ -68,6 +70,14 @@ void SampleScene::Player::Start()
 
     rightRaycast2d->direction = Vector2(0.447f, -0.894f);
     rightRaycast2d->length = 1.5f;
+
+    Alce.GetCurrentScene()->AddCanvas(canvas, camera);
+
+    UITextPtr text = std::make_shared<UIText>();
+    *text = "<color='green'>Alce Engine</color> Sample Project";
+    *text += "\nby @gabrielbeguren";
+    text->margin = Vector2(0.02f, 0.02f);
+    canvas->AddElement(text);
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)
@@ -117,7 +127,7 @@ void SampleScene::Player::Update()
 
     if (Input.IsKeyDown(Keyboard::Space) && grounded)
     {
-        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 100.0f));
+        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 60.0f));
 
         if(status == "walk-forward") status = "jump-forward";
         if(status == "idle-forward") status = "jump-forward";

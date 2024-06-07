@@ -4,9 +4,9 @@
 
 #include "../../../Libs/Libs.hpp"
 #include "../GameObject/GameObject.hpp"
-#include "../UILayer/UILayer.hpp"
 #include "../Chrono/Chrono.hpp"
 #include "../B2World/B2World.hpp"
+#include "../Interface/Interface.hpp"
 
 namespace alce
 {
@@ -24,7 +24,7 @@ namespace alce
 
         List<GameObjectPtr> GetAllGameObjects();
 
-        void AddUILayer(UILayerPtr UILayer);
+        void AddCanvas(CanvasPtr canvasPtr, ComponentPtr camera);
 
         String GetName();
 
@@ -57,7 +57,7 @@ namespace alce
 
         String name;
         Dictionary<int, GameObjectListPtr> sortingLayers;
-        List<UILayerPtr> UILayer;
+        List<CanvasPtr> canvasList;
         List<Object*> cameras;
         bool paused = false;
         bool debugMode = false;
