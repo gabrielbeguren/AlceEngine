@@ -159,7 +159,6 @@ namespace alce
         friend class Scene;
         friend class KERNEL;
         friend class Joystick::Joystick;
-        friend class UITextArea;
 
         bool read = true;  
         bool mouseDown = false;
