@@ -49,8 +49,10 @@ namespace alce
 
         }
 
-        Vector2 margin = Vector2(0, 0);
+        //Margin by %
+        Vector2 margin;
         Vector2 size = Vector2(1, 1);
+        Vector2 padding;
 
         bool enabled = true;
         unsigned int zIndex = 0;

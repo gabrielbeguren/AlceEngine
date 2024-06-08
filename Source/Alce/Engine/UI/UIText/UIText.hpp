@@ -83,12 +83,16 @@ namespace alce
         unsigned int fontSize = 17;
 
         String font = "fonts/Basic-Regular/Basic-Regular.ttf";
+
+		Color borderColor = Colors::White;
+        float borderWidth = 1.0f;
         
     private:
+
+		Vector2 size;
 
         sfe::RichText richText;
     };
 
     typedef std::shared_ptr<UIText> UITextPtr; 
 };
-

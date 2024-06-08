@@ -15,6 +15,16 @@ void UIText::Start()
 void UIText::Render()
 {
     Alce.GetWindow().draw(richText);
+
+    sf::RectangleShape border;
+
+    border.setPosition(transform.position.ToVector2f());
+    border.setSize(size.ToVector2f());
+    border.setOutlineThickness(borderWidth);
+    border.setOutlineColor(borderColor.ToSFMLColor());
+    border.setFillColor(sf::Color::Transparent);
+    
+    Alce.GetWindow().draw(border);
 }
 
 sf::Color MapColorFromString(String colorString) 
@@ -54,7 +64,9 @@ void UIText::Update()
 
     richText = sfe::RichText(*Alce.GetFont(font).get());
     richText.setCharacterSize(fontSize);
-    richText.setPosition(transform.position.ToVector2f());
+
+    Vector2 pos = transform.position + padding;
+    richText.setPosition(pos.ToVector2f());
     richText.setRotation(transform.rotation);
     richText.setScale(transform.scale.ToVector2f());
 
@@ -165,4 +177,7 @@ void UIText::Update()
 
         richText << currentColor << currentStyle << sf::String::fromUtf8(text.begin() + lastPos, text.end());
     }
+
+    size = Vector2(richText.getGlobalBounds().width, richText.getGlobalBounds().height);
+    size += (padding * 2);
 }

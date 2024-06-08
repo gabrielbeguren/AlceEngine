@@ -74,10 +74,13 @@ void SampleScene::Player::Start()
     Alce.GetCurrentScene()->AddCanvas(canvas, camera);
 
     UITextPtr text = std::make_shared<UIText>();
-    *text = "<color='green'>Alce Engine</color> Sample Project";
-    *text += "\nby @gabrielbeguren";
-    text->margin = Vector2(0.02f, 0.02f);
     canvas->AddElement(text);
+    text->margin = Vector2(0.02f, 0.02f);
+    text->padding = Vector2(10, 10);
+
+    text->font = "fonts/Merriweather/Merriweather-Black.ttf";
+    *text += "<color='green'>Alce Engine</color> Sample Project";
+    *text += "\nby @gabrielbeguren";
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)
