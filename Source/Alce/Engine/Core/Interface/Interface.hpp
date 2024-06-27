@@ -7,6 +7,7 @@
 #include "../Utils/Utils.hpp"
 #include "../Debug/Debug.hpp"
 #include "../Color/Color.hpp"
+#include "../Component/Component.hpp"
 
 namespace alce
 {
@@ -14,9 +15,9 @@ namespace alce
     {
     public:
 
-        UIElement(String id)
+        UIElement(String id) : id(id)
         {
-
+            this->id = id;
         }
 
         String GetId()
@@ -49,8 +50,7 @@ namespace alce
 
         }
 
-        //Margin by %
-        Vector2 margin;
+        Vector2 margin = Vector2(0, 0);
         Vector2 size = Vector2(1, 1);
         Vector2 padding;
 
@@ -73,11 +73,15 @@ namespace alce
 
     typedef std::shared_ptr<UIElement> UIElementPtr;
 
-    class Canvas : public Object
+    class Canvas : public Component
     {  
     public:
 
         Canvas();
+
+        void Init();
+
+        void Start();
 
         void Render();
 
@@ -105,6 +109,8 @@ namespace alce
             }
             return nullptr;
         }
+
+        void EventManager(sf::Event& event);
 
         bool enabled = true;
 

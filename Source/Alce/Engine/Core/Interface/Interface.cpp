@@ -3,9 +3,25 @@
 
 using namespace alce;
 
-Canvas::Canvas()
+Canvas::Canvas() : Component("Canvas")
 {
-    id = GenerateUUID();
+    
+}
+
+void Canvas::Init()
+{
+    for(auto& el: elements)
+    {
+        el->Init();
+    }
+}
+
+void Canvas::Start()
+{
+    for(auto& el: elements)
+    {
+        el->Start();
+    }
 }
 
 void Canvas::Render()
@@ -19,6 +35,7 @@ void Canvas::Render()
         for(auto& el: layerElements)
         {
             if(!el->enabled) continue;
+            
             el->Render();
         }
     }
@@ -32,8 +49,8 @@ void Canvas::Update()
         
         Vector2 position;
 
-        position.x = Alce.GetWindowSize().x * el->margin.x;
-        position.y = Alce.GetWindowSize().x * el->margin.y;
+        position.x = el->margin.x;
+        position.y = el->margin.y;
 
         el->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(position.ToVector2i(), *view));
         el->transform.rotation = *rotation;
@@ -71,4 +88,15 @@ void Canvas::AddElement(UIElementPtr element)
         Debug.Warning("Internal error: {}", {std::string(e.what())});
     }
     
+}
+
+void Canvas::EventManager(sf::Event& event)
+{
+    for(auto& element: elements)
+    {
+        if(element->enabled)
+        {
+            element->EventManager(event);
+        }
+    }
 }

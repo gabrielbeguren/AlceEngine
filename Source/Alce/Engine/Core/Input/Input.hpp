@@ -159,8 +159,9 @@ namespace alce
         friend class Scene;
         friend class KERNEL;
         friend class Joystick::Joystick;
+        friend class TextInput;
 
-        bool read = true;  
+        bool enabled = true;  
         bool mouseDown = false;
 
         Dictionary<int, Joystick::JoystickPtr> joysticks;

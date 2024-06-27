@@ -71,6 +71,8 @@ namespace alce
         void Update();
 
         void SetCardinals(GameObjectPtr gameObject, Dictionary<String, Vector2Ptr> cardinals);
+
+        void RenderGrid(sf::RenderWindow& window, const sf::View& view);
     };
 
     typedef std::shared_ptr<Scene> ScenePtr;

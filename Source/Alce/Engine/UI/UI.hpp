@@ -1,3 +1,4 @@
 #pragma once
 
-#include "UIText/UIText.hpp"
+#include "Text/Text.hpp"
+#include "TextInput/TextInput.hpp"

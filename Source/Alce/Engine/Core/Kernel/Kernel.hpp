@@ -23,6 +23,8 @@
 #include "../Math/Math.hpp"
 #include "../Scene/Scene.hpp"
 #include "../Color/Color.hpp"
+#include "../Event/Event.hpp"
+#include "../Event/EventEmitter.hpp"
 
 #define Alce alce::KERNEL::Instance()
 
@@ -97,6 +99,8 @@ namespace alce
 
         float GetFPS();
 
+        EventEmitterPtr GetEventEmitter();
+
         bool stanby = false;
 
         void Run();
@@ -115,6 +119,8 @@ namespace alce
         String windowTitle;
         Color clearColor = Colors::Black;
         String iconFile = "alce.png";
+
+        EventEmitterPtr eventEmitter = nullptr;
 
         bool exit = false;
         float fps = 0;

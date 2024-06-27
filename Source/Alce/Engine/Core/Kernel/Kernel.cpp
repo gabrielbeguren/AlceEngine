@@ -257,6 +257,11 @@ float KERNEL::GetFPS()
 	return fps;
 }
 
+EventEmitterPtr KERNEL::GetEventEmitter()
+{
+	return eventEmitter;
+}
+
 void KERNEL::Run()
 {
 	sf::Clock clock;
@@ -290,7 +295,7 @@ void KERNEL::Run()
 
 			for(int i = 0; i <= sf::Joystick::Count; i++)
 			{
-				if(sf::Joystick::isConnected(i) && Input.read)
+				if(sf::Joystick::isConnected(i) && Input.enabled)
 				{
 					if(!Input.joysticks.HasKey(i)) 
 					{
@@ -323,6 +328,7 @@ void KERNEL::Run()
 
 			window.clear(clearColor.ToSFMLColor());
 			currentScene->Render();
+
 			window.display();
 		}
 		else

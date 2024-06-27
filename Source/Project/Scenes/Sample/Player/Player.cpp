@@ -39,6 +39,7 @@ void SampleScene::Player::Init()
     AddComponent(rightRaycast2d);
 
     canvas = std::make_shared<Canvas>();
+    AddComponent(canvas);
 }
 
 void SampleScene::Player::Start()
@@ -64,6 +65,7 @@ void SampleScene::Player::Start()
     animation->AddAnimation("player/jump-forward.png", "jump-forward", 1, 1, 54, 63);
     animation->AddAnimation("player/jump-backward.png", "jump-backward", 1, 1, 54, 63);
 
+
     animation->transform->scale = Vector2(0, 0);
     leftRaycast2d->direction = Vector2(-0.447f, -0.894f);
     leftRaycast2d->length = 1.5f;
@@ -71,16 +73,22 @@ void SampleScene::Player::Start()
     rightRaycast2d->direction = Vector2(0.447f, -0.894f);
     rightRaycast2d->length = 1.5f;
 
-    Alce.GetCurrentScene()->AddCanvas(canvas, camera);
 
-    UITextPtr text = std::make_shared<UIText>();
+    TextPtr text = std::make_shared<Text>();
     canvas->AddElement(text);
-    text->margin = Vector2(0.02f, 0.02f);
+    text->margin = Vector2(20, 20);
     text->padding = Vector2(10, 10);
 
     text->font = "fonts/Merriweather/Merriweather-Black.ttf";
     *text += "<color='green'>Alce Engine</color> Sample Project";
     *text += "\nby @gabrielbeguren";
+    text->borderRadius = 4;
+    text->backgroundColor = Colors::Black;
+
+    TextInputPtr ti = std::make_shared<TextInput>();
+    canvas->AddElement(ti);
+    ti->margin = Vector2(20, 100);
+    ti->fontSize = TextInput::Small;
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)

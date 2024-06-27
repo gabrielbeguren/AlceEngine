@@ -200,15 +200,19 @@ void Scene::Render()
 
                     gameObject->DebugRender();
                 }
+                
+                //RenderGrid(Alce.GetWindow(), camera->view);
             }
         }
     
-        for(auto& canvas: canvasList)
+        
+    }
+
+    for(auto& canvas: canvasList)
+    {
+        if(canvas->enabled)
         {
-            if(canvas->enabled)
-            {
-                canvas->Render();
-            }
+            canvas->Render();
         }
     }
 }
@@ -285,5 +289,75 @@ void Scene::SetCardinals(GameObjectPtr gameObject, Dictionary<String, Vector2Ptr
     gameObject->cardinals["bottom-right"]->x < cardinals["bottom-right"]->x))
     {
         gameObject->cardinals.Set("bottom-right", cardinals["bottom-right"]);
+    }
+}
+
+void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
+{
+    const float GRID_SPACING = 5.0f; // Espaciado de la cuadrícula en unidades de Box2D
+
+    sf::Vector2f viewCenter = view.getCenter();
+    sf::Vector2f viewSize = view.getSize();
+    float left = viewCenter.x - viewSize.x / 2;
+    float right = viewCenter.x + viewSize.x / 2;
+    float top = viewCenter.y - viewSize.y / 2;
+    float bottom = viewCenter.y + viewSize.y / 2;
+
+    sf::Color gridColor(120, 120, 120); // Gris claro
+    sf::Font font;
+    if (!font.loadFromFile("Assets/fonts/Consolas/CONSOLA.ttf")) // Asegúrate de cargar una fuente válida
+    {
+        // Error loading font
+        return;
+    }
+
+    // Convertir las coordenadas de la vista a coordenadas de Box2D
+    float leftBox2D = left / PPM;
+    float rightBox2D = right / PPM;
+    float topBox2D = top / PPM;
+    float bottomBox2D = bottom / PPM;
+
+    // Redondear las coordenadas al múltiplo más cercano de GRID_SPACING
+    float startX = std::floor(leftBox2D / GRID_SPACING) * GRID_SPACING;
+    float endX = std::ceil(rightBox2D / GRID_SPACING) * GRID_SPACING;
+    float startY = std::floor(topBox2D / GRID_SPACING) * GRID_SPACING;
+    float endY = std::ceil(bottomBox2D / GRID_SPACING) * GRID_SPACING;
+
+    // Dibujar líneas verticales y las coordenadas
+    for (float x = startX; x <= endX; x += GRID_SPACING)
+    {
+        float xPixel = x * PPM;
+        sf::Vertex line[] =
+        {
+            sf::Vertex(sf::Vector2f(xPixel, top), gridColor),
+            sf::Vertex(sf::Vector2f(xPixel, bottom), gridColor)
+        };
+        window.draw(line, 2, sf::Lines);
+
+        for (float y = startY; y <= endY; y += GRID_SPACING)
+        {
+            float yPixel = y * PPM;
+            // Invertir la coordenada Y para Box2D
+            float invertedY = -y;
+            sf::Text text;
+            text.setFont(font);
+            text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(invertedY)) + ")");
+            text.setCharacterSize(10); // Tamaño de la letra
+            text.setFillColor(gridColor);
+            text.setPosition(xPixel, yPixel);
+            window.draw(text);
+        }
+    }
+
+    // Dibujar líneas horizontales
+    for (float y = startY; y <= endY; y += GRID_SPACING)
+    {
+        float yPixel = y * PPM;
+        sf::Vertex line[] =
+        {
+            sf::Vertex(sf::Vector2f(left, yPixel), gridColor),
+            sf::Vertex(sf::Vector2f(right, yPixel), gridColor)
+        };
+        window.draw(line, 2, sf::Lines);
     }
 }

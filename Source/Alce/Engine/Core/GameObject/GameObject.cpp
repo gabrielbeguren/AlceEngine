@@ -85,7 +85,8 @@ void GameObject::AddComponent(ComponentPtr component)
         else
         {
             Rigidbody2D* rb2D = dynamic_cast<Rigidbody2D*>(component.get());
-            if(rb2D) {
+            if(rb2D) 
+            {
                 rb2D->world = ((Scene*) scene)->world;
                 components.SetFirst(components.Length() - 1);
             }
@@ -93,6 +94,20 @@ void GameObject::AddComponent(ComponentPtr component)
             {
                 Raycast2D* rc2d = dynamic_cast<Raycast2D*>(component.get());
                 if(rc2d) rc2d->world = ((Scene*) scene)->world;
+                else
+                {
+                    Canvas* canvas = dynamic_cast<Canvas*>(component.get());
+                    if(canvas) 
+                    {
+                        Camera* cam = GetComponent<Camera>();
+                        if(cam)
+                        {
+                            CanvasPtr canvasSPTR(component, canvas);
+                            CameraPtr camSPTR(component, cam);
+                            ((Scene*) scene)->AddCanvas(canvasSPTR, camSPTR);
+                        }
+                    }
+                }
             }
         }
     }
@@ -145,6 +160,7 @@ void GameObject::Render()
         for(auto& comp: layerComponents)
         {
             if(!comp->enabled) continue;
+            if(comp->GetId() == "Canvas") continue;
             comp->Render();
         }
     }

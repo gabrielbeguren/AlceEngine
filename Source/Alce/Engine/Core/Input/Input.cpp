@@ -4,9 +4,8 @@ using namespace alce;
 
 bool alce::Joystick::Joystick::IsButtonPressed(alce::Joystick::Button button)
 {
-	if(!Input.read) 
+	if(!Input.enabled) 
     {
-        Debug.Warning("Input reading is disabled");
         return false;
     }
 
@@ -15,9 +14,8 @@ bool alce::Joystick::Joystick::IsButtonPressed(alce::Joystick::Button button)
 
 bool alce::Joystick::Joystick::IsButtonDown(alce::Joystick::Button button)
 {
-	if(!Input.read) 
+	if(!Input.enabled) 
     {
-        Debug.Warning("Input reading is disabled");
         return false;
     }
 
@@ -60,9 +58,8 @@ Vector2 alce::Joystick::Joystick::GetPovAxis()
 
 bool alce::INPUT::IsKeyDown(Keyboard::Key key)
 {
-    if(!read) 
+    if(!enabled) 
     {
-        Debug.Warning("Input reading is disabled");
         return false;
     }
 
@@ -85,9 +82,8 @@ bool alce::INPUT::IsKeyDown(Keyboard::Key key)
 
 bool alce::INPUT::IsKeyPressed(Keyboard::Key key)
 {
-    if(!read) 
+    if(!enabled) 
     {
-        Debug.Warning("Input reading is disabled");
         return false;
     }
 
@@ -96,9 +92,8 @@ bool alce::INPUT::IsKeyPressed(Keyboard::Key key)
 
 bool alce::INPUT::IsMouseButtonPressed(Mouse::Button button)
 {
-    if(!read) 
+    if(!enabled) 
     {
-        Debug.Warning("Input reading is disabled");
         return false;
     }
 
@@ -107,9 +102,8 @@ bool alce::INPUT::IsMouseButtonPressed(Mouse::Button button)
 
 bool alce::INPUT::IsMouseButtonDown(Mouse::Button button)
 {
-    if(!read) 
+    if(!enabled) 
     {
-        Debug.Warning("Input reading is disabled");
         return false;
     }
 

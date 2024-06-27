@@ -4,66 +4,66 @@
 
 namespace alce
 {
-    class UIText : public UIElement, public String
+    class Text : public UIElement, public String
     {
     public:
         
-        UIText(): UIElement("UIText")
+        Text(): UIElement("Text")
 		{
 			this->str = sf::String("");
 		}
 
-        UIText(const char* cstr) : UIElement("UIText")
+        Text(const char* cstr) : UIElement("Text")
 		{
 			this->str = sf::String(cstr);
 		}
 
-		UIText(const wchar_t* cstr) : UIElement("UIText")
+		Text(const wchar_t* cstr) : UIElement("Text")
 		{
 			this->str = sf::String(cstr);
 		}
 
-		UIText(std::wstring str) : UIElement("UIText")
+		Text(std::wstring str) : UIElement("Text")
 		{
 			this->str = sf::String(str);
 		}
 
-		UIText(std::string str) : UIElement("UIText")
+		Text(std::string str) : UIElement("Text")
 		{
 			this->str = sf::String(str);
 		}
 
-		UIText(sf::String str) : UIElement("UIText")
+		Text(sf::String str) : UIElement("Text")
 		{
 			this->str = str;
 		}
 
-		UIText(size_t size) : UIElement("UIText")
+		Text(size_t size) : UIElement("Text")
 		{
 			this->str = sf::String(std::to_string(size));
 		}
 
-		UIText(bool boolean) : UIElement("UIText")
+		Text(bool boolean) : UIElement("Text")
 		{
 			boolean ? this->str = sf::String("true") : this->str = sf::String("false");
 		}
 
-		UIText(int integer) : UIElement("UIText")
+		Text(int integer) : UIElement("Text")
 		{
 			this->str = sf::String(std::to_string(integer));
 		}
 
-		UIText(long long_int) : UIElement("UIText")
+		Text(long long_int) : UIElement("Text")
 		{
 			this->str = sf::String(std::to_string(long_int));
 		}
 
-		UIText(double dec) : UIElement("UIText")
+		Text(double dec) : UIElement("Text")
 		{
 			this->str = sf::String(std::to_string(dec));
 		}
 
-		UIText(float dec) : UIElement("UIText")
+		Text(float dec) : UIElement("Text")
 		{
 			this->str = sf::String(std::to_string(dec));
 		}
@@ -86,13 +86,16 @@ namespace alce
 
 		Color borderColor = Colors::White;
         float borderWidth = 1.0f;
+
+		float borderRadius = 0.0f;
+        Color backgroundColor = Colors::Transparent;
         
-    private:
+    protected:
 
 		Vector2 size;
 
         sfe::RichText richText;
     };
 
-    typedef std::shared_ptr<UIText> UITextPtr; 
+    typedef std::shared_ptr<Text> TextPtr; 
 };

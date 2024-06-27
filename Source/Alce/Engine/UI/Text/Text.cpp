@@ -1,30 +1,52 @@
-#include "UIText.hpp"
+#include "Text.hpp"
 
 using namespace alce;
 
-void UIText::Init()
+void Text::Init()
 {
     
 }
 
-void UIText::Start()
+void Text::Start()
 {
 
 }
 
-void UIText::Render()
+void Text::Render()
 {
+    if (borderRadius > 0)
+    {
+        sf::ConvexShape roundedBox;
+
+        roundedBox.setPointCount(8);
+        roundedBox.setPoint(0, sf::Vector2f(borderRadius, 0));
+        roundedBox.setPoint(1, sf::Vector2f(size.x - borderRadius, 0));
+        roundedBox.setPoint(2, sf::Vector2f(size.x, borderRadius));
+        roundedBox.setPoint(3, sf::Vector2f(size.x, size.y - borderRadius));
+        roundedBox.setPoint(4, sf::Vector2f(size.x - borderRadius, size.y));
+        roundedBox.setPoint(5, sf::Vector2f(borderRadius, size.y));
+        roundedBox.setPoint(6, sf::Vector2f(0, size.y - borderRadius));
+        roundedBox.setPoint(7, sf::Vector2f(0, borderRadius));
+        roundedBox.setPosition(transform.position.ToVector2f());
+        roundedBox.setFillColor(backgroundColor.ToSFMLColor());
+        roundedBox.setOutlineThickness(borderWidth);
+        roundedBox.setOutlineColor(borderColor.ToSFMLColor());
+        Alce.GetWindow().draw(roundedBox);
+    }
+    else 
+    {
+        sf::RectangleShape border;
+
+        border.setPosition(transform.position.ToVector2f());
+        border.setSize(size.ToVector2f());
+        border.setOutlineThickness(borderWidth);
+        border.setOutlineColor(borderColor.ToSFMLColor());
+        border.setFillColor(sf::Color::Transparent);
+        
+        Alce.GetWindow().draw(border);
+    }
+
     Alce.GetWindow().draw(richText);
-
-    sf::RectangleShape border;
-
-    border.setPosition(transform.position.ToVector2f());
-    border.setSize(size.ToVector2f());
-    border.setOutlineThickness(borderWidth);
-    border.setOutlineColor(borderColor.ToSFMLColor());
-    border.setFillColor(sf::Color::Transparent);
-    
-    Alce.GetWindow().draw(border);
 }
 
 sf::Color MapColorFromString(String colorString) 
@@ -58,7 +80,7 @@ sf::Color MapColorFromString(String colorString)
     return sf::Color::White;
 }
 
-void UIText::Update() 
+void Text::Update() 
 {
     if (!enabled) return;
 
