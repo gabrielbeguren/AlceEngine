@@ -15,6 +15,12 @@ namespace alce
     {
     public:
 
+        enum PositionType
+        {
+            Fixed,
+            Relative
+        };
+
         UIElement(String id) : id(id)
         {
             this->id = id;
@@ -50,9 +56,11 @@ namespace alce
 
         }
 
-        Vector2 margin = Vector2(0, 0);
+        Vector2 position = Vector2(0, 0);
         Vector2 size = Vector2(1, 1);
         Vector2 padding;
+
+        PositionType positionType = PositionType::Fixed;
 
         bool enabled = true;
         unsigned int zIndex = 0;

@@ -41,7 +41,7 @@ void TextInput::Update()
 {
     box.setPosition(transform.position.x, transform.position.y);
     box.setSize(sf::Vector2f(width, height));
-    box.setFillColor(sf::Color::White);
+    box.setFillColor(backgroundColor.ToSFMLColor());
 
     font = *Alce.GetFont(fontPath).get();
 
@@ -125,7 +125,7 @@ void TextInput::EventManager(sf::Event& event)
             case sf::Keyboard::Right: moveCursorRight(); break;
             case sf::Keyboard::Home: moveCursorStart(); break;
             case sf::Keyboard::End: moveCursorEnd(); break;
-            case sf::Keyboard::Enter: /*TODO: submit */ break;
+            case sf::Keyboard::Enter: if(onSubmit) { onSubmit(); } break;
             case sf::Keyboard::Delete: deleteCharacter(); break;
         }
     }
@@ -196,7 +196,7 @@ void TextInput::updateRoundedBox()
         roundedBox.setPosition(box.getPosition());
         roundedBox.setFillColor(backgroundColor.ToSFMLColor());
         roundedBox.setOutlineThickness(borderWidth);
-        roundedBox.setOutlineColor(outlineColor.ToSFMLColor());
+        roundedBox.setOutlineColor(borderColor.ToSFMLColor());
     }
 }
 

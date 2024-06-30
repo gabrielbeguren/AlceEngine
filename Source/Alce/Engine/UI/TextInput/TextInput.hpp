@@ -46,7 +46,7 @@ namespace alce
         Color textColor = Color(120, 120, 120);
 
         float borderWidth = 2;
-        Color outlineColor = Colors::White;
+        Color borderColor = Colors::White;
 
         String placeholder = "Enter text here...";
         Color placeholderColor = Color(150, 150, 150);
@@ -57,6 +57,8 @@ namespace alce
         float height = 40;
 
         String fontPath = "fonts/Consolas/CONSOLA.ttf";
+
+        Lambda onSubmit;
 
     private:
 
@@ -73,7 +75,6 @@ namespace alce
         float textOffset;
         unsigned int maxCharacters;
         sf::ConvexShape roundedBox;
-
 
         sf::FloatRect getLocalBounds() const;
         sf::FloatRect getGlobalBounds() const;

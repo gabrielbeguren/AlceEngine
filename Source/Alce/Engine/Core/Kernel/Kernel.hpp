@@ -34,6 +34,8 @@ namespace alce
     typedef std::shared_ptr<sf::SoundBuffer> SoundBufferPtr;
     typedef std::shared_ptr<sf::Font> FontPtr;
 
+    typedef std::function<void()> Lambda;
+
     enum DisplayMode
     {
         Close,

@@ -46,13 +46,17 @@ void Canvas::Update()
     for(auto& el: elements)
     {
         if(!el->enabled) continue;
-        
-        Vector2 position;
 
-        position.x = el->margin.x;
-        position.y = el->margin.y;
+        if(el->positionType == UIElement::Fixed)
+        {
+            el->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(el->position.ToVector2i(), *view));
+        }
+        else if(el->positionType == UIElement::Relative)
+        {   
+            Vector2 pos(Alce.GetWindowSize().x * el->position.x, Alce.GetWindowSize().y * el->position.y);
+            el->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(pos.ToVector2i(), *view));
+        }
 
-        el->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(position.ToVector2i(), *view));
         el->transform.rotation = *rotation;
         el->transform.scale.x = *scale;
         el->transform.scale.y = *scale;

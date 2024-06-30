@@ -76,7 +76,7 @@ void SampleScene::Player::Start()
 
     TextPtr text = std::make_shared<Text>();
     canvas->AddElement(text);
-    text->margin = Vector2(20, 20);
+    text->position = Vector2(20, 20);
     text->padding = Vector2(10, 10);
 
     text->font = "fonts/Merriweather/Merriweather-Black.ttf";
@@ -87,8 +87,34 @@ void SampleScene::Player::Start()
 
     TextInputPtr ti = std::make_shared<TextInput>();
     canvas->AddElement(ti);
-    ti->margin = Vector2(20, 100);
+    ti->width = 500;
+    ti->height = 35;
+    ti->backgroundColor = Color("#3d3d3d");
+    ti->textColor = Colors::White;
+    ti->borderWidth = 1;
+    ti->cursorColor = Colors::White;
+    ti->positionType = UIElement::Relative;
+    ti->position = Vector2(0.01, 0.925f);
     ti->fontSize = TextInput::Small;
+    ti->onSubmit = [=](){
+        Debug.Log(ti->GetText());
+    };
+
+    ButtonPtr button = std::make_shared<Button>(); 
+    canvas->AddElement(button);
+    button->position = Vector2(20, 100);
+    button->borderRadius = 2;
+    button->borderWidth = 1;
+    button->borderColor = Colors::White;
+    button->onClick = [](){
+        Debug.Log("Click!");
+    };
+
+    ImagePtr image = std::make_shared<Image>();
+    canvas->AddElement(image);
+    image->position = Vector2(300, 25);
+    image->AddTexture("meteor.png", "meteor");
+    image->SetTexture("meteor");
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)
