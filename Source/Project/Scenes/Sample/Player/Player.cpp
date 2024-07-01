@@ -83,13 +83,15 @@ void SampleScene::Player::Start()
     *text += "<color='green'>Alce Engine</color> Sample Project";
     *text += "\nby @gabrielbeguren";
     text->borderRadius = 4;
+    text->borderWidth = 3;
+    text->borderColor = Colors::Yellow;
     text->backgroundColor = Colors::Black;
 
     TextInputPtr ti = std::make_shared<TextInput>();
     canvas->AddElement(ti);
     ti->width = 500;
     ti->height = 35;
-    ti->backgroundColor = Color("#3d3d3d");
+    ti->backgroundColor = Colors::Black;
     ti->textColor = Colors::White;
     ti->borderWidth = 1;
     ti->cursorColor = Colors::White;

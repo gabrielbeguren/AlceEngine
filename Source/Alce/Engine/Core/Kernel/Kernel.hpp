@@ -119,7 +119,7 @@ namespace alce
 
         sf::RenderWindow window;
         String windowTitle;
-        Color clearColor = Colors::Black;
+        Color clearColor = Color("#41424C");
         String iconFile = "alce.png";
 
         EventEmitterPtr eventEmitter = nullptr;
