@@ -102,7 +102,6 @@ namespace alce
         float restitutionThreshold = 0.0f;
 
         BodyType bodyType;
-        Vector2 bodyPosition = Vector2(0.0f, 0.0f);
         float radius = 0;
 
         b2Body* body = nullptr;

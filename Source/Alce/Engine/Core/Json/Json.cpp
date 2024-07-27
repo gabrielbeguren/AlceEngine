@@ -51,6 +51,61 @@ Json Json::GetJson(String key)
     return jsonResult;
 }
 
+List<String> Json::GetStringList(String key) 
+{
+    List<String> result;
+    
+    if (document.HasMember(key.ToAnsiString().c_str()) && document[key.ToAnsiString().c_str()].IsArray()) 
+    {
+        const rapidjson::Value& array = document[key.ToAnsiString().c_str()];
+        for (rapidjson::SizeType i = 0; i < array.Size(); i++) 
+        {
+            if (array[i].IsString()) 
+            {
+                result.Add(String(array[i].GetString()));
+            } 
+            else 
+            {
+                throw exception::json::UnsupportedTypeException("<?> Here -> alce::Json::GetStringList(alce::String key)\n<!> Reason -> Array contains non-string elements");
+            }
+        }
+    } 
+    else 
+    {
+        throw exception::json::NullMemberException("<?> Here -> alce::Json::GetStringList(alce::String key)\n<!> Reason -> Key not found or not an array");
+    }
+    
+    return result;
+}
+
+List<Json> Json::GetJsonList(String key) 
+{
+    List<Json> result;
+    
+    if (document.HasMember(key.ToAnsiString().c_str()) && document[key.ToAnsiString().c_str()].IsArray()) 
+    {
+        const rapidjson::Value& array = document[key.ToAnsiString().c_str()];
+        for (rapidjson::SizeType i = 0; i < array.Size(); i++) 
+        {
+            if (array[i].IsObject()) 
+            {
+                Json jsonItem;
+                jsonItem.document.CopyFrom(array[i], jsonItem.document.GetAllocator());
+                result.Add(jsonItem);
+            } 
+            else 
+            {
+                throw exception::json::UnsupportedTypeException("<?> Here -> alce::Json::GetJsonList(alce::String key)\n<!> Reason -> Array contains non-object elements");
+            }
+        }
+    } 
+    else 
+    {
+        throw exception::json::NullMemberException("<?> Here -> alce::Json::GetJsonList(alce::String key)\n<!> Reason -> Key not found or not an array");
+    }
+    
+    return result;
+}
 
 void Json::Set(String key, String value)
 {
@@ -182,6 +237,28 @@ void Json::Set(String key, List<Json> value)
 
         document.AddMember(_key, jsonArray, allocator);
     }
+}
+
+bool Json::Has(String key)
+{
+    return document.HasMember(key.ToAnsiString().c_str());
+}
+
+void Json::Delete(String key) 
+{
+    if (document.HasMember(key.ToAnsiString().c_str())) 
+    {
+        document.RemoveMember(key.ToAnsiString().c_str());
+    } 
+    else 
+    {
+        throw exception::json::NullMemberException("<?> Here -> alce::Json::Delete(alce::String key)\n<!> Reason -> Key not found in the JSON object");
+    }
+}
+
+void Json::Clear()
+{
+    document.RemoveAllMembers();
 }
 
 bool Json::IsValid()

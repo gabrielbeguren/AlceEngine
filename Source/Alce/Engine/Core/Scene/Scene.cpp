@@ -5,6 +5,8 @@
 #include "../../Components/ParticleSystem/ParticleSystem.hpp"
 #include "../../Components/SpriteRenderer/SpriteRenderer.hpp"
 #include "../../Components/Animation2d/Animation2d.hpp"
+#include "../../UI/TextInput/TextInput.hpp"
+#include "../Json/Json.hpp"
 
 using namespace alce;
 
@@ -18,7 +20,54 @@ void Scene::InitPhysics(Vector2 gravity)
     world = std::make_shared<B2World>(gravity);
 }
 
-void Scene::AddGameObject(GameObjectPtr gameObject)
+void Scene::Save()
+{
+    UpdateJson();
+    sf::Thread task([&](){
+        json.SaveAsFile(GetName(), "./Scenes/");
+    });
+    task.launch();
+    task.wait();
+}
+
+void Scene::UpdateJson()
+{
+    json.FromString("{}");
+
+    for(auto& sl : sortingLayers)
+    {
+        for(auto& go : *sl.second.get())
+        {
+            String jsonStr = R"({
+                "id": "$id", 
+                "alias": "$alias", 
+                "transform": {
+                    "position": "$position",
+                    "rotation": $rotation,
+                    "scale": "$scale"
+                }
+            })";
+
+            jsonStr.Replace("$id", go->id);
+
+            if(go->alias != false)
+            {
+                jsonStr.Replace("$alias", go->alias);
+            }
+
+            jsonStr.Replace("$position", go->transform.position.ToString());
+            jsonStr.Replace("$rotation", go->transform.rotation);
+            jsonStr.Replace("$scale", go->transform.scale.ToString());
+
+            Json obj(jsonStr);
+
+            json.Set(go->alias == false ? go->id : go->alias, obj);
+            
+        }
+    }
+}
+
+void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
 {
     try
     {
@@ -29,6 +78,13 @@ void Scene::AddGameObject(GameObjectPtr gameObject)
 
             sortingLayers.Set(gameObject->sortingLayer, list);
             gameObject->scene = this;
+
+            gameObject->alias = alias;
+
+            if(persist)
+            {
+                UpdateJson();
+            }
             return;
         }
 
@@ -40,6 +96,15 @@ void Scene::AddGameObject(GameObjectPtr gameObject)
 
         sortingLayers[gameObject->sortingLayer].get()->Add(gameObject);
         gameObject->scene = this;
+
+        gameObject->alias = alias;
+
+        if(persist)
+        {
+            UpdateJson();
+            if(!JsonFileExists()) 
+                Save();
+        }
     }
     catch(const std::exception& e)
     {
@@ -98,9 +163,14 @@ B2WorldPtr Scene::GetWorld()
     return world;
 }
 
-void Scene::DebugMode(bool flag)
+void Scene::DevelopmentMode(bool flag)
 {
-    debugMode = flag;
+    developmentMode = flag;
+}
+
+void Scene::Shell(String command)
+{
+    //TODO:
 }
 
 void Scene::EventsManager(sf::Event& e)
@@ -174,7 +244,7 @@ void Scene::Render()
                 gameObject->Render();
             }
 
-            if(debugMode)
+            if(developmentMode)
             {
                 for(auto& gameObject: *sortingLayers.Get(i).get())
                 {
@@ -206,18 +276,21 @@ void Scene::Render()
         }    
     }
 
+    if(developmentMode)
+    {
+        for(auto& _camera: cameras)
+        {
+            Camera* camera = (Camera*) _camera;
+            RenderGrid(Alce.GetWindow(), camera->view);
+        }
+    }
+
     for(auto& canvas: canvasList)
     {
         if(canvas->enabled)
         {
             canvas->Render();
         }
-    }
-
-    for(auto& _camera: cameras)
-    {
-        Camera* camera = (Camera*) _camera;
-        RenderGrid(Alce.GetWindow(), camera->view);
     }
 }
 
@@ -263,6 +336,7 @@ void Scene::Update()
             canvas->Update();
         }
     }
+
 }
 
 void Scene::SetCardinals(GameObjectPtr gameObject, Dictionary<String, Vector2Ptr> cardinals)

@@ -6,7 +6,7 @@ using namespace alce;
 
 Test1Scene::Test1::Test1() : Scene("Test1")
 {
-	DebugMode(true);
+	DevelopmentMode(true);
 	InitPhysics(Vector2(0.0f, -2));
 }
 

@@ -2,6 +2,7 @@
 
 #include "../Component/Component.hpp"
 #include "../Debug/Debug.hpp"
+#include "../Json/Json.hpp"
 
 namespace alce
 {
@@ -113,7 +114,7 @@ namespace alce
         }
 
         bool enabled = true;
-
+        
     private:
 
         friend class Scene;
@@ -124,6 +125,7 @@ namespace alce
         Dictionary<String, Vector2Ptr> cardinals;
 
         GameObjectPtr parent = nullptr;
+        String alias = false;
 
         bool destroyed = false;
 

@@ -38,8 +38,6 @@ void Rigidbody2D::CreateBody(ShapePtr shape, BodyType bodyType, bool fixedRotati
     this->bodyType = bodyType;
 
     b2BodyDef bdef;
-
-    bdef.position.Set(bodyPosition.x, bodyPosition.y);
     bdef.fixedRotation = fixedRotation;
 
     switch(bodyType)
@@ -73,19 +71,20 @@ void Rigidbody2D::CreateBody(ShapePtr shape, BodyType bodyType, bool fixedRotati
     fixDef.filter.categoryBits = mask.GetCategory();
     fixDef.filter.maskBits = mask.GetMask();
 
+    body = world->__world->CreateBody(&bdef); // Crear el body en la posición especificada
+
     if(shape->GetType() == ShapeType::rect)
     {
         RectShape* bs = (RectShape*) shape.get();
         b2PolygonShape boxShape;
-        boxShape.SetAsBox(bs->width / 2 / PPM, bs->height / 2 / PPM);
+        boxShape.SetAsBox(bs->width / 2 / PPM, bs->height / 2 / PPM); 
         fixDef.shape = &boxShape;
-
-        body = world->__world->CreateBody(&bdef);
+        
         body->CreateFixture(&fixDef);
         fixture = body->GetFixtureList();
-        body->SetTransform(transform->position.ToMeters().Tob2Vec2(), body->GetAngle());
 
         body->attachedObject = owner;
+        body->SetTransform(transform->position.Tob2Vec2(), body->GetAngle());
         contactListener = std::make_shared<ContactListener>();
     }
     else if(shape->GetType() == ShapeType::circle)
@@ -93,15 +92,15 @@ void Rigidbody2D::CreateBody(ShapePtr shape, BodyType bodyType, bool fixedRotati
         CircleShape* cs = (CircleShape*) shape.get();  
         b2CircleShape circleShape;
         circleShape.m_radius = cs->radius;
-        circleShape.m_p.Set(0, 0);
+        circleShape.m_p.Set(0, 0); 
         fixDef.shape = &circleShape;
         radius = cs->radius * PPM;
 
-        body = world->__world->CreateBody(&bdef);
         body->CreateFixture(&fixDef);
         fixture = body->GetFixtureList();
-        
+
         body->attachedObject = owner;
+        body->SetTransform(transform->position.Tob2Vec2(), body->GetAngle());
         contactListener = std::make_shared<ContactListener>();
     }
     else if(shape->GetType() == ShapeType::polygon)
@@ -111,11 +110,11 @@ void Rigidbody2D::CreateBody(ShapePtr shape, BodyType bodyType, bool fixedRotati
         shape.Set(ps->GetB2VertexArray(), ps->GetVertexCount());
         fixDef.shape = &shape;
 
-        body = world->__world->CreateBody(&bdef);
         body->CreateFixture(&fixDef);
         fixture = body->GetFixtureList();
 
         body->attachedObject = owner;
+        body->SetTransform(transform->position.Tob2Vec2(), body->GetAngle());
         contactListener = std::make_shared<ContactListener>();
     }
     else
@@ -125,8 +124,8 @@ void Rigidbody2D::CreateBody(ShapePtr shape, BodyType bodyType, bool fixedRotati
     }
 
     world->__world->SetContactListener(contactListener.get());
-
 }
+
 
 void Rigidbody2D::DestroyBody()
 {

@@ -101,6 +101,7 @@ alce::String alce::File::GetFullPath()
 	return path;
 }
 
+
 #pragma endregion
 
 #pragma region Folder

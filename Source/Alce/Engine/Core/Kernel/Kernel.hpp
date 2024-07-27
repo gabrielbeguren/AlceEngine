@@ -8,6 +8,7 @@
 #include <SFML/Window/Joystick.hpp>
 #include <fstream>
 
+
 #ifdef _WIN32 
     #include <windows.h>
     #include "wtypes.h"
@@ -126,6 +127,8 @@ namespace alce
 
         bool exit = false;
         float fps = 0;
+
+        void terminal();
 
         KERNEL() { };
         KERNEL(KERNEL const&);

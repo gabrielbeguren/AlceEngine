@@ -21,7 +21,7 @@ void SampleScene::Player::Init()
     AddTag("Player");
     sortingLayer = 1;
 
-    transform.position = Vector2(0, 50);
+    //transform.position = Vector2(0, 50);
 
     camera = std::make_shared<Camera>();
     AddComponent(camera);
@@ -47,9 +47,8 @@ void SampleScene::Player::Start()
     walking = false;
     status = "idle-forward";
 
-    transform.position = Vector2(0.0f, 0.0f);
+    //transform.position = Vector2(0.0f, 0.0f);
     velocity = 1.0f;
-
     rigidbody2d->CreateBody(
         std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
         BodyType::dynamic_body,
@@ -90,7 +89,7 @@ void SampleScene::Player::Start()
     TextInputPtr ti = std::make_shared<TextInput>();
     canvas->AddElement(ti);
     ti->width = 500;
-    ti->height = 35;
+    ti->height = 45;
     ti->backgroundColor = Colors::Black;
     ti->textColor = Colors::White;
     ti->borderWidth = 1;
@@ -107,9 +106,30 @@ void SampleScene::Player::Start()
     button->position = Vector2(20, 100);
     button->borderRadius = 2;
     button->borderWidth = 1;
+    button->text = "guardar";
     button->borderColor = Colors::White;
     button->onClick = [](){
-        Debug.Log("Click!");
+        //Alce.GetCurrentScene()->Save();
+        Storage.Set("todo", {
+            "lavar los platos",
+            "sacar al perro"
+        });
+    };
+    
+    ButtonPtr button2 = std::make_shared<Button>(); 
+    canvas->AddElement(button2);
+    button2->position = Vector2(20, 150);
+    button2->borderRadius = 2;
+    button2->borderWidth = 1;
+    button2->borderColor = Colors::White;
+    button2->text = "cargar";
+    button2->onClick = [](){
+        auto list = Storage.GetStringList("todo");
+
+        for(auto& str: list)
+        {
+            Debug.Log(str);
+        }
     };
 
     ImagePtr image = std::make_shared<Image>();

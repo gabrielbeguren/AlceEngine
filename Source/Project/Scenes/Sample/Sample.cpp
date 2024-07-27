@@ -7,7 +7,8 @@ using namespace alce;
 
 SampleScene::Sample::Sample() : Scene("Sample")
 {
-	DebugMode(true);
+	persist = true;
+	DevelopmentMode(true);
 	InitPhysics(Vector2(0.0f, -1.0f));
 }
 
@@ -23,16 +24,16 @@ SampleScene::Sample::Sample() : Scene("Sample")
 void SampleScene::Sample::Init()
 {
 	SampleScene::PlayerPtr player = std::make_shared<SampleScene::Player>();
-	AddGameObject(player);
+	AddGameObject(player, "player");
 
 	SampleScene::GroundPtr ground = std::make_shared<SampleScene::Ground>();
-	AddGameObject(ground);
+	AddGameObject(ground, "ground");
 
 	SampleScene::TreePtr tree1 = std::make_shared<SampleScene::Tree>(Vector2(5, 3.5));
-	AddGameObject(tree1);	
+	AddGameObject(tree1, "tree1");	
 	
 	SampleScene::TreePtr tree2 = std::make_shared<SampleScene::Tree>(Vector2(3, 3.5));
-	AddGameObject(tree2);
+	AddGameObject(tree2, "tree2");
 }
 
 void SampleScene::Sample::Start()

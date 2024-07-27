@@ -6,4 +6,8 @@ Build/Temp/**
 Build/Out
 Build/Out/**
 Build/settings.json
+Build/Scenes/
+Build/Scenes/**
+Build/Storage/
+Build/Storage/**
 .vscode

@@ -21,6 +21,7 @@
 #include "Kernel/Kernel.hpp"
 #include "Math/Math.hpp"
 #include "Scene/Scene.hpp"
+#include "Storage/Storage.hpp"
 #include "String/String.hpp"
 #include "Transform/Transform.hpp"
 #include "Utils/Utils.hpp"

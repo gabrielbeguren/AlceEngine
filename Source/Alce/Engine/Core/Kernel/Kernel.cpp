@@ -1,5 +1,6 @@
 #include "Kernel.hpp"
 #include "../Input/Input.hpp"
+#include "../Storage/Storage.hpp"
 
 using namespace alce;
 
@@ -43,6 +44,7 @@ void KERNEL::Window(String windowTitle, DisplayMode displayMode, Vector2 size, i
 
 	SetWindowIcon(iconFile);
 	Debug.clock.restart();
+	Storage.Init();
 }
 
 sf::RenderWindow& KERNEL::GetWindow()
@@ -113,7 +115,22 @@ void KERNEL::AddScene(ScenePtr scene)
 		return;
 	}
 
+	Folder scenesFolder("./Scenes");
+
+	if(!scenesFolder.Exists())
+	{
+		scenesFolder.Create();
+	}
+
 	scene->Init();
+
+	if(scene->persist)
+	{
+		if(!scene->JsonFileExists())
+		{
+			scene->Save();
+		}
+	}
 
 	for(auto& sl: scene->sortingLayers)
 	{
@@ -167,6 +184,14 @@ void KERNEL::SetCurrentScene(String name)
 	try
 	{
 		currentScene = scenes.Get(name);
+
+		if(currentScene->persist)
+		{
+			currentScene->loading = true;
+			currentScene->LoadFromJson();
+			currentScene->loading = false;
+		}
+
 		currentScene->Start();
 
 		for(auto& sl: currentScene->sortingLayers)
@@ -175,6 +200,7 @@ void KERNEL::SetCurrentScene(String name)
 			{
 				go->Start();
 
+				for(auto& c: go->GetComponents())
 				for(auto& c: go->GetComponents())
 				{
 					c->Start();
@@ -264,84 +290,88 @@ EventEmitterPtr KERNEL::GetEventEmitter()
 
 void KERNEL::Run()
 {
-	sf::Clock clock;
-	sf::Event event;
+    sf::Clock clock;
+    sf::Event event;
 
-	int frameCount = 0;
-	sf::Time second = sf::seconds(1.0f);
-	sf::Time elapsed, accTime;
+    int frameCount = 0;
+    sf::Time second = sf::seconds(1.0f);
+    sf::Time elapsed, accTime;
 
-	while(window.isOpen() && !exit)
-	{
-		if(currentScene != nullptr)
-		{
-			while(window.pollEvent(event))
-			{
-				currentScene->EventsManager(event);
-			}
+    while (window.isOpen() && !exit)
+    {
+        if (currentScene != nullptr)
+        {
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                {
+                    window.close();
+                }
+                currentScene->EventsManager(event);
+            }
 
-			elapsed = clock.restart();
-			accTime += elapsed;
-			frameCount++;	
+            elapsed = clock.restart();
+            accTime += elapsed;
+            frameCount++;
 
-			if(accTime >= second)
-			{
-				fps = static_cast<float>(frameCount) / accTime.asSeconds();
-				accTime -= second;
-				frameCount = 0;
-			}
+            if (accTime >= second)
+            {
+                fps = static_cast<float>(frameCount) / accTime.asSeconds();
+                accTime -= second;
+                frameCount = 0;
+            }
 
-			sf::Joystick::update();
+            sf::Joystick::update();
 
-			for(int i = 0; i <= sf::Joystick::Count; i++)
-			{
-				if(sf::Joystick::isConnected(i) && Input.enabled)
-				{
-					if(!Input.joysticks.HasKey(i)) 
-					{
-						Input.joysticks.Set(i, std::make_shared<Joystick::Joystick>());
-					}
+            for (int i = 0; i <= sf::Joystick::Count; i++)
+            {
+                if (sf::Joystick::isConnected(i) && Input.enabled)
+                {
+                    if (!Input.joysticks.HasKey(i))
+                    {
+                        Input.joysticks.Set(i, std::make_shared<Joystick::Joystick>());
+                    }
 
-					float x = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(0));
-					float y = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(1));
-					float z = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(2));
-					float r = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(3));
-					float u = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(4));
-					float v = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(5));
-					float povx = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(6));
-					float povy  = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(7));
+                    float x = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(0));
+                    float y = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(1));
+                    float z = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(2));
+                    float r = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(3));
+                    float u = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(4));
+                    float v = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(5));
+                    float povx = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(6));
+                    float povy = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(7));
 
-					Input.joysticks[i]->xyAxis = Vector2(x, y);
-					Input.joysticks[i]->zrAxis = Vector2(z, r);
-					Input.joysticks[i]->uvAxis = Vector2(u, v);
-					Input.joysticks[i]->povAxis = Vector2(povx, povy);
+                    Input.joysticks[i]->xyAxis = Vector2(x, y);
+                    Input.joysticks[i]->zrAxis = Vector2(z, r);
+                    Input.joysticks[i]->uvAxis = Vector2(u, v);
+                    Input.joysticks[i]->povAxis = Vector2(povx, povy);
 
-					for(int j = 0; j <= 14; j++)
-					{
-						Input.joysticks[i]->buttonsPressed.Set(static_cast<Joystick::Button>(j), sf::Joystick::isButtonPressed(i, j));
-					}
-				}
-			}
+                    for (int j = 0; j <= 14; j++)
+                    {
+                        Input.joysticks[i]->buttonsPressed.Set(static_cast<Joystick::Button>(j), sf::Joystick::isButtonPressed(i, j));
+                    }
+                }
+            }
 
-			Chrono.deltaTime.Reset().AddMiliseconds(elapsed.asMilliseconds());
-			currentScene->Update();			
+            Chrono.deltaTime.Reset().AddMiliseconds(elapsed.asMilliseconds());
+            currentScene->Update();
 
-			window.clear(clearColor.ToSFMLColor());
-			currentScene->Render();
+            window.clear(clearColor.ToSFMLColor());
+            currentScene->Render();
 
-			window.display();
-		}
-		else
-		{
-			//TODO: Escena por defecto
+            window.display();
+        }
+        else
+        {
+            // TODO: Escena por defecto
 
-			while(window.pollEvent(event))
-			{
-				if(event.type == sf::Event::Closed) window.close();
-			}
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed) window.close();
+            }
 
-			window.clear(~clearColor);
-			window.display();
-		}
-	}
+            window.clear(~clearColor);
+            window.display();
+        }
+    }
 }

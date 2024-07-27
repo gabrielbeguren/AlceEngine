@@ -1,5 +1,7 @@
 #include "Math.hpp"
 #include "../Kernel/Kernel.hpp"
+#include <sstream>  // Para std::stringstream
+#include <stdexcept>
 
 using namespace alce;
 
@@ -217,6 +219,34 @@ b2Vec2 Vector2::Tob2Vec2()
 Vector2 Vector2::ToMeters()
 {
 	return Vector2(x / PPM, y / PPM);
+}
+
+void Vector2::FromString(String _str)
+{
+	std::string str = _str.ToAnsiString();
+
+    size_t start = str.find('(');
+    size_t end = str.find(')');
+    if (start == std::string::npos || end == std::string::npos || start >= end)
+    {
+        throw std::invalid_argument("Formato inválido");
+    }
+
+    std::string coordinates = str.substr(start + 1, end - start - 1);
+
+    size_t comma = coordinates.find(',');
+
+    if (comma == std::string::npos)
+    {
+        Debug.Warning("Invalid Format");
+		return;
+    }
+
+    std::string xStr = coordinates.substr(0, comma);
+    std::string yStr = coordinates.substr(comma + 1);
+
+    this->x = std::stof(xStr);
+    this->y = std::stof(yStr);    
 }
 
 String Vector2::ToString()

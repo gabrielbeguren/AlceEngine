@@ -20,7 +20,7 @@ namespace alce
 
         void InitPhysics(Vector2 gravity);
 
-        void AddGameObject(GameObjectPtr gameObject);
+        void AddGameObject(GameObjectPtr gameObject, String alias = false);
 
         List<GameObjectPtr> GetAllGameObjects();
 
@@ -36,7 +36,18 @@ namespace alce
 
         B2WorldPtr GetWorld();
 
-        void DebugMode(bool flag = true);
+        void DevelopmentMode(bool flag = true);
+
+        void Shell(String command);
+
+        void Save();
+
+        bool persist = false;
+
+        bool IsLoading()
+        {
+            return loading;
+        }
 
         virtual void Init()
         {
@@ -60,9 +71,10 @@ namespace alce
         List<CanvasPtr> canvasList;
         List<Object*> cameras;
         bool paused = false;
-        bool debugMode = false;
+        bool developmentMode = false;
+        bool loading = false;
 
-        List<candle::LightingArea> lightningAreas;
+        Json json;
 
         void EventsManager(sf::Event& e);
 
@@ -73,6 +85,34 @@ namespace alce
         void SetCardinals(GameObjectPtr gameObject, Dictionary<String, Vector2Ptr> cardinals);
 
         void RenderGrid(sf::RenderWindow& window, const sf::View& view);
+
+        void UpdateJson();
+
+        void LoadFromJson()
+        {
+            json.FromFile("./Scenes/" + GetName().ToAnsiString() + ".json");
+
+            for(auto& sl : sortingLayers)
+            {
+                for(auto& go : *sl.second.get())
+                {
+                    bool hasAlias = json.Has(go->alias);
+                    bool hasId = json.Has(go->id);
+
+                    if(hasAlias || hasId) 
+                    {
+                        go->transform.position.FromString(json.GetJson(hasAlias ? go->alias : go->id).GetJson("transform").Get("position"));
+                    }
+                }
+            }
+        }
+
+        bool JsonFileExists()
+        {
+            File file("./Scenes/" + GetName().ToAnsiString() + ".json");
+            return file.Exists();
+        }
+
     };
 
     typedef std::shared_ptr<Scene> ScenePtr;

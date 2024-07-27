@@ -112,6 +112,8 @@ void Button::EventManager(sf::Event& event)
     if(isMouseOver)
     {
         sf::Cursor cursor;
+
+        //TODO: La carga del tipo de cursor no funciona bien
         if (cursor.loadFromSystem(sf::Cursor::Hand)) Alce.GetWindow().setMouseCursor(cursor);
 
         if (!prevMouseOver && onMouseEnter)

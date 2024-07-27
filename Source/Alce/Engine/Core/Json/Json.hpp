@@ -35,6 +35,10 @@ namespace alce
 
         Json GetJson(String key);
 
+        List<String> GetStringList(String key);
+
+        List<Json> GetJsonList(String key);
+
         void Set(String key, String value);
 
         void Set(String key, Json value);
@@ -42,6 +46,12 @@ namespace alce
         void Set(String key, List<String> value);
 
         void Set(String key, List<Json> value);
+
+        bool Has(String key);
+
+        void Delete(String key);
+
+        void Clear();
 
         bool IsValid();
 
@@ -66,4 +76,6 @@ namespace alce
         rapidjson::Document document;
 
     };
+
+    typedef std::shared_ptr<Json> JsonPtr;
 }

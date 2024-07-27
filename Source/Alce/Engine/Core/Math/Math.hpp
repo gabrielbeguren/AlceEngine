@@ -107,6 +107,8 @@ namespace alce
 
 		String ToString();
 
+		void FromString(String str);
+
 		void ConvertToMeters();
 
 		Vector2 ToPixels();
