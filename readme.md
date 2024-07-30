@@ -11,7 +11,7 @@
 </p>
 
 
-Alce is an SFML/Box2D based game engine that aims to provide all the tools necessary to develop 2D games.
+Alce is a SFML/Box2D based game engine that aims to provide all the tools necessary to develop 2D games.
 
 <ins>__NOTE__</ins>: This project is still under development.
 
