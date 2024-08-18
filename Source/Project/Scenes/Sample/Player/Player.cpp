@@ -109,11 +109,11 @@ void SampleScene::Player::Start()
     button->text = "guardar";
     button->borderColor = Colors::White;
     button->onClick = [](){
-        //Alce.GetCurrentScene()->Save();
-        Storage.Set("todo", {
-            "lavar los platos",
-            "sacar al perro"
-        });
+        Alce.GetCurrentScene()->Save();
+
+        Storage.SetString("mi nombre", "Gabriel Bravo Eguren");
+        Storage.SetStringList("lista de la compra", {"patatas", "lombarda", "pollo"});
+        Storage.SetJson("json", Json("{\"test\": \"inicial\", \"funcionara\": \"quien sabe\"}"));
     };
     
     ButtonPtr button2 = std::make_shared<Button>(); 
@@ -121,15 +121,21 @@ void SampleScene::Player::Start()
     button2->position = Vector2(20, 150);
     button2->borderRadius = 2;
     button2->borderWidth = 1;
-    button2->borderColor = Colors::White;
-    button2->text = "cargar";
+    button2->borderColor = Colors::Pink;
+    button2->text = "borrar";
     button2->onClick = [](){
-        auto list = Storage.GetStringList("todo");
-
-        for(auto& str: list)
-        {
-            Debug.Log(str);
-        }
+        Storage.Delete("lista de la compra");
+    };
+    
+    ButtonPtr button3 = std::make_shared<Button>(); 
+    canvas->AddElement(button3);
+    button3->position = Vector2(20, 200);
+    button3->borderRadius = 2;
+    button2->borderWidth = 1;
+    button3->borderColor = Colors::Yellow;
+    button3->text = "fullscreen";
+    button3->onClick = [](){
+        Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
     };
 
     ImagePtr image = std::make_shared<Image>();

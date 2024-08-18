@@ -14,6 +14,8 @@ void Text::Start()
 
 void Text::Render()
 {
+    Alce.GetWindow().draw(richText);
+
     if (borderRadius > 0)
     {
         sf::ConvexShape roundedBox;

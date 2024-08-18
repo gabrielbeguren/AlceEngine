@@ -2,81 +2,175 @@
 
 using namespace alce;
 
-void STORAGE::Set(String name, Json data)
+void STORAGE::SetData(String name, Json tempJson, const std::function<void(Json&)>& setDataCallback)
 {
-    json.Set(name, data);
-    
-    loading = true;
-    json.SaveAsFile("storage", path);
-    loading = false;
+    if(!IndexFileExists()) 
+    {
+        RestoreIndexFile();
+    }
+
+    Json fileJson;
+    String fileId;
+
+    if(fileMap.HasKey(name)) 
+    {
+        fileId = fileMap.Get(name);
+        fileJson.FromFile("./Storage/" + fileId.ToAnsiString() + ".json");
+    } 
+    else 
+    {
+        fileJson.FromFile("./Storage/" + currentFile.ToAnsiString() + ".json");
+        fileId = currentFile;
+    }
+
+    Json indexJson;
+    indexJson.FromFile("./Storage/index.json");
+    auto _fileMap = indexJson.GetStringList("fileMap");
+    auto _fileIds = indexJson.GetStringList("fileIds");
+
+    if(fileJson.ToString().GetBytes() + tempJson.ToString().GetBytes() > limit) 
+    {
+        _fileIds.FindAndRemove(fileId.ToAnsiString() + ":true");
+        _fileIds.Add(fileId.ToAnsiString() + ":false");
+        currentFile = GenerateUUID();
+        _fileIds.Add(currentFile.ToAnsiString() + ":true");
+        fileJson.Clear();
+        fileId = currentFile;
+    }
+
+    _fileMap.FindAndRemove(name.ToAnsiString() + ":" + fileId.ToAnsiString());
+    _fileMap.Add(name.ToAnsiString() + ":" + fileId.ToAnsiString());
+    setDataCallback(fileJson);
+    fileMap.Set(name, fileId);
+
+    fileJson.SaveAsFile(fileId, "./Storage/");
+    indexJson.Set("fileMap", _fileMap);
+    indexJson.Set("fileIds", _fileIds);
+    indexJson.SaveAsFile("index", "./Storage/");
 }
 
-void STORAGE::Set(String name, String data)
-{
-    json.Set(name, data);
 
-    loading = true;
-    json.SaveAsFile("storage", path);
-    loading = false;
+void STORAGE::SetJson(String name, Json data)
+{
+    SetData(name, data, [&](Json& fileJson){
+        fileJson.Set(name, data);
+    });
 }
 
-void STORAGE::Set(String name, List<String> data)
+void STORAGE::SetString(String name, String data)
 {
-    json.Set(name, data);
+    Json tempJson;
+    tempJson.Set("temp", data);
 
-    loading = true;
-    json.SaveAsFile("storage", path);
-    loading = false;
+    SetData(name, tempJson, [&](Json& fileJson){
+        fileJson.Set(name, data);
+    });
 }
 
-void STORAGE::Set(String name, List<Json> data)
+void STORAGE::SetStringList(String name, List<String> data)
 {
-    json.Set(name, data);
+    Json tempJson;
+    tempJson.Set("check", data);
 
-    loading = true;
-    json.SaveAsFile("storage", path);
-    loading = false;
+    SetData(name, tempJson, [&](Json& fileJson){
+        fileJson.Set(name, data);
+    });
+}
+
+void STORAGE::SetJsonList(String name, List<Json> data)
+{
+    Json tempJson;
+    tempJson.Set("check", data);
+
+    SetData(name, tempJson, [&](Json& fileJson){
+        fileJson.Set(name, data);
+    });
 }
 
 Json STORAGE::GetJson(String name)
 {
-    if(!json.Has(name)) throw exception::json::NullMemberException();
-    return json.GetJson(name);
+    String fileId = fileMap.Get(name);
+
+    Json fileJson;
+    fileJson.FromFile("./Storage/" + fileId.ToAnsiString() + ".json");
+    return fileJson.GetJson(name);
 }
 
-String STORAGE::Get(String name)
+String STORAGE::GetString(String name)
 {
-    if(!json.Has(name)) throw exception::json::NullMemberException();
-    return json.Get(name);
+    String fileId = fileMap.Get(name);
+
+    Json fileJson;
+    fileJson.FromFile("./Storage/" + fileId.ToAnsiString() + ".json");
+    return fileJson.Get(name);
 }
 
 List<String> STORAGE::GetStringList(String name)
 {
-    if(!json.Has(name)) throw exception::json::NullMemberException();
-    return json.GetStringList(name);
+    String fileId = fileMap.Get(name);
+
+    Json fileJson;
+    fileJson.FromFile("./Storage/" + fileId.ToAnsiString() + ".json");
+    return fileJson.GetStringList(name);
 }
 
 List<Json> STORAGE::GetJsonList(String name)
-{
-    if(!json.Has(name)) throw exception::json::NullMemberException();
-    return json.GetJsonList(name);
+{    
+    String fileId = fileMap.Get(name);
+
+    Json fileJson;
+    fileJson.FromFile("./Storage/" + fileId.ToAnsiString() + ".json");
+    return fileJson.GetJsonList(name);
 }
 
 void STORAGE::Delete(String name)
-{    
-    if(!json.Has(name)) throw exception::json::NullMemberException();
-    json.Delete(name);
+{
+    if(!IndexFileExists()) 
+    {
+        RestoreIndexFile();
+    }
 
-    loading = true;
-    json.SaveAsFile("storage", path);
-    loading = false;
+    if(!fileMap.HasKey(name)) return;
+
+    String fileId = fileMap.Get(name);
+
+    Json fileJson;
+    fileJson.FromFile("./Storage/" + fileId.ToAnsiString() + ".json");
+    fileJson.Delete(name);
+    fileJson.SaveAsFile(fileId, "./Storage/");
+
+    Json indexJson;
+    indexJson.FromFile("./Storage/index.json");
+
+    auto _fileMap = indexJson.GetStringList("fileMap");
+    _fileMap.FindAndRemove(name.ToAnsiString() + ":" + fileId.ToAnsiString());
+    indexJson.Set("fileMap", _fileMap);
+    indexJson.SaveAsFile("index", "./Storage/");
 }
 
 void STORAGE::Clear()
 {
-    json.Clear();
+    if(!IndexFileExists()) 
+    {
+        RestoreIndexFile();
+    }
 
-    loading = true;
-    json.SaveAsFile("storage", path);
-    loading = false;
+    Json indexJson;
+    indexJson.FromFile("./Storage/index.json");
+
+    auto _fileIds = indexJson.GetStringList("fileIds");
+
+    for(auto& id: _fileIds)
+    {
+        File f("./Storage/" + id.Split(":")[0].ToAnsiString() + ".json");
+        f.Delete();
+    }
+
+    fileMap.Clear();
+    currentFile = GenerateUUID();
+
+    indexJson.Set("fileIds", List<String>({currentFile.ToAnsiString() + ":true"}));
+    indexJson.Set("fileMap", List<String>({}));
+
+    indexJson.SaveAsFile("index", "./Storage/");
 }

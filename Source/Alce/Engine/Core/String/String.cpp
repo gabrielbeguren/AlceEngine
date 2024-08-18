@@ -25,6 +25,13 @@ const wchar_t* alce::String::ToWCString()
 	return str.toWideString().c_str();
 }
 
+bool alce::String::ToBoolean()
+{
+	if(str == "true") return true;
+	else if(str == "false") return false;
+	else throw exception::ParseException("Cannot parse string to boolean.");
+}
+
 size_t alce::String::Length()
 {
 	return str.getSize();
@@ -408,6 +415,10 @@ bool alce::String::Matches(String _regex)
 	return std::regex_match(str.toAnsiString(), regex);
 }
 
+size_t alce::String::GetBytes()
+{
+	return str.getSize() * sizeof(sf::Uint32);
+}
 
 std::wstring alce::String::operator~()
 {

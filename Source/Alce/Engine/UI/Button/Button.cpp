@@ -115,6 +115,7 @@ void Button::EventManager(sf::Event& event)
 
         //TODO: La carga del tipo de cursor no funciona bien
         if (cursor.loadFromSystem(sf::Cursor::Hand)) Alce.GetWindow().setMouseCursor(cursor);
+        else Debug.Warning("Failed to load system cursor.");
 
         if (!prevMouseOver && onMouseEnter)
         {

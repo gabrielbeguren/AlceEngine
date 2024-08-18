@@ -23,8 +23,8 @@ namespace alce
 
         void EventManager(sf::Event& event);
 
-        Color backgroundColor = Color("#4A4A4A");
-        Color mouseOverBackgroundColor = Color("#626262");
+        Color backgroundColor = Color("#808080");
+        Color mouseOverBackgroundColor = Color("#999999");
         Color onClickBackgroundColor = Color("#7A7A7A");
         Color textColor = Colors::White;
         Color mouseOverTextColor = Colors::White;

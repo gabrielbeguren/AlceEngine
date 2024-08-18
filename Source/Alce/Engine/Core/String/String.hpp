@@ -95,6 +95,8 @@ namespace alce
 
 		const wchar_t* ToWCString();
 
+		bool ToBoolean();
+
 		size_t Length();
 
 		String& Cut(unsigned int start, unsigned int end);
@@ -172,6 +174,8 @@ namespace alce
 		wchar_t Last();
 
 		bool Matches(String regex);
+
+		size_t GetBytes();
 
 		std::wstring operator~();
 

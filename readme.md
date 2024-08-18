@@ -18,21 +18,32 @@ Alce is an SFML/Box2D based game engine that aims to provide all the tools neces
 # Features
 
 * Components:
-    * Animation2d
-    * Camera
-    * ParticleSystem
-    * Raycast2d
-    * Rigidbody2d
-    * SpriteRenderer
-    * Canvas: can render UI Elements, such as:
-        * Text
-        * TextInput
-* JSON management module
-* Dictionary and List data structures
-* Autoencoding String Class
-* Time handling module
-* Debug log/tracking module
-* Event emission module
+    * [Animation2d](Source/Alce/Engine/Components/Animation2d/)
+    * [Camera](Source/Alce/Engine/Components/Camera/)
+    * [ParticleSystem](Source/Alce/Engine/Components/ParticleSystem/)
+    * [Raycast2d](Source/Alce/Engine/Components/Raycast2d/)
+    * [Rigidbody2d](Source/Alce/Engine/Components/Rigidbody2d/)
+    * [SpriteRenderer](Source/Alce/Engine/Components/SpriteRenderer/)
+
+* UIElements (User Interface):
+    * [Button](Source/Alce/Engine/UI/Button/)
+    * [Image](Source/Alce/Engine/UI/Image/)
+    * [Text](Source/Alce/Engine/UI/Text/)
+    * [TextInput](Source/Alce/Engine/UI/TextInput/)
+
+* Core Modules:
+    * [Kernel](Source/Alce/Engine/Core/Kernel/): engine's core module.
+    * [Audio](Source/Alce/Engine/Core/Audio/): shared audio management module.
+    * [Storage](Source/Alce/Engine/Core/Storage): LocalStorage-like management module.
+    * [Chrono](Source/Alce/Engine/Core/Chrono/): time handling module.
+    * [Debug](Source/Alce/Engine/Core/Debug/): log/tracking module.
+    * [Input](Source/Alce/Engine/Core/Input/): keyboard/mouse input management module.
+    * [Math](Source/Alce/Engine/Core/Math/): math engine module.
+* Utils:
+    * [Collections](Source/Alce/Engine/Core/Collections/): Custom Dictionary and List data structures.
+    * [String](Source/Alce/Engine/Core/String/): sf::String Wrapper Class.
+    * [Json](Source/Alce/Engine/Core/Json/): easy-to-use rapidjson's wrapper class.
+    * [FileSystem](Source/Alce/Engine/Core/FileSystem/): file and folder management classes.
 * [Alce CLI](Documentation/CLI/cli.md)
 
 # Setup
