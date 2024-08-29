@@ -135,7 +135,8 @@ void SampleScene::Player::Start()
     button3->borderColor = Colors::Yellow;
     button3->text = "fullscreen";
     button3->onClick = [](){
-        Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
+        //Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
+        Debug.Log("oyta");
     };
 
     ImagePtr image = std::make_shared<Image>();

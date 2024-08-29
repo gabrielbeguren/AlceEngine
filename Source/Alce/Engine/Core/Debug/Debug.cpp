@@ -1,4 +1,5 @@
 #include "Debug.hpp"
+#include <thread>
 
 using namespace alce;
 
@@ -48,11 +49,11 @@ void DEBUG::Log(String str, List<String> values, bool persist)
 		File* _logFile = &logFile;
 		Folder* _debugFolder = &debugFolder;
 
-		sf::Thread task = sf::Thread([&]() {
+		std::thread task = std::thread([&]() {
 			_log_task(str, values, _debugFolder, _logFile, message, timess.str());
 		});
 
-		task.launch();
+		task.join();
 	}
 }
 
@@ -79,10 +80,10 @@ void DEBUG::Warning(String str, List<String> values, bool persist)
 		File* _logFile = &logFile;
 		Folder* _debugFolder = &debugFolder;
 
-		sf::Thread task = sf::Thread([&]() {
+		std::thread task = std::thread([&]() {
 			_log_task(str, values, _debugFolder, _logFile, message, timess.str());
 		});
 
-		task.launch();
+		task.join();
 	}
 }

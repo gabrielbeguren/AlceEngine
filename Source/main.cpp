@@ -7,7 +7,7 @@ int main()
     Alce.Window("Alce Engine Test", DisplayMode::Default);
     Alce.stanby = true;
 
-    Debug.SetWaitTime(0);
+    Debug.SetWaitTime(5);
 
     //Alce.AddScene<Test1Scene::Test1>();
     Alce.AddScene<SampleScene::Sample>();
