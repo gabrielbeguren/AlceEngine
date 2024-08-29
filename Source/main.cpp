@@ -4,7 +4,7 @@ using namespace alce;
 
 int main()
 {
-    Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
+    Alce.Window("Alce Engine Test", DisplayMode::Default);
     Alce.stanby = true;
 
     Debug.SetWaitTime(0);

@@ -21,22 +21,22 @@ namespace alce
 
 		}
 
-		List(std::initializer_list<T> in_list)
+		List(std::initializer_list<T> in_list) : vector(in_list)
 		{
-			this->vector = in_list;
+			
 		}
 
-		List(std::vector<T> vector)
+		List(std::vector<T> vector) : vector(std::move(vector))
 		{
-			this->vector = vector;
+			
 		}
 
-		void Add(T element)
+		void Add(const T& element)
 		{
 			vector.push_back(element);
 		}
 
-		void AddFirst(T element)
+		void AddFirst(const T& element)
 		{
 			vector.insert(vector.begin(), element);
 		}
@@ -69,7 +69,7 @@ namespace alce
 			vector.pop_back();
 		}
 
-		T Last()
+		T& Last()
 		{
 			if (this->Length() == 0) 
 				throw exception::collections::EmptyListException("<?> Here -> alce::List::Last()\n<!> Reason -> Empty list");
@@ -77,7 +77,7 @@ namespace alce
 			return vector.back();
 		}
 
-		T First()
+		T& First()
 		{
 			if (this->Length() == 0) 
 				throw exception::collections::EmptyListException("<?> Here -> alce::List::First()\n<!> Reason -> Empty list");
@@ -90,7 +90,7 @@ namespace alce
 			vector.clear();
 		}
 
-		T Get(size_t index)
+		T& Get(size_t index)
 		{
 			if (index > this->Length() - 1) 
 				throw exception::collections::OutOfBoundsException("<?> Here -> alce::List::Get(size_t index)\n<!> Reason -> Index out of bounds");
@@ -98,9 +98,9 @@ namespace alce
 			return vector[index];
 		}
 
-		void Set(size_t index, T value)
+		void Set(size_t index, const T& value)
 		{
-			if (vector.size() < index) 
+			if (index >= vector.size()) 
 				throw exception::collections::OutOfBoundsException("<?> Here -> alce::List::Set(size_t index, T value)\n<!> Reason -> Index out of bounds");
 
 			vector[index] = value;
@@ -127,7 +127,7 @@ namespace alce
 			return result;
 		}
 
-		int FindIndex(T element)
+		int FindIndex(const T& element)
 		{
 			for (size_t i = 0; i < this->vector.size(); i++)
 			{
@@ -137,14 +137,12 @@ namespace alce
 			return -1;
 		}
 
-		void FindAndRemove(T element)
+		void FindAndRemove(const T& element)
 		{
-			for (size_t i = 0; i < this->vector.size(); i++)
+			auto it = std::find(vector.begin(), vector.end(), element);
+			if (it != vector.end())
 			{
-				if (vector[i] == element)
-				{
-					vector.erase(vector.begin() + i);
-				}
+				vector.erase(it);
 			}
 		}
 
@@ -166,22 +164,12 @@ namespace alce
 
 		void Merge(List<T> other)
 		{
-			std::set<T> uniqueElements;
-
-			for (auto& element : vector) 
+			for (const T& element : other.vector)
 			{
-				uniqueElements.insert(element);
-			}
-
-			for (auto& element : other) 
-			{
-				uniqueElements.insert(element);
-			}
-
-			Clear();
-			for (auto& element : uniqueElements) 
-			{
-				Add(element);
+				if (!this->Contains(element))
+				{
+					this->Add(element);
+				}
 			}
 		}
 
@@ -194,7 +182,7 @@ namespace alce
 			}
 		}
 
-		bool Contains(T element)
+		bool Contains(const T& element)
 		{
 			return std::find(vector.begin(), vector.end(), element) != vector.end();
 		}
@@ -416,7 +404,7 @@ namespace alce
 			return value_list;
 		}
 
-		Dictionary<K, V> FilterByValue(V value)
+		Dictionary<K, V> FilterByValue(const V& value)
 		{
 			Dictionary<K, V> filter_dic;
 
@@ -431,7 +419,7 @@ namespace alce
 			return filter_dic;
 		}
 
-		bool HasKey(K key)
+		bool HasKey(const K& key)
 		{
 			return GetKeyList().Contains(key);
 		}
