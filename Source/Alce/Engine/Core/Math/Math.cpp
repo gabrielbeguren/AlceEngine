@@ -264,7 +264,10 @@ void Vector2::ConvertToMeters()
 
 Vector2 Vector2::ToPixels()
 {
-	return Vector2(x * PPM, Alce.GetScreenResolution().y - y * PPM);
+    float pixelX = std::round(x * PPM);
+    float pixelY = std::round(Alce.GetScreenResolution().y - y * PPM);
+
+    return Vector2(pixelX, pixelY);
 }
 
 void Vector2::ConvertToPixels()

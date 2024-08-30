@@ -7,6 +7,7 @@
 #include "../../Components/Animation2d/Animation2d.hpp"
 #include "../../UI/TextInput/TextInput.hpp"
 #include "../Json/Json.hpp"
+#include <thread>
 
 using namespace alce;
 
@@ -23,11 +24,10 @@ void Scene::InitPhysics(Vector2 gravity)
 void Scene::Save()
 {
     UpdateJson();
-    sf::Thread task([&](){
+    std::thread task([&](){
         json.SaveAsFile(GetName(), "./Scenes/");
     });
-    task.launch();
-    task.wait();
+    task.join();
 }
 
 void Scene::UpdateJson()

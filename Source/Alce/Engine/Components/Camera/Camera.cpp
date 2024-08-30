@@ -57,14 +57,16 @@ Vector2 Camera::GetSize()
 
 void Camera::Init()
 {
-    if(transform == nullptr)
+    if (transform == nullptr)
     {
         Debug.Warning("Component Camera has no association with any GameObject");
         return;
     }
 
-    view = sf::View(transform->position.ToPixels().ToVector2f(), size.ToVector2f());
+    sf::Vector2f initialCenter = transform->position.ToPixels().ToVector2f();
+    view = sf::View(initialCenter, size.ToVector2f());
 }
+
 
 void Camera::Update()
 {
@@ -74,12 +76,15 @@ void Camera::Update()
     size *= zoom;
 
     sf::Vector2f targetCenter = transform->position.ToPixels().ToVector2f();
+    sf::Vector2f currentCenter = view.getCenter();
 
-    view.setCenter(targetCenter);
+    sf::Vector2f smoothedCenter = currentCenter + (targetCenter - currentCenter) * smoothFactor;
 
+    view.setCenter(smoothedCenter);
     view.setSize(size.ToVector2f());
     view.setRotation(transform->rotation);
     view.setViewport(viewport.ToFloatRect());
 }
+
 
 #pragma endregion

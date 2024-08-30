@@ -26,6 +26,8 @@ namespace alce
 
         void Update();
 
+        float smoothFactor = 1.0f;
+
     private:
 
         friend class Scene;

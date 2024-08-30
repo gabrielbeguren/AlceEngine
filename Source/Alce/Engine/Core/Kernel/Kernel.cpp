@@ -320,10 +320,11 @@ void KERNEL::Run()
                 accTime -= second;
                 frameCount = 0;
             }
-
+			
+            // Actualizar joysticks
             sf::Joystick::update();
 
-            for (int i = 0; i <= sf::Joystick::Count; i++)
+            for (unsigned int i = 0; i < sf::Joystick::Count; ++i)
             {
                 if (sf::Joystick::isConnected(i) && Input.enabled)
                 {
@@ -332,23 +333,42 @@ void KERNEL::Run()
                         Input.joysticks.Set(i, std::make_shared<Joystick::Joystick>());
                     }
 
-                    float x = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(0));
-                    float y = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(1));
-                    float z = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(2));
-                    float r = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(3));
-                    float u = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(4));
-                    float v = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(5));
-                    float povx = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(6));
-                    float povy = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(7));
-
-                    Input.joysticks[i]->xyAxis = Vector2(x, y);
-                    Input.joysticks[i]->zrAxis = Vector2(z, r);
-                    Input.joysticks[i]->uvAxis = Vector2(u, v);
-                    Input.joysticks[i]->povAxis = Vector2(povx, povy);
-
-                    for (int j = 0; j <= 14; j++)
+                    auto joystick = Input.joysticks[i];
+                    for (unsigned int j = 0; j < sf::Joystick::AxisCount; ++j)
                     {
-                        Input.joysticks[i]->buttonsPressed.Set(static_cast<Joystick::Button>(j), sf::Joystick::isButtonPressed(i, j));
+                        float position = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(j));
+                        // Asigna al eje correspondiente en función de j
+                        switch(j) {
+                            case 0: case 1:
+                                joystick->xyAxis = Vector2(
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::X),
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::Y)
+                                );
+                                break;
+                            case 2: case 3:
+                                joystick->zrAxis = Vector2(
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::Z),
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::R)
+                                );
+                                break;
+                            case 4: case 5:
+                                joystick->uvAxis = Vector2(
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::U),
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::V)
+                                );
+                                break;
+                            case 6: case 7:
+                                joystick->povAxis = Vector2(
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::PovX),
+                                    sf::Joystick::getAxisPosition(i, sf::Joystick::PovY)
+                                );
+                                break;
+                        }
+                    }
+
+                    for (unsigned int j = 0; j < sf::Joystick::ButtonCount; ++j)
+                    {
+                        joystick->buttonsPressed.Set(static_cast<Joystick::Button>(j), sf::Joystick::isButtonPressed(i, j));
                     }
                 }
             }
@@ -367,7 +387,8 @@ void KERNEL::Run()
 
             while (window.pollEvent(event))
             {
-                if (event.type == sf::Event::Closed) window.close();
+                if (event.type == sf::Event::Closed)
+                    window.close();
             }
 
             window.clear(~clearColor);
