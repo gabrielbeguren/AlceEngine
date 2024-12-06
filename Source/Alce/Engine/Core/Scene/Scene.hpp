@@ -44,6 +44,8 @@ namespace alce
 
         bool persist = false;
 
+        int gridMargin = 3;
+
         bool IsLoading()
         {
             return loading;

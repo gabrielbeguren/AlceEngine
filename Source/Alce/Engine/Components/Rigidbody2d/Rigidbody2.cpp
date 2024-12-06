@@ -479,13 +479,13 @@ void Rigidbody2D::SetBodyType(BodyType bodyType)
 
     switch(bodyType)
 	{
-	case dynamic_body:
+	case BodyType::dynamic_body:
 		body->SetType(b2_dynamicBody);
 		break;
-	case static_body:
+	case BodyType::static_body:
 		body->SetType(b2_staticBody);
 		break;
-	case kinematic_body:
+	case BodyType::kinematic_body:
 		body->SetType(b2_kinematicBody);
 		break;
 	}

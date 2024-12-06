@@ -128,8 +128,6 @@ namespace alce
         bool exit = false;
         float fps = 0;
 
-        void terminal();
-
         KERNEL() { };
         KERNEL(KERNEL const&);
     };

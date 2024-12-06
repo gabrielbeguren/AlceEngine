@@ -205,6 +205,16 @@ void Scene::EventsManager(sf::Event& e)
 
 void Scene::Render()
 {
+    if(developmentMode)
+    {
+        for(auto& _camera: cameras)
+        {
+            Camera* camera = (Camera*) _camera;
+            RenderGrid(Alce.GetWindow(), camera->view);
+        }
+    }
+
+
     for(auto& _camera: cameras)
     {
         Camera* camera = (Camera*) _camera;
@@ -274,15 +284,6 @@ void Scene::Render()
                 }         
             }
         }    
-    }
-
-    if(developmentMode)
-    {
-        for(auto& _camera: cameras)
-        {
-            Camera* camera = (Camera*) _camera;
-            RenderGrid(Alce.GetWindow(), camera->view);
-        }
     }
 
     for(auto& canvas: canvasList)
@@ -370,7 +371,6 @@ void Scene::SetCardinals(GameObjectPtr gameObject, Dictionary<String, Vector2Ptr
     }
 }
 
-
 double calculateProportionalValue(int baseValue, double proportionalBase, int desiredValue) 
 {
     return proportionalBase * (static_cast<double>(desiredValue) / baseValue);
@@ -394,52 +394,56 @@ void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
     sf::Vector2f topLeft = window.mapPixelToCoords(sf::Vector2i(viewport.left * window.getSize().x, viewport.top * window.getSize().y), view);
     sf::Vector2f bottomRight = window.mapPixelToCoords(sf::Vector2i((viewport.left + viewport.width) * window.getSize().x, (viewport.top + viewport.height) * window.getSize().y), view);
 
-    float startX = std::floor(topLeft.x / PPM / 5) * 5;
-    float endX = std::ceil(bottomRight.x / PPM / 5) * 5;
-    float startY = std::floor(topLeft.y / PPM / 5) * 5;
-    float endY = std::ceil(bottomRight.y / PPM / 5) * 5;
+    float startX = std::floor(topLeft.x / PPM / gridMargin) * gridMargin;
+    float endX = std::ceil(bottomRight.x / PPM / gridMargin) * gridMargin;
+    float startY = std::floor(topLeft.y / PPM / gridMargin) * gridMargin;
+    float endY = std::ceil(bottomRight.y / PPM / gridMargin) * gridMargin;
 
     std::vector<sf::Vertex> lines;
 
-    for (float x = startX; x <= endX; x += 5) 
+    Color c = Color(sf::Color::Blue).Blend(Colors::Cyan);
+
+    for (float x = startX; x <= endX; x += gridMargin) 
     {
-        lines.emplace_back(sf::Vertex(sf::Vector2f(x * PPM, startY * PPM), sf::Color::Red));
-        lines.emplace_back(sf::Vertex(sf::Vector2f(x * PPM, endY * PPM), sf::Color::Red));
+        lines.emplace_back(sf::Vertex(sf::Vector2f(x * PPM, startY * PPM), c.ToSFMLColor()));
+        lines.emplace_back(sf::Vertex(sf::Vector2f(x * PPM, endY * PPM), c.ToSFMLColor()));
     }
 
-    for (float y = startY; y <= endY; y += 5) 
+    for (float y = startY; y <= endY; y += gridMargin) 
     {
-        lines.emplace_back(sf::Vertex(sf::Vector2f(startX * PPM, y * PPM), sf::Color::Blue));
-        lines.emplace_back(sf::Vertex(sf::Vector2f(endX * PPM, y * PPM), sf::Color::Blue));
+        lines.emplace_back(sf::Vertex(sf::Vector2f(startX * PPM, y * PPM), c.ToSFMLColor()));
+        lines.emplace_back(sf::Vertex(sf::Vector2f(endX * PPM, y * PPM), c.ToSFMLColor()));
     }
 
     window.draw(&lines[0], lines.size(), sf::Lines);
 
-    sf::Font font;
-    if (!font.loadFromFile("Assets/fonts/Consolas/CONSOLA.ttf")) 
-    {
-        return;
-    }
+    //TODO: this code doesn't work properly, Y axis positions are not reliable
 
-    float viewHeight = (bottomRight.y - topLeft.y) / PPM;
+    // sf::Font font;
+    // if (!font.loadFromFile("Assets/fonts/Consolas/CONSOLA.ttf")) 
+    // {
+    //     return;
+    // }
 
-    float windowHeight = static_cast<float>(window.getSize().y);
+    // float viewHeight = (bottomRight.y - topLeft.y) / PPM;
 
-    for (float x = startX; x <= endX; x += 5) 
-    {
-        for (float y = startY; y <= endY; y += 5) 
-        {
-            sf::Text text;
-            text.setFont(font);
-            float invertedY = viewHeight - (y - (topLeft.y / PPM));
-            float adjustedY = std::round(invertedY / 5.0f) * 5 - roundToNearestMultipleOf5(calculateProportionalValue(720, 10.0, windowHeight));
+    // float windowHeight = static_cast<float>(window.getSize().y);
 
-            text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(adjustedY)) + ")");
-            text.setCharacterSize(10);
-            text.setFillColor(sf::Color::White);
-            text.setPosition(x * PPM, y * PPM);
+    // for (float x = startX; x <= endX; x += 5) 
+    // {
+    //     for (float y = startY; y <= endY; y += 5) 
+    //     {
+    //         sf::Text text;
+    //         text.setFont(font);
+    //         float invertedY = viewHeight - (y - (topLeft.y / PPM));
+    //         float adjustedY = std::round(invertedY / 5.0f) * 5 - roundToNearestMultipleOf5(calculateProportionalValue(720, 10.0, windowHeight));
 
-            window.draw(text);
-        }
-    }
+    //         text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(adjustedY)) + ")");
+    //         text.setCharacterSize(10);
+    //         text.setFillColor(sf::Color::White);
+    //         text.setPosition(x * PPM, y * PPM);
+
+    //         window.draw(text);
+    //     }
+    // }
 }

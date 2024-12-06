@@ -86,20 +86,20 @@ void SampleScene::Player::Start()
     text->borderColor = Colors::Yellow;
     text->backgroundColor = Colors::Black;
 
-    TextInputPtr ti = std::make_shared<TextInput>();
-    canvas->AddElement(ti);
-    ti->width = 500;
-    ti->height = 45;
-    ti->backgroundColor = Colors::Black;
-    ti->textColor = Colors::White;
-    ti->borderWidth = 1;
-    ti->cursorColor = Colors::White;
-    ti->positionType = UIElement::Relative;
-    ti->position = Vector2(0.01, 0.925f);
-    ti->fontSize = TextInput::Small;
-    ti->onSubmit = [=](){
-        Debug.Log(ti->GetText());
-    };
+    // TextInputPtr ti = std::make_shared<TextInput>();
+    // canvas->AddElement(ti);
+    // ti->width = 500;
+    // ti->height = 45;
+    // ti->backgroundColor = Colors::Black;
+    // ti->textColor = Colors::White;
+    // ti->borderWidth = 1;
+    // ti->cursorColor = Colors::White;
+    // ti->positionType = UIElement::Relative;
+    // ti->position = Vector2(0.01, 0.925f);
+    // ti->fontSize = TextInput::Small;
+    // ti->onSubmit = [=](){
+    //     Debug.Log(ti->GetText());
+    // };
 
     ButtonPtr button = std::make_shared<Button>(); 
     canvas->AddElement(button);

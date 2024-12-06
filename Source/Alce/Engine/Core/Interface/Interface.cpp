@@ -28,15 +28,14 @@ void Canvas::Render()
 {
     for(auto& layer: layers)
     {
-        auto layerElements = elements.Filter([&](UIElementPtr e) {
-            return e->zIndex == layer;
-        });
-
-        for(auto& el: layerElements)
+        for(auto& el: elements)
         {
-            if(!el->enabled) continue;
+            if(el->zIndex == layer)
+            {
+                if(!el->enabled) continue;
             
-            el->Render();
+                el->Render();
+            } 
         }
     }
 }
