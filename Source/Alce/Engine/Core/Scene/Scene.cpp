@@ -205,23 +205,11 @@ void Scene::EventsManager(sf::Event& e)
 
 void Scene::Render()
 {
-    if(developmentMode)
-    {
-        for(auto& _camera: cameras)
-        {
-            Camera* camera = (Camera*) _camera;
-            RenderGrid(Alce.GetWindow(), camera->view);
-        }
-    }
-
-
     for(auto& _camera: cameras)
     {
         Camera* camera = (Camera*) _camera;
 
         if(!camera->enabled) continue;
-
-
 
         Alce.GetWindow().setView(camera->view);
 
@@ -284,6 +272,15 @@ void Scene::Render()
                 }         
             }
         }    
+    }
+
+    if(developmentMode)
+    {
+        for(auto& _camera: cameras)
+        {
+            Camera* camera = (Camera*) _camera;
+            RenderGrid(Alce.GetWindow(), camera->view);
+        }
     }
 
     for(auto& canvas: canvasList)
@@ -371,79 +368,90 @@ void Scene::SetCardinals(GameObjectPtr gameObject, Dictionary<String, Vector2Ptr
     }
 }
 
-double calculateProportionalValue(int baseValue, double proportionalBase, int desiredValue) 
-{
-    return proportionalBase * (static_cast<double>(desiredValue) / baseValue);
-}
-
-int roundToNearestMultipleOf5(int value) 
-{
-    int remainder = value % 5;
-    
-    if (remainder <= 2) {
-        return value - remainder;
-    } else 
-    {
-        return value + (5 - remainder);
-    }
-}
 void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
 {
-    sf::FloatRect viewport = view.getViewport();
+    sf::Vector2f topLeft = window.mapPixelToCoords(sf::Vector2i(0, 0), view);
+    sf::Vector2f bottomRight = window.mapPixelToCoords(sf::Vector2i(window.getSize().x, window.getSize().y), view);
 
-    sf::Vector2f topLeft = window.mapPixelToCoords(sf::Vector2i(viewport.left * window.getSize().x, viewport.top * window.getSize().y), view);
-    sf::Vector2f bottomRight = window.mapPixelToCoords(sf::Vector2i((viewport.left + viewport.width) * window.getSize().x, (viewport.top + viewport.height) * window.getSize().y), view);
+    float worldStartX = topLeft.x / PPM;
+    float worldEndX = bottomRight.x / PPM;
+    float worldStartY = topLeft.y / PPM;
+    float worldEndY = bottomRight.y / PPM;
 
-    float startX = std::floor(topLeft.x / PPM / gridMargin) * gridMargin;
-    float endX = std::ceil(bottomRight.x / PPM / gridMargin) * gridMargin;
-    float startY = std::floor(topLeft.y / PPM / gridMargin) * gridMargin;
-    float endY = std::ceil(bottomRight.y / PPM / gridMargin) * gridMargin;
+    float startX = std::floor(worldStartX / 5.0f) * 5.0f;
+    float endX = std::ceil(worldEndX / 5.0f) * 5.0f;
+    float startY = std::floor(worldStartY / 5.0f) * 5.0f;
+    float endY = std::ceil(worldEndY / 5.0f) * 5.0f;
 
     std::vector<sf::Vertex> lines;
 
-    Color c = Color(sf::Color::Blue).Blend(Colors::Cyan);
+    float axisThickness = 2.0f; 
 
-    for (float x = startX; x <= endX; x += gridMargin) 
+    for (float x = startX; x <= endX; x += 5.0f) 
     {
-        lines.emplace_back(sf::Vertex(sf::Vector2f(x * PPM, startY * PPM), c.ToSFMLColor()));
-        lines.emplace_back(sf::Vertex(sf::Vector2f(x * PPM, endY * PPM), c.ToSFMLColor()));
+        float px = x * PPM; 
+
+        if (x == 0) 
+        {
+            sf::RectangleShape yAxis(sf::Vector2f(axisThickness, (endY - startY) * PPM));
+            yAxis.setPosition(px - axisThickness / 2.0f, startY * PPM);
+            yAxis.setFillColor(AxisYColor.ToSFMLColor());
+            window.draw(yAxis);
+        } 
+        else 
+        {
+            sf::Vertex line[] = {
+                sf::Vertex(sf::Vector2f(px, startY * PPM), GridColor.ToSFMLColor()),
+                sf::Vertex(sf::Vector2f(px, endY * PPM), GridColor.ToSFMLColor())
+            };
+            window.draw(line, 2, sf::Lines);
+        }
     }
 
-    for (float y = startY; y <= endY; y += gridMargin) 
+    for (float y = startY; y <= endY; y += 5.0f) 
     {
-        lines.emplace_back(sf::Vertex(sf::Vector2f(startX * PPM, y * PPM), c.ToSFMLColor()));
-        lines.emplace_back(sf::Vertex(sf::Vector2f(endX * PPM, y * PPM), c.ToSFMLColor()));
+        float py = y * PPM;
+
+        if (y == 35)
+        {
+            sf::RectangleShape xAxis(sf::Vector2f((endX - startX) * PPM, axisThickness));
+            xAxis.setPosition(startX * PPM, py - axisThickness / 2.0f);
+            xAxis.setFillColor(AxisXColor.ToSFMLColor());
+            window.draw(xAxis);
+        } 
+        else 
+        {
+            sf::Vertex line[] = {
+                sf::Vertex(sf::Vector2f(startX * PPM, py), GridColor.ToSFMLColor()),
+                sf::Vertex(sf::Vector2f(endX * PPM, py), GridColor.ToSFMLColor())
+            };
+            window.draw(line, 2, sf::Lines);
+        }
     }
 
-    window.draw(&lines[0], lines.size(), sf::Lines);
+    sf::Font font;
+    if (!font.loadFromFile("Assets/fonts/Consolas/CONSOLA.ttf"))
+    {
+        return;
+    }
 
-    //TODO: this code doesn't work properly, Y axis positions are not reliable
+    for (float x = startX; x <= endX; x += 5.0f)
+    {
+        for (float y = startY; y <= endY; y += 5.0f)
+        {
+            sf::Text text;
+            text.setFont(font);
+            float displayY = -(y - 35);
 
-    // sf::Font font;
-    // if (!font.loadFromFile("Assets/fonts/Consolas/CONSOLA.ttf")) 
-    // {
-    //     return;
-    // }
+            text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(displayY)) + ")");
+            text.setCharacterSize(GridTextSize);
+            text.setFillColor(sf::Color::White);
 
-    // float viewHeight = (bottomRight.y - topLeft.y) / PPM;
+            float px = x * PPM;
+            float py = y * PPM;
+            text.setPosition(px + 2, py + 2); 
 
-    // float windowHeight = static_cast<float>(window.getSize().y);
-
-    // for (float x = startX; x <= endX; x += 5) 
-    // {
-    //     for (float y = startY; y <= endY; y += 5) 
-    //     {
-    //         sf::Text text;
-    //         text.setFont(font);
-    //         float invertedY = viewHeight - (y - (topLeft.y / PPM));
-    //         float adjustedY = std::round(invertedY / 5.0f) * 5 - roundToNearestMultipleOf5(calculateProportionalValue(720, 10.0, windowHeight));
-
-    //         text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(adjustedY)) + ")");
-    //         text.setCharacterSize(10);
-    //         text.setFillColor(sf::Color::White);
-    //         text.setPosition(x * PPM, y * PPM);
-
-    //         window.draw(text);
-    //     }
-    // }
+            window.draw(text);
+        }
+    }
 }

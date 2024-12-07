@@ -202,6 +202,30 @@ void SampleScene::Player::Update()
         grounded = false; 
     }
 
+
+    // if(Input.IsKeyPressed(Keyboard::W))
+    // {
+    //     rigidbody2d->SetVerticalVelocity(velocity);
+    // }
+
+    // if(Input.IsKeyPressed(Keyboard::S))
+    // {
+    //     rigidbody2d->SetVerticalVelocity(-velocity);
+    // }
+
+    // if(Input.IsKeyPressed(Keyboard::A))
+    // {
+    //     rigidbody2d->SetHorizontalVelocity(-velocity);
+    // }
+
+    // if(Input.IsKeyPressed(Keyboard::D))
+    // {
+    //     rigidbody2d->SetHorizontalVelocity(velocity);
+    // }
+
+    //status = "idle-forward";
+
+
     AnimationManager();
 }
 #pragma endregion

@@ -61,6 +61,14 @@ namespace alce
             
         }
 
+        unsigned int GridTextSize = 9;
+
+        Color GridColor = sf::Color(100, 100, 255, 150);
+
+        Color AxisYColor = sf::Color(50, 150, 255, 200);
+
+        Color AxisXColor = sf::Color(255, 100, 100, 200);
+
     private:
 
         friend class KERNEL;
