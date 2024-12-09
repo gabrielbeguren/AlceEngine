@@ -1,0 +1,4 @@
+#B1 Input Text defectuoso: 
+    Cada vez que se inicia la escena, el comportamiento del IT es impredecible,
+    perturbándose las posiciones de los caracteres o directamente no aceptando
+    escritura (visualmente). En otras ocasiones si funciona como es debido.

@@ -135,8 +135,20 @@ void SampleScene::Player::Start()
     button3->borderColor = Colors::Yellow;
     button3->text = "fullscreen";
     button3->onClick = [](){
-        //Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
-        Debug.Log("oyta");
+        Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
+        Debug.Log("Cambiando a pantalla completa");
+    };
+
+    ButtonPtr button4 = std::make_shared<Button>(); 
+    canvas->AddElement(button4);
+    button4->position = Vector2(20, 250);
+    button4->borderRadius = 2;
+    button4->borderWidth = 1;
+    button4->borderColor = Colors::Yellow;
+    button4->text = "windowed";
+    button4->onClick = [](){
+        Alce.Window("Alce Engine Test", DisplayMode::Default);
+        Debug.Log("Cambiando a modo ventana");
     };
 
     ImagePtr image = std::make_shared<Image>();

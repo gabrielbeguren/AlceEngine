@@ -43,6 +43,7 @@ void KERNEL::Window(String windowTitle, DisplayMode displayMode, Vector2 size, i
 	window.setVerticalSyncEnabled(true);
 
 	SetWindowIcon(iconFile);
+
 	Debug.clock.restart();
 	Storage.Init();
 }
@@ -102,7 +103,7 @@ void KERNEL::SetWindowIcon(String file)
 	if(icon.loadFromFile(file.ToAnsiString()))
 	{
 		window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-		iconFile = ~file;
+		iconFile = ~(file.Replace("./Assets/", ""));
 	}
 	else Debug.Warning("Error loading file \"{}\"", {file});
 }

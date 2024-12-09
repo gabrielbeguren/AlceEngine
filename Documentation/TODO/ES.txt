@@ -1,0 +1,3 @@
+~ Lista de tareas pendientes ~
+
+#TD1: Arreglar o rehacer el componente TextInput (relacion al bug #B1)

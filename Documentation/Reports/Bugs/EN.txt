@@ -1,0 +1,4 @@
+#B1: Input Text not working properly:
+    Every scene init, the behaviour of this component can be completely
+    unpredictable (weird character offset, not displaying text...). Sometimes
+    it works fine.
