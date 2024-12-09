@@ -61,6 +61,8 @@ namespace alce
             
         }
 
+        float GridScale = 5;
+
         unsigned int GridTextSize = 9;
 
         Color GridColor = sf::Color(100, 100, 255, 150);

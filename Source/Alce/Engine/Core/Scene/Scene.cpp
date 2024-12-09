@@ -378,16 +378,16 @@ void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
     float worldStartY = topLeft.y / PPM;
     float worldEndY = bottomRight.y / PPM;
 
-    float startX = std::floor(worldStartX / 5.0f) * 5.0f;
-    float endX = std::ceil(worldEndX / 5.0f) * 5.0f;
-    float startY = std::floor(worldStartY / 5.0f) * 5.0f;
-    float endY = std::ceil(worldEndY / 5.0f) * 5.0f;
+    float startX = std::floor(worldStartX / GridScale) * GridScale;
+    float endX = std::ceil(worldEndX / GridScale) * GridScale;
+    float startY = std::floor(worldStartY / GridScale) * GridScale;
+    float endY = std::ceil(worldEndY / GridScale) * GridScale;
 
     std::vector<sf::Vertex> lines;
 
     float axisThickness = 2.0f; 
 
-    for (float x = startX; x <= endX; x += 5.0f) 
+    for (float x = startX; x <= endX; x += GridScale) 
     {
         float px = x * PPM; 
 
@@ -408,11 +408,11 @@ void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
         }
     }
 
-    for (float y = startY; y <= endY; y += 5.0f) 
+    for (float y = startY; y <= endY; y += GridScale) 
     {
         float py = y * PPM;
 
-        if (y == 35)
+        if (y == (7 * GridScale))
         {
             sf::RectangleShape xAxis(sf::Vector2f((endX - startX) * PPM, axisThickness));
             xAxis.setPosition(startX * PPM, py - axisThickness / 2.0f);
@@ -435,13 +435,13 @@ void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
         return;
     }
 
-    for (float x = startX; x <= endX; x += 5.0f)
+    for (float x = startX; x <= endX; x += GridScale)
     {
-        for (float y = startY; y <= endY; y += 5.0f)
+        for (float y = startY; y <= endY; y += GridScale)
         {
             sf::Text text;
             text.setFont(font);
-            float displayY = -(y - 35);
+            float displayY = -(y - (7 * GridScale));
 
             text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(displayY)) + ")");
             text.setCharacterSize(GridTextSize);

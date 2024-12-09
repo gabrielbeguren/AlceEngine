@@ -41,5 +41,6 @@ namespace SampleScene
 
 		String status;
 	};
+	
 	typedef std::shared_ptr<Player> PlayerPtr;
 }

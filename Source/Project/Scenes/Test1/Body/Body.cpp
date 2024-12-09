@@ -29,7 +29,7 @@ void Test1Scene::Body::Init()
     rb2d->SetFixedRotation();
 
     sr = std::make_shared<SpriteRenderer>();
-    //AddComponent(sr);
+    AddComponent(sr);
 
     sr->enabled = true;
     sr->AddTexture("meteor.png", "meteor");

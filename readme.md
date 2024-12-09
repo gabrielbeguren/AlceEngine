@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./Build/Assets/alce.png">
+<img src="./Build/Assets/Logo1.png">
 </p>
 
 <h1 align="center">Alce Game Engine</h1>

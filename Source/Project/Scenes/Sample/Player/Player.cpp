@@ -133,10 +133,11 @@ void SampleScene::Player::Start()
     button3->borderRadius = 2;
     button2->borderWidth = 1;
     button3->borderColor = Colors::Yellow;
-    button3->text = "fullscreen";
+    button3->text = "-";
     button3->onClick = [](){
-        Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
-        Debug.Log("Cambiando a pantalla completa");
+        // Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
+        // Debug.Log("Cambiando a pantalla completa");
+        Alce.GetCurrentScene()->GridScale--;
     };
 
     ButtonPtr button4 = std::make_shared<Button>(); 
@@ -145,10 +146,11 @@ void SampleScene::Player::Start()
     button4->borderRadius = 2;
     button4->borderWidth = 1;
     button4->borderColor = Colors::Yellow;
-    button4->text = "windowed";
+    button4->text = "+";
     button4->onClick = [](){
-        Alce.Window("Alce Engine Test", DisplayMode::Default);
-        Debug.Log("Cambiando a modo ventana");
+        // Alce.Window("Alce Engine Test", DisplayMode::Default);
+        // Debug.Log("Cambiando a modo ventana");
+        Alce.GetCurrentScene()->GridScale++;
     };
 
     ImagePtr image = std::make_shared<Image>();
@@ -205,7 +207,7 @@ void SampleScene::Player::Update()
 
     if (Input.IsKeyDown(Keyboard::Space) && grounded)
     {
-        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 60.0f));
+        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 90.0f));
 
         if(status == "walk-forward") status = "jump-forward";
         if(status == "idle-forward") status = "jump-forward";

@@ -2,3 +2,7 @@
     Cada vez que se inicia la escena, el comportamiento del IT es impredecible,
     perturbándose las posiciones de los caracteres o directamente no aceptando
     escritura (visualmente). En otras ocasiones si funciona como es debido.
+
+#B2 Grid Scale no representa correctamente cuando se cambia el valor por defecto:
+    Solo funciona bien para cuando el valor es 5. Hay que encontrar la funcion de
+    equivalencia entre valores (para 5 es 7*5).
