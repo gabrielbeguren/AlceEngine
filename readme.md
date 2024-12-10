@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./Build/Assets/Logo1.png">
+<img src="./Build/Assets/logo.png">
 </p>
 
 <h1 align="center">Alce Game Engine</h1>
@@ -10,10 +10,7 @@
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=flat-square"/></a>
 </p>
 
-
-Alce is a SFML/Box2D based game engine that aims to provide all the tools necessary to develop 2D games.
-
-<ins>__NOTE__</ins>: This project is still under development.
+Alce Game Engine is a feature-rich game engine based on SFML and Box2D, designed to simplify the development of 2D games. Its primary goal is to provide a comprehensive suite of tools and components that streamline the creation process—from physics simulations and animations to user interface management and local storage.
 
 # Features
 
