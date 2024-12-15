@@ -137,7 +137,13 @@ void SampleScene::Player::Start()
     button3->onClick = [](){
         // Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
         // Debug.Log("Cambiando a pantalla completa");
-        Alce.GetCurrentScene()->GridScale--;
+
+        if(Alce.GetCurrentScene()->GridScale > 1)
+        {
+            Alce.GetCurrentScene()->GridScale -= 1;
+            Debug.Log(Alce.GetCurrentScene()->GridScale);
+        }
+
     };
 
     ButtonPtr button4 = std::make_shared<Button>(); 
@@ -147,10 +153,11 @@ void SampleScene::Player::Start()
     button4->borderWidth = 1;
     button4->borderColor = Colors::Yellow;
     button4->text = "+";
-    button4->onClick = [](){
+    button4->onClick = [&](){
         // Alce.Window("Alce Engine Test", DisplayMode::Default);
         // Debug.Log("Cambiando a modo ventana");
-        Alce.GetCurrentScene()->GridScale++;
+        Alce.GetCurrentScene()->GridScale += 1;
+        Debug.Log(Alce.GetCurrentScene()->GridScale);
     };
 
     ImagePtr image = std::make_shared<Image>();
@@ -182,62 +189,62 @@ void SampleScene::Player::OnImpactEnd(GameObject* other)
 
 void SampleScene::Player::Update()
 {
-    if(Input.IsKeyPressed(Keyboard::A))
-    {
-        rigidbody2d->SetHorizontalVelocity(-velocity);
-        if(grounded) status = "walk-backward";
-        else status = "jump-backward";
-    }
-    else if(Input.IsKeyPressed(Keyboard::D))
-    {
-        rigidbody2d->SetHorizontalVelocity(velocity);
-        if(grounded) status = "walk-forward";
-        else status = "jump-forward";
-    }
-    else
-    {
-        rigidbody2d->SetHorizontalVelocity(0.0f);
-        
-        if(grounded)
-        {
-            if(status == "walk-forward") status = "idle-forward";
-            if(status == "walk-backward") status = "idle-backward";
-        }
-    }
-
-    if (Input.IsKeyDown(Keyboard::Space) && grounded)
-    {
-        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 90.0f));
-
-        if(status == "walk-forward") status = "jump-forward";
-        if(status == "idle-forward") status = "jump-forward";
-        if(status == "walk-backward") status = "jump-backward";
-        if(status == "idle-backward") status = "jump-backward";
-        grounded = false; 
-    }
-
-
-    // if(Input.IsKeyPressed(Keyboard::W))
-    // {
-    //     rigidbody2d->SetVerticalVelocity(velocity);
-    // }
-
-    // if(Input.IsKeyPressed(Keyboard::S))
-    // {
-    //     rigidbody2d->SetVerticalVelocity(-velocity);
-    // }
-
     // if(Input.IsKeyPressed(Keyboard::A))
     // {
     //     rigidbody2d->SetHorizontalVelocity(-velocity);
+    //     if(grounded) status = "walk-backward";
+    //     else status = "jump-backward";
     // }
-
-    // if(Input.IsKeyPressed(Keyboard::D))
+    // else if(Input.IsKeyPressed(Keyboard::D))
     // {
     //     rigidbody2d->SetHorizontalVelocity(velocity);
+    //     if(grounded) status = "walk-forward";
+    //     else status = "jump-forward";
+    // }
+    // else
+    // {
+    //     rigidbody2d->SetHorizontalVelocity(0.0f);
+        
+    //     if(grounded)
+    //     {
+    //         if(status == "walk-forward") status = "idle-forward";
+    //         if(status == "walk-backward") status = "idle-backward";
+    //     }
     // }
 
-    //status = "idle-forward";
+    // if (Input.IsKeyDown(Keyboard::Space) && grounded)
+    // {
+    //     rigidbody2d->ApplyLinearForce(Vector2(0.0f, 90.0f));
+
+    //     if(status == "walk-forward") status = "jump-forward";
+    //     if(status == "idle-forward") status = "jump-forward";
+    //     if(status == "walk-backward") status = "jump-backward";
+    //     if(status == "idle-backward") status = "jump-backward";
+    //     grounded = false; 
+    // }
+
+
+    if(Input.IsKeyPressed(Keyboard::W))
+    {
+        rigidbody2d->SetVerticalVelocity(velocity);
+    }
+
+    if(Input.IsKeyPressed(Keyboard::S))
+    {
+        rigidbody2d->SetVerticalVelocity(-velocity);
+    }
+
+    if(Input.IsKeyPressed(Keyboard::A))
+    {
+        rigidbody2d->SetHorizontalVelocity(-velocity);
+    }
+
+    if(Input.IsKeyPressed(Keyboard::D))
+    {
+        rigidbody2d->SetHorizontalVelocity(velocity);
+    }
+
+    status = "idle-forward";
 
 
     AnimationManager();

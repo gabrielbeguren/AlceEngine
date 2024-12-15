@@ -378,80 +378,47 @@ void Scene::RenderGrid(sf::RenderWindow& window, const sf::View& view)
     float worldStartY = topLeft.y / PPM;
     float worldEndY = bottomRight.y / PPM;
 
-    float startX = std::floor(worldStartX / GridScale) * GridScale;
-    float endX = std::ceil(worldEndX / GridScale) * GridScale;
-    float startY = std::floor(worldStartY / GridScale) * GridScale;
-    float endY = std::ceil(worldEndY / GridScale) * GridScale;
+    float gridHeight = (worldEndY - worldStartY) * PPM;
+    float gridWidth = (worldEndX - worldStartX) * PPM;
 
-    std::vector<sf::Vertex> lines;
+    float zeroX = 0 * PPM;
+    sf::RectangleShape yAxis(sf::Vector2f(2.0f, gridHeight));
+    yAxis.setPosition(zeroX - 1.0f, topLeft.y);
+    yAxis.setFillColor(AxisYColor.ToSFMLColor());
+    window.draw(yAxis);
 
-    float axisThickness = 2.0f; 
+    float zeroY = Alce.GetScreenResolution().y - (0 * PPM);
+    sf::RectangleShape xAxis(sf::Vector2f(gridWidth, 2.0f));
+    xAxis.setPosition(topLeft.x, zeroY - 1.0f);
+    xAxis.setFillColor(AxisXColor.ToSFMLColor());
+    window.draw(xAxis);
 
-    for (float x = startX; x <= endX; x += GridScale) 
+    for (float x = worldStartX - std::fmod(worldStartX, GridScale); x <= worldEndX; x += GridScale)
     {
-        float px = x * PPM; 
+        if (x == 0) continue;
 
-        if (x == 0) 
-        {
-            sf::RectangleShape yAxis(sf::Vector2f(axisThickness, (endY - startY) * PPM));
-            yAxis.setPosition(px - axisThickness / 2.0f, startY * PPM);
-            yAxis.setFillColor(AxisYColor.ToSFMLColor());
-            window.draw(yAxis);
-        } 
-        else 
-        {
-            sf::Vertex line[] = {
-                sf::Vertex(sf::Vector2f(px, startY * PPM), GridColor.ToSFMLColor()),
-                sf::Vertex(sf::Vector2f(px, endY * PPM), GridColor.ToSFMLColor())
-            };
-            window.draw(line, 2, sf::Lines);
-        }
+        float pixelX = x * PPM;
+        sf::RectangleShape line(sf::Vector2f(1.0f, gridHeight));
+        line.setPosition(pixelX, topLeft.y);
+        line.setFillColor(GridColor.ToSFMLColor());
+        window.draw(line);
+    }
+    
+    float gridSpacing = GridScale * PPM; 
+
+    for (float y = zeroY; y >= topLeft.y; y -= gridSpacing)
+    {
+        sf::RectangleShape line(sf::Vector2f((worldEndX - worldStartX) * PPM, 1.0f));
+        line.setPosition(topLeft.x, y);
+        line.setFillColor(GridColor.ToSFMLColor()); 
+        window.draw(line);
     }
 
-    for (float y = startY; y <= endY; y += GridScale) 
+    for (float y = zeroY + gridSpacing; y <= bottomRight.y; y += gridSpacing)
     {
-        float py = y * PPM;
-
-        if (y == (7 * GridScale))
-        {
-            sf::RectangleShape xAxis(sf::Vector2f((endX - startX) * PPM, axisThickness));
-            xAxis.setPosition(startX * PPM, py - axisThickness / 2.0f);
-            xAxis.setFillColor(AxisXColor.ToSFMLColor());
-            window.draw(xAxis);
-        } 
-        else 
-        {
-            sf::Vertex line[] = {
-                sf::Vertex(sf::Vector2f(startX * PPM, py), GridColor.ToSFMLColor()),
-                sf::Vertex(sf::Vector2f(endX * PPM, py), GridColor.ToSFMLColor())
-            };
-            window.draw(line, 2, sf::Lines);
-        }
-    }
-
-    sf::Font font;
-    if (!font.loadFromFile("Assets/fonts/Consolas/CONSOLA.ttf"))
-    {
-        return;
-    }
-
-    for (float x = startX; x <= endX; x += GridScale)
-    {
-        for (float y = startY; y <= endY; y += GridScale)
-        {
-            sf::Text text;
-            text.setFont(font);
-            float displayY = -(y - (7 * GridScale));
-
-            text.setString("(" + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(displayY)) + ")");
-            text.setCharacterSize(GridTextSize);
-            text.setFillColor(sf::Color::White);
-
-            float px = x * PPM;
-            float py = y * PPM;
-            text.setPosition(px + 2, py + 2); 
-
-            window.draw(text);
-        }
+        sf::RectangleShape line(sf::Vector2f((worldEndX - worldStartX) * PPM, 1.0f));
+        line.setPosition(topLeft.x, y);
+        line.setFillColor(GridColor.ToSFMLColor()); 
+        window.draw(line);
     }
 }

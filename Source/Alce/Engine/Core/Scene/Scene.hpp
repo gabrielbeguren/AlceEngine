@@ -61,7 +61,7 @@ namespace alce
             
         }
 
-        float GridScale = 5;
+        unsigned int GridScale = 5;
 
         unsigned int GridTextSize = 9;
 
