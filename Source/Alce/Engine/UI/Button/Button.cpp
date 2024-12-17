@@ -107,26 +107,30 @@ void Button::Render()
 void Button::EventManager(sf::Event& event)
 {
     Vector2 mousePos = Alce.GetWindow().mapPixelToCoords(sf::Mouse::getPosition(Alce.GetWindow()));
+    bool wasMouseOver = isMouseOver; // Guarda el estado previo del ratón
     isMouseOver = box.getGlobalBounds().contains(mousePos.x, mousePos.y);
 
-    if(isMouseOver)
+    sf::Cursor cursor;
+
+    if (isMouseOver)
     {
-        sf::Cursor cursor;
 
-        //TODO: La carga del tipo de cursor no funciona bien
-        if (cursor.loadFromSystem(sf::Cursor::Hand)) Alce.GetWindow().setMouseCursor(cursor);
-        else Debug.Warning("Failed to load system cursor.");
-
-        if (!prevMouseOver && onMouseEnter)
+        if (!wasMouseOver && onMouseEnter)
         {
-            onMouseEnter();  
+            onMouseEnter();
+        }
+
+        // Cambia el cursor a modo "Hand" si entra en el botón
+        if (cursor.loadFromSystem(sf::Cursor::Hand))
+        {
+            Alce.GetWindow().setMouseCursor(cursor);
         }
 
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
             isOnClick = true;
             isMousePressed = true;
-            if(onClick)
+            if (onClick)
             {
                 onClick();
             }
@@ -139,17 +143,23 @@ void Button::EventManager(sf::Event& event)
     }
     else
     {
-        sf::Cursor cursor;
-        if (cursor.loadFromSystem(sf::Cursor::Arrow)) Alce.GetWindow().setMouseCursor(cursor);
-
-        if (prevMouseOver && onMouseOut)
+        // Si el ratón estaba antes sobre el botón y ahora ha salido
+        if (wasMouseOver)
         {
-            onMouseOut();  
+            if (onMouseOut)
+            {
+                onMouseOut();
+            }
+
+            // Cambia el cursor de vuelta al modo "Arrow"
+            if (cursor.loadFromSystem(sf::Cursor::Arrow))
+            {
+                Alce.GetWindow().setMouseCursor(cursor);
+            }
         }
 
         isOnClick = false;
         isMousePressed = false;
     }
-
-    prevMouseOver = isMouseOver; 
 }
+

@@ -101,45 +101,43 @@ void SampleScene::Player::Start()
     //     Debug.Log(ti->GetText());
     // };
 
-    ButtonPtr button = std::make_shared<Button>(); 
-    canvas->AddElement(button);
-    button->zIndex = 5;
-    button->position = Vector2(40, 100);
-    button->borderRadius = 2;
-    button->borderWidth = 1;
-    button->text = "guardar";
-    button->borderColor = Colors::White;
-    button->onClick = [](){
-        Alce.GetCurrentScene()->Save();
+    // ButtonPtr button = std::make_shared<Button>(); 
+    // canvas->AddElement(button);
+    // button->zIndex = 5;
+    // button->position = Vector2(40, 100);
+    // button->borderRadius = 2;
+    // button->borderWidth = 1;
+    // button->text = "guardar";
+    // button->borderColor = Colors::White;
+    // button->onClick = [](){
+    //     Alce.GetCurrentScene()->Save();
 
-        Storage.SetString("mi nombre", "Gabriel Bravo Eguren");
-        Storage.SetStringList("lista de la compra", {"patatas", "lombarda", "pollo"});
-        Storage.SetJson("json", Json("{\"test\": \"inicial\", \"funcionara\": \"quien sabe\"}"));
-    };
+    //     Storage.SetString("mi nombre", "Gabriel Bravo Eguren");
+    //     Storage.SetStringList("lista de la compra", {"patatas", "lombarda", "pollo"});
+    //     Storage.SetJson("json", Json("{\"test\": \"inicial\", \"funcionara\": \"quien sabe\"}"));
+    // };
     
-    ButtonPtr button2 = std::make_shared<Button>(); 
-    canvas->AddElement(button2);
-    button2->zIndex = 2;
-    button2->position = Vector2(20, 100);
-    button2->borderRadius = 2;
-    button2->borderWidth = 1;
-    button2->borderColor = Colors::Pink;
-    button2->text = "borrar";
-    button2->onClick = [](){
-        Storage.Delete("lista de la compra");
-    };
-    
+    // ButtonPtr button2 = std::make_shared<Button>(); 
+    // canvas->AddElement(button2);
+    // button2->zIndex = 2;
+    // button2->position = Vector2(20, 100);
+    // button2->borderRadius = 2;
+    // button2->borderWidth = 1;
+    // button2->borderColor = Colors::Pink;
+    // button2->text = "borrar";
+    // button2->onClick = [](){
+    //     Storage.Delete("lista de la compra");
+    // };
+    //
     ButtonPtr button3 = std::make_shared<Button>(); 
     canvas->AddElement(button3);
-    button3->position = Vector2(20, 200);
+    button3->position = Vector2(20, 100);
     button3->borderRadius = 2;
-    button2->borderWidth = 1;
-    button3->borderColor = Colors::Yellow;
+    button3->borderWidth = 2;
+    button3->padding = Vector2(15, 10);
+    button3->borderColor = Colors::White;
     button3->text = "-";
     button3->onClick = [](){
-        // Alce.Window("Alce Engine Test", DisplayMode::Fullscreen);
-        // Debug.Log("Cambiando a pantalla completa");
-
         if(Alce.GetCurrentScene()->GridScale > 1)
         {
             Alce.GetCurrentScene()->GridScale -= 1;
@@ -150,14 +148,13 @@ void SampleScene::Player::Start()
 
     ButtonPtr button4 = std::make_shared<Button>(); 
     canvas->AddElement(button4);
-    button4->position = Vector2(20, 250);
+    button4->position = Vector2(70, 100);
     button4->borderRadius = 2;
-    button4->borderWidth = 1;
-    button4->borderColor = Colors::Yellow;
+    button4->borderWidth = 2;
+    button4->padding = Vector2(13, 10);
+    button4->borderColor = Colors::White;
     button4->text = "+";
     button4->onClick = [&](){
-        // Alce.Window("Alce Engine Test", DisplayMode::Default);
-        // Debug.Log("Cambiando a modo ventana");
         Alce.GetCurrentScene()->GridScale += 1;
         Debug.Log(Alce.GetCurrentScene()->GridScale);
     };
@@ -191,63 +188,39 @@ void SampleScene::Player::OnImpactEnd(GameObject* other)
 
 void SampleScene::Player::Update()
 {
-    // if(Input.IsKeyPressed(Keyboard::A))
-    // {
-    //     rigidbody2d->SetHorizontalVelocity(-velocity);
-    //     if(grounded) status = "walk-backward";
-    //     else status = "jump-backward";
-    // }
-    // else if(Input.IsKeyPressed(Keyboard::D))
-    // {
-    //     rigidbody2d->SetHorizontalVelocity(velocity);
-    //     if(grounded) status = "walk-forward";
-    //     else status = "jump-forward";
-    // }
-    // else
-    // {
-    //     rigidbody2d->SetHorizontalVelocity(0.0f);
-        
-    //     if(grounded)
-    //     {
-    //         if(status == "walk-forward") status = "idle-forward";
-    //         if(status == "walk-backward") status = "idle-backward";
-    //     }
-    // }
-
-    // if (Input.IsKeyDown(Keyboard::Space) && grounded)
-    // {
-    //     rigidbody2d->ApplyLinearForce(Vector2(0.0f, 90.0f));
-
-    //     if(status == "walk-forward") status = "jump-forward";
-    //     if(status == "idle-forward") status = "jump-forward";
-    //     if(status == "walk-backward") status = "jump-backward";
-    //     if(status == "idle-backward") status = "jump-backward";
-    //     grounded = false; 
-    // }
-
-
-    if(Input.IsKeyPressed(Keyboard::W))
-    {
-        rigidbody2d->SetVerticalVelocity(velocity);
-    }
-
-    if(Input.IsKeyPressed(Keyboard::S))
-    {
-        rigidbody2d->SetVerticalVelocity(-velocity);
-    }
-
     if(Input.IsKeyPressed(Keyboard::A))
     {
         rigidbody2d->SetHorizontalVelocity(-velocity);
+        if(grounded) status = "walk-backward";
+        else status = "jump-backward";
     }
-
-    if(Input.IsKeyPressed(Keyboard::D))
+    else if(Input.IsKeyPressed(Keyboard::D))
     {
         rigidbody2d->SetHorizontalVelocity(velocity);
+        if(grounded) status = "walk-forward";
+        else status = "jump-forward";
+    }
+    else
+    {
+        rigidbody2d->SetHorizontalVelocity(0.0f);
+        
+        if(grounded)
+        {
+            if(status == "walk-forward") status = "idle-forward";
+            if(status == "walk-backward") status = "idle-backward";
+        }
     }
 
-    status = "idle-forward";
+    if (Input.IsKeyDown(Keyboard::Space) && grounded)
+    {
+        rigidbody2d->ApplyLinearForce(Vector2(0.0f, 90.0f));
 
+        if(status == "walk-forward") status = "jump-forward";
+        if(status == "idle-forward") status = "jump-forward";
+        if(status == "walk-backward") status = "jump-backward";
+        if(status == "idle-backward") status = "jump-backward";
+        grounded = false; 
+    }
 
     AnimationManager();
 }
