@@ -10,59 +10,72 @@ Canvas::Canvas() : Component("Canvas")
 
 void Canvas::Init()
 {
-    for(auto& el: elements)
+    for(auto& p: elements)
     {
-        el->Init();
+        p.first->Init();
     }
 }
 
 void Canvas::Start()
 {
-    for(auto& el: elements)
+    for(auto& p: elements)
     {
-        el->Start();
+        p.first->Start();
     }
 }
 
 void Canvas::Render()
 {
-    for(auto& layer: layers)
+    for(auto& p: elements)
     {
-        for(auto& el: elements)
-        {
-            if(el->zIndex == layer)
-            {
-                if(!el->enabled) continue;
-            
-                el->Render();
-            } 
-        }
+        if(!p.first->enabled) continue;
+
+        p.first->Render();
     }
 }
 
 void Canvas::Update()
 {
+    bool needsSorting = false;
+
     for(auto& el: elements)
     {
-        if(!el->enabled) continue;
+        if(!el.first->enabled) continue;
 
-        if(el->positionType == UIElement::Fixed)
+        if(el.first->positionType == UIElement::Fixed)
         {
-            el->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(el->position.ToVector2i(), *view));
+            el.first->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(el.first->position.ToVector2i(), *view));
         }
-        else if(el->positionType == UIElement::Relative)
+        else if(el.first->positionType == UIElement::Relative)
         {   
-            Vector2 pos(Alce.GetWindowSize().x * el->position.x, Alce.GetWindowSize().y * el->position.y);
-            el->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(pos.ToVector2i(), *view));
+            Vector2 pos(Alce.GetWindowSize().x * el.first->position.x, Alce.GetWindowSize().y * el.first->position.y);
+            el.first->transform.position = Vector2(Alce.GetWindow().mapPixelToCoords(pos.ToVector2i(), *view));
         }
 
-        el->transform.rotation = *rotation;
-        el->transform.scale.x = *scale;
-        el->transform.scale.y = *scale;
+        el.first->transform.rotation = *rotation;
+        el.first->transform.scale.x = *scale;
+        el.first->transform.scale.y = *scale;
 
-        el->Update();        
+        el.first->Update();  
+
+        unsigned int currentValue = *el.second;
+        if (previousValues[el.second] != currentValue)
+        {
+            needsSorting = true;
+            previousValues[el.second] = currentValue; 
+        }
+
+        el.first->Update();
     }
+
+    if (needsSorting)
+    {
+        elements.Sort([](const Pair<UIElementPtr, unsigned int*> a, const Pair<UIElementPtr, unsigned int*> b) {
+            return *b.second > *a.second; 
+        });
+    }      
 }
+
 
 void Canvas::AddElement(UIElementPtr element)
 {
@@ -74,17 +87,9 @@ void Canvas::AddElement(UIElementPtr element)
             return;
         }
 
-        elements.Add(element);
         element->owner = this;
 
-        if(layers.Empty() || !layers.Contains(element->zIndex))
-        {
-            layers.Add(element->zIndex);
-        }
-
-        layers.Sort([](const unsigned int a, const unsigned int b) {
-            return b > a;
-        });
+        elements.Add(Pair<UIElementPtr, unsigned int*>(element, &element->zIndex));
     }
     catch(const std::exception& e)
     {
@@ -95,11 +100,11 @@ void Canvas::AddElement(UIElementPtr element)
 
 void Canvas::EventManager(sf::Event& event)
 {
-    for(auto& element: elements)
+    for(auto& p: elements)
     {
-        if(element->enabled)
+        if(p.first->enabled)
         {
-            element->EventManager(event);
+            p.first->EventManager(event);
         }
     }
 }

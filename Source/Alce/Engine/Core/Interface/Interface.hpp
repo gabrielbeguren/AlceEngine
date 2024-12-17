@@ -100,22 +100,22 @@ namespace alce
         template<typename T>
         void RemoveElement()
         {
-            elements.RemoveIf([](UIElementPtr element) {
-                return dynamic_cast<T*>(element.get());
+            elements.RemoveIf([](Pair<UIElementPtr, unsigned int*> p) {
+                return dynamic_cast<T*>(p.first.get());
             });
         }
 
         template<typename T>
         T* GetElement()
         {
-            for(auto& element: elements)
+            for(auto& p: elements)
             {
-                if(dynamic_cast<T*>(element.get()))
+                if(dynamic_cast<T*>(p.first.get()))
                 {
-                    return dynamic_cast<T*>(element.get());
+                    return dynamic_cast<T*>(p.first.get());
                 }
+                return nullptr;
             }
-            return nullptr;
         }
 
         void EventManager(sf::Event& event);
@@ -127,8 +127,9 @@ namespace alce
         friend class Scene;
 
         String id;
-        List<UIElementPtr> elements;
-        List<unsigned int> layers;
+
+        List<Pair<UIElementPtr, unsigned int*>> elements;
+        std::unordered_map<unsigned int*, unsigned int> previousValues;
 
         sf::View* view;
         float* rotation;

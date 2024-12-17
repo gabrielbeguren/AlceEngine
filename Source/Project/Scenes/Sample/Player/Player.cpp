@@ -103,7 +103,8 @@ void SampleScene::Player::Start()
 
     ButtonPtr button = std::make_shared<Button>(); 
     canvas->AddElement(button);
-    button->position = Vector2(20, 100);
+    button->zIndex = 5;
+    button->position = Vector2(40, 100);
     button->borderRadius = 2;
     button->borderWidth = 1;
     button->text = "guardar";
@@ -118,7 +119,8 @@ void SampleScene::Player::Start()
     
     ButtonPtr button2 = std::make_shared<Button>(); 
     canvas->AddElement(button2);
-    button2->position = Vector2(20, 150);
+    button2->zIndex = 2;
+    button2->position = Vector2(20, 100);
     button2->borderRadius = 2;
     button2->borderWidth = 1;
     button2->borderColor = Colors::Pink;

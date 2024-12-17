@@ -89,7 +89,7 @@ def printHelp():
     prints(" file.\n\n")
 
 def printVersion():    
-    prints("Alce CLI 1.0 (2024)\n", "magenta")
+    prints("Alce CLI 1.0.1 (2024)\n", "magenta")
 
 #endregion
 
@@ -762,7 +762,7 @@ def initProject():
         },
         "project": {
             "name": project_name,
-            "icon": "Assets/alce.ico"
+            "icon": "Assets/icon.ico"
         }
     }
     settings_json.write(json.dumps(settings, indent=4))
