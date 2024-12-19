@@ -81,7 +81,7 @@ void SampleScene::Player::Start()
     text->font = "fonts/Merriweather/Merriweather-Black.ttf";
     *text += "<color='green'>Alce Engine</color> Sample Project";
     *text += "\nby @gabrielbeguren";
-    text->borderRadius = 4;
+    text->borderRadius = 7;
     text->borderWidth = 3;
     text->borderColor = Colors::Yellow;
     text->backgroundColor = Colors::Black;
@@ -132,7 +132,7 @@ void SampleScene::Player::Start()
     ButtonPtr button3 = std::make_shared<Button>(); 
     canvas->AddElement(button3);
     button3->position = Vector2(20, 100);
-    button3->borderRadius = 2;
+    button3->borderRadius = 5;
     button3->borderWidth = 2;
     button3->padding = Vector2(15, 10);
     button3->borderColor = Colors::White;
@@ -149,7 +149,7 @@ void SampleScene::Player::Start()
     ButtonPtr button4 = std::make_shared<Button>(); 
     canvas->AddElement(button4);
     button4->position = Vector2(70, 100);
-    button4->borderRadius = 2;
+    button4->borderRadius = 5;
     button4->borderWidth = 2;
     button4->padding = Vector2(13, 10);
     button4->borderColor = Colors::White;

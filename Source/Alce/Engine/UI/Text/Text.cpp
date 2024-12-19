@@ -14,25 +14,38 @@ void Text::Start()
 
 void Text::Render()
 {
-    Alce.GetWindow().draw(richText);
-
     if (borderRadius > 0)
     {
-        sf::ConvexShape roundedBox;
+        constexpr int SEGMENTS_PER_CORNER = 32;
+        int totalPoints = SEGMENTS_PER_CORNER * 4;
 
-        roundedBox.setPointCount(8);
-        roundedBox.setPoint(0, sf::Vector2f(borderRadius, 0));
-        roundedBox.setPoint(1, sf::Vector2f(size.x - borderRadius, 0));
-        roundedBox.setPoint(2, sf::Vector2f(size.x, borderRadius));
-        roundedBox.setPoint(3, sf::Vector2f(size.x, size.y - borderRadius));
-        roundedBox.setPoint(4, sf::Vector2f(size.x - borderRadius, size.y));
-        roundedBox.setPoint(5, sf::Vector2f(borderRadius, size.y));
-        roundedBox.setPoint(6, sf::Vector2f(0, size.y - borderRadius));
-        roundedBox.setPoint(7, sf::Vector2f(0, borderRadius));
+        sf::ConvexShape roundedBox;
+        roundedBox.setPointCount(totalPoints);
+
+        float angleStep = 90.f / SEGMENTS_PER_CORNER;
+        int pointIndex = 0;
+
+        auto addCorner = [&](float cx, float cy, float startAngle) {
+            for (int i = 0; i < SEGMENTS_PER_CORNER; ++i, ++pointIndex)
+            {
+                float angle = startAngle + i * angleStep;
+                float rad = angle * (3.14159f / 180.f);
+                float x = cx + borderRadius * cos(rad);
+                float y = cy + borderRadius * sin(rad);
+                roundedBox.setPoint(pointIndex, sf::Vector2f(x, y));
+            }
+        };
+
+        addCorner(size.x - borderRadius, borderRadius, -90);
+        addCorner(size.x - borderRadius, size.y - borderRadius, 0);
+        addCorner(borderRadius, size.y - borderRadius, 90);
+        addCorner(borderRadius, borderRadius, 180);
+
         roundedBox.setPosition(transform.position.ToVector2f());
         roundedBox.setFillColor(backgroundColor.ToSFMLColor());
         roundedBox.setOutlineThickness(borderWidth);
         roundedBox.setOutlineColor(borderColor.ToSFMLColor());
+
         Alce.GetWindow().draw(roundedBox);
     }
     else 

@@ -19,73 +19,58 @@ void Button::Update()
     box.setPosition(transform.position.x, transform.position.y);
     box.setSize(size.ToVector2f());
 
-    if(isMouseOver)
-    {
-        if (isMousePressed)
-        {
-            box.setFillColor(onClickBackgroundColor.ToSFMLColor());
-        }
-        else
-        {
-            box.setFillColor(mouseOverBackgroundColor.ToSFMLColor());
-        }
-    }
-    else
-    {
-        box.setFillColor(backgroundColor.ToSFMLColor());
-    }
-
-    font = *Alce.GetFont(fontPath).get();
-
-    richText.setFont(font);
-    richText.setCharacterSize(fontSize);
-
-    sf::FloatRect textBounds = richText.getLocalBounds();
-    Vector2 textPos = Vector2(
-        transform.position.x + (size.x - textBounds.width) / 2 - textBounds.left,
-        transform.position.y + (size.y - textBounds.height) / 2 - textBounds.top
-    );
-
-    richText.setPosition(textPos.ToVector2f());
-    richText.setCharacterSize(fontSize);
+    sf::Color fillColor = isMouseOver
+        ? (isMousePressed ? onClickBackgroundColor.ToSFMLColor() : mouseOverBackgroundColor.ToSFMLColor())
+        : backgroundColor.ToSFMLColor();
 
     if (borderRadius > 0)
     {
-        roundedBox.setPointCount(8);
-        roundedBox.setPoint(0, sf::Vector2f(borderRadius, 0));
-        roundedBox.setPoint(1, sf::Vector2f(size.x - borderRadius, 0));
-        roundedBox.setPoint(2, sf::Vector2f(size.x, borderRadius));
-        roundedBox.setPoint(3, sf::Vector2f(size.x, size.y - borderRadius));
-        roundedBox.setPoint(4, sf::Vector2f(size.x - borderRadius, size.y));
-        roundedBox.setPoint(5, sf::Vector2f(borderRadius, size.y));
-        roundedBox.setPoint(6, sf::Vector2f(0, size.y - borderRadius));
-        roundedBox.setPoint(7, sf::Vector2f(0, borderRadius));
+        constexpr int SEGMENTS_PER_CORNER = 32;
+        int totalPoints = SEGMENTS_PER_CORNER * 4;
+
+        roundedBox.setPointCount(totalPoints);
+
+        float angleStep = 90.f / SEGMENTS_PER_CORNER;
+        int pointIndex = 0;
+
+        auto addCorner = [&](float cx, float cy, float startAngle) {
+            for (int i = 0; i < SEGMENTS_PER_CORNER; ++i, ++pointIndex)
+            {
+                float angle = startAngle + i * angleStep;
+                float rad = angle * (3.14159f / 180.f);
+                float x = cx + borderRadius * cos(rad);
+                float y = cy + borderRadius * sin(rad);
+                roundedBox.setPoint(pointIndex, sf::Vector2f(x, y));
+            }
+        };
+
+        addCorner(size.x - borderRadius, borderRadius, -90);
+        addCorner(size.x - borderRadius, size.y - borderRadius, 0);
+        addCorner(borderRadius, size.y - borderRadius, 90);
+        addCorner(borderRadius, borderRadius, 180);
+
         roundedBox.setPosition(box.getPosition());
-
-        if(isMouseOver)
-        {
-            if (isMousePressed)
-            {
-                roundedBox.setFillColor(onClickBackgroundColor.ToSFMLColor());
-            }
-            else
-            {
-                roundedBox.setFillColor(mouseOverBackgroundColor.ToSFMLColor());
-            }
-        }
-        else
-        {
-            roundedBox.setFillColor(backgroundColor.ToSFMLColor());
-        }
-
+        roundedBox.setFillColor(fillColor);
         roundedBox.setOutlineThickness(borderWidth);
         roundedBox.setOutlineColor(borderColor.ToSFMLColor());
     }
     else
     {
+        box.setFillColor(fillColor);
         box.setOutlineThickness(borderWidth);
         box.setOutlineColor(borderColor.ToSFMLColor());
     }
+
+    font = *Alce.GetFont(fontPath).get();
+    richText.setFont(font);
+    richText.setCharacterSize(fontSize);
+
+    sf::FloatRect textBounds = richText.getLocalBounds();
+    float textX = transform.position.x + (size.x - textBounds.width) / 2 - textBounds.left;
+    float textY = transform.position.y + (size.y - textBounds.height) / 2 - textBounds.top;
+
+    richText.setPosition(sf::Vector2f(textX, textY));
+    richText.setCharacterSize(fontSize);
 }
 
 void Button::Render()
@@ -107,7 +92,7 @@ void Button::Render()
 void Button::EventManager(sf::Event& event)
 {
     Vector2 mousePos = Alce.GetWindow().mapPixelToCoords(sf::Mouse::getPosition(Alce.GetWindow()));
-    bool wasMouseOver = isMouseOver; // Guarda el estado previo del ratón
+    bool wasMouseOver = isMouseOver; 
     isMouseOver = box.getGlobalBounds().contains(mousePos.x, mousePos.y);
 
     sf::Cursor cursor;
@@ -120,7 +105,6 @@ void Button::EventManager(sf::Event& event)
             onMouseEnter();
         }
 
-        // Cambia el cursor a modo "Hand" si entra en el botón
         if (cursor.loadFromSystem(sf::Cursor::Hand))
         {
             Alce.GetWindow().setMouseCursor(cursor);
@@ -143,7 +127,6 @@ void Button::EventManager(sf::Event& event)
     }
     else
     {
-        // Si el ratón estaba antes sobre el botón y ahora ha salido
         if (wasMouseOver)
         {
             if (onMouseOut)
@@ -151,7 +134,6 @@ void Button::EventManager(sf::Event& event)
                 onMouseOut();
             }
 
-            // Cambia el cursor de vuelta al modo "Arrow"
             if (cursor.loadFromSystem(sf::Cursor::Arrow))
             {
                 Alce.GetWindow().setMouseCursor(cursor);
