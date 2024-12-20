@@ -1,0 +1,26 @@
+stop; <- Congela la escena (tanto la simulacion de fisicas como la lectura de inputs)
+
+play; <- Descongela la escena
+
+switch; <- Activa/Desactiva la visualizacion de herramientas de desarrollo (hitboxes, mallas de posicion, etc)
+
+list; <- Muestra la lista de objetos en la escena
+
+has <alias>; <- Muestra si un objeto con un alias está en la escena o no
+
+use <scene>; <- Establece la escena a trabajar, si no hay una establecida ningún comando podra funcionar
+
+add object <class> as <alias>; <- Agrega un GameObject de una clase a la escena bajo un alias
+    component <class> to <alias>; <- Agrega un componente a un GameObject referenciado por su alias.
+
+set object <alias> <field> as "" >; <- Establece el valor de un campo de un GameObject
+    component <class> of <alias> as ""; <- Establece el calor de un campo de un componente perteneciente a un GameObject referenciado por su alias
+
+delete object <alias>; <- Elimina la instancia de un GameObject de la escena a partir de su alias
+       component <class> of <alias>; <- Elimina un componente de un GameObject a partir del alias de este ultimo.
+
+enable object <alias>; <- Activa un GameObject de la escena a partir de su alias
+       component <class> of <alias>; <- Activa un componente de un GameObject a partir del alias de este ultimo.
+
+disable object <alias>; <- Desactiva un GameObject de la escena a partir de su alias
+        component <class> of <alias>; <- Desactiva un componente de un GameObject a partir del alias de este ultimo.
