@@ -13,8 +13,10 @@ int main()
     Alce.AddScene<SampleScene::Sample>();
     
     Alce.SetCurrentScene("Sample");
+    Alce.GetCurrentScene()->Shell("help");
+
     
-    Alce.Run();
+    //Alce.Run();
 
     return 0;
 }

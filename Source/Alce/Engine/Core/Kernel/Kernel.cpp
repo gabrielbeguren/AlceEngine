@@ -322,7 +322,7 @@ void KERNEL::Run()
                 frameCount = 0;
             }
 			
-            // Actualizar joysticks
+            // Update joysticks
             sf::Joystick::update();
 
             for (unsigned int i = 0; i < sf::Joystick::Count; ++i)

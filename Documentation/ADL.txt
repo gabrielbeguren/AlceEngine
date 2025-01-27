@@ -1,26 +1,70 @@
-stop; <- Congela la escena (tanto la simulacion de fisicas como la lectura de inputs)
+ADL es un lenguaje de comandos diseñado para un motor grafico SFML (C++), el cual tiene como
+objetivo la facilitacion del desarrollo en tiempo de ejecucion sin necesidad de compilar
+otra vez el programa. Hay 2 tipos de comandos, los generales y los de escena. Estos últimos 
+son señalados en la siguiente lista por tener el simbolo + antes (este simbolo NO es parte
+del comando), y de no haber una escena establecida con el comando "use <nombre_escena>" no 
+se ejecutarán y se mostrará un mensaje de error (solo eso, no se ejecutará ninguna excepcion ninguna
+excepcion ni nada parecido ya que es un error menor). Los comandos generales tendran en la lista el 
+simbolo - precedido (al igual que con los comandos de escena, este simbolo NO es parte del comando).
+Si se introducen varios comandos como puede ser: "system;window;exit;" se ejecutaran en orden de izquierda
+a derecha (primero se ejecutara el comando system, luego el comando window y por ultimo el comando exit).
+En la siguiente lista los simbolos < y > no son parte de la sintaxis del comando, simplemente indican 
+que ahi debe haber un valor. Los simbolos " SÍ son parte de la sintaxis del lenguaje. El sistema debe comprobar
+que los comandos estan correctamente escritos.
 
-play; <- Descongela la escena
+- help <comando>; <- Muestra un mensaje con la documentacion. Si en el segundo parametro no se especifica el comando,
+                   lo hara con todos.
 
-switch; <- Activa/Desactiva la visualizacion de herramientas de desarrollo (hitboxes, mallas de posicion, etc)
+- system; <- Muestra los datos del sistema
 
-list; <- Muestra la lista de objetos en la escena
+- window; <- Muestra los datos de la ventana
 
-has <alias>; <- Muestra si un objeto con un alias está en la escena o no
+- screen; <- Muestra los datos de la pantalla
 
-use <scene>; <- Establece la escena a trabajar, si no hay una establecida ningún comando podra funcionar
++ stop; <- Congela la escena (tanto la simulacion de fisicas como la lectura de inputs)
 
-add object <class> as <alias>; <- Agrega un GameObject de una clase a la escena bajo un alias
-    component <class> to <alias>; <- Agrega un componente a un GameObject referenciado por su alias.
++ play; <- Descongela la escena
 
-set object <alias> <field> as "" >; <- Establece el valor de un campo de un GameObject
-    component <class> of <alias> as ""; <- Establece el calor de un campo de un componente perteneciente a un GameObject referenciado por su alias
+- exit; <- Cierra el programa
 
-delete object <alias>; <- Elimina la instancia de un GameObject de la escena a partir de su alias
-       component <class> of <alias>; <- Elimina un componente de un GameObject a partir del alias de este ultimo.
++ switch; <- Activa/Desactiva la visualizacion de herramientas de desarrollo (hitboxes, mallas de posicion, etc)
 
-enable object <alias>; <- Activa un GameObject de la escena a partir de su alias
-       component <class> of <alias>; <- Activa un componente de un GameObject a partir del alias de este ultimo.
++ list; <- Muestra la lista de objetos en la escena
 
-disable object <alias>; <- Desactiva un GameObject de la escena a partir de su alias
-        component <class> of <alias>; <- Desactiva un componente de un GameObject a partir del alias de este ultimo.
+- standby <on/off>; <- Activa o desactiva el standby
+
++ grid scale <numero>; <- Establece el margen de la malla, ejemplo: grid scale 6;
++ grid size <numero>; <- Establece el tamaño de la fuente de la malla, ejemplo: grid size 14;
+
+- using; <- Muestra el nombre de la escena actual (si no hay escena definida mostrará "Null")
+
++ has <alias>; <- Muestra si un objeto con un alias está en la escena o no, ejemplo: has player; => salida: True
+
+- use <scene>; <- Establece la escena a trabajar, si no hay una establecida ningún comando podra funcionar, ejemplo: use escena1;
+
++ add object <class> as <alias>; <- Agrega un GameObject de una clase a la escena bajo un alias, ejemplo: add object Platform as plataforma1;
++ add component <class> to <alias>; <- Agrega un componente a un GameObject referenciado por su alias, add component SpriteRenderer to Platform;
+
++ set object <alias> <field> as "" >; <- Establece el valor de un campo de un GameObject, ejemplo: set object player velocity as "15";
++ set component <class> <field> of <alias> as ""; <- Establece el calor de un campo de un componente perteneciente a un GameObject referenciado por su alias, ejemplo: set component SpriteRenderer Color of Platform as "Green";
+
++ delete object <alias>; <- Elimina la instancia de un GameObject de la escena a partir de su alias, ejemplo: delete object plataforma1:
++ delete component <class> of <alias>; <- Elimina un componente de un GameObject a partir del alias de este ultimo, ejemplo: delete component SpriteRenderer of plataforma1;
+
++ enable object <alias>; <- Activa un GameObject de la escena a partir de su alias, ejemplo: enable object player;
++ enable component <class> of <alias>; <- Activa un componente de un GameObject a partir del alias de este ultimo, ejemplo: enable component Rigidbody2D of player;
+
++ disable object <alias>; <- Desactiva un GameObject de la escena a partir de su alias, ejemplo: disable object player;
++ disable component <class> of <alias>; <- Desactiva un componente de un GameObject a partir del alias de este ultimo, ejemplo: disable component Rigidbody2D of player;
+
+Se pide una funcion que procese esta informacion de la siguiente forma:
+
+void Shell(std::string cmd)
+{
+
+}
+
+Necesito que realices el diseño del algoritmo capaz de leer estos comandos y ejecutarlos. No necesito que hagas la funcionalidad
+de cada comando, solo quiero que en el espacio en el que se debera realizar pongas: //TODO: nombre del comando. Es decir, quiero que analices
+el contenido del string cmd y ejecutar el o los comandos que contiene (puede ser un solo comando si por ejemplo es: Shell("window") o puede ser multicomando: Shell("window;use test;using;enable object player;")).
+De nuevo, NO HAGAS LA FUNCIONALIDAD, SOLO HAZ QUE EN EL LUGAR DONDE SE DEBERA HACER LA FUNCIONALIDAD DEL COMANDO LLEGUE AHI CORRECTAMENTE.

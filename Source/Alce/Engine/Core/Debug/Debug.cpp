@@ -87,3 +87,23 @@ void DEBUG::Warning(String str, List<String> values, bool persist)
 		task.join();
 	}
 }
+
+void DEBUG::ARLIMessage(String str, List<String> values)
+{
+	if(clock.getElapsedTime().asMilliseconds() < waitTime && initialized) return;
+	if(!initialized) initialized = true;
+
+	clock.restart();
+
+	std::ostringstream oss, timess;
+	auto t = std::time(nullptr);
+	auto tm = *std::localtime(&t);
+
+	timess << std::put_time(&tm, "(ARLI) [%d/%m/%y %H:%M - %Ss]");
+	oss << "\033[35m" << timess.str() << ":" << "\033[0m\n";
+	auto message = FormatString(str, values);
+
+	std::wcout << "\033[35m" << String(timess.str()).ToWideString() 
+			<< ":\033[93m " << message.ToWideString() << "\033[0m\n";
+
+}
