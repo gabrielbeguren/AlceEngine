@@ -42,9 +42,9 @@ namespace alce
 	private:
 
 		friend class KERNEL;
-		friend class Scene;
+		friend class ARL_PROCESSOR;
 
-		void ARLIMessage(String str, List<String> values = {});
+		void ARLPMessage(String str, List<String> values = {});
 
 		bool initialized = false;
 		bool persist = false;

@@ -88,7 +88,7 @@ void DEBUG::Warning(String str, List<String> values, bool persist)
 	}
 }
 
-void DEBUG::ARLIMessage(String str, List<String> values)
+void DEBUG::ARLPMessage(String str, List<String> values)
 {
 	if(clock.getElapsedTime().asMilliseconds() < waitTime && initialized) return;
 	if(!initialized) initialized = true;

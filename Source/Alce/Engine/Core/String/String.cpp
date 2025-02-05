@@ -69,6 +69,48 @@ alce::String& alce::String::Insert(unsigned int position, String ustr)
 	return *this;
 }
 
+alce::String& alce::String::RemoveComments()
+{
+    std::string result;
+    size_t len = Length();
+    bool inMultilineComment = false;
+
+    for (size_t i = 0; i < len; i++) 
+    {
+        if (inMultilineComment) 
+        {
+            // End of multiline comment
+            if (i + 1 < len && str[i] == '*' && str[i + 1] == '/') 
+            {
+                inMultilineComment = false;
+                ++i; // Skip '/'
+            }
+        } 
+        else 
+        {
+            // Start of multiline comment
+            if (i + 1 < len && str[i] == '/' && str[i + 1] == '*') 
+            {
+                inMultilineComment = true;
+                ++i; // Skip '*'
+            }
+            // Start of inline comment (// or #)
+            else if ((i + 1 < len && str[i] == '/' && str[i + 1] == '/') || str[i] == '#') 
+            {
+                break; // Ignore the rest of the line
+            }
+            // Regular character
+            else 
+            {
+                result += str[i];
+            }
+        }
+    }
+
+    str = result;
+	return *this;
+}
+
 alce::String& alce::String::Clear()
 {
 	this->str.clear();

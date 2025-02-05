@@ -38,7 +38,7 @@ namespace alce
 
         void DevelopmentMode(bool flag = true);
 
-        void Shell(String command);
+        void Shell(String prompt);
 
         void Save();
 
@@ -124,75 +124,6 @@ namespace alce
             File file("./Scenes/" + GetName().ToAnsiString() + ".json");
             return file.Exists();
         }
-
-        std::string Trim(const std::string& str) 
-        {
-            size_t first = str.find_first_not_of(" \t\n\r");
-            if (first == std::string::npos) return "";
-            size_t last = str.find_last_not_of(" \t\n\r");
-            return str.substr(first, last - first + 1);
-        }
-
-        std::string RemoveComments(const std::string& code) 
-        {
-            std::string result;
-            size_t len = code.length();
-            bool inMultilineComment = false;
-
-            for (size_t i = 0; i < len; ++i) 
-            {
-                if (inMultilineComment) 
-                {
-                    // End of multiline comment
-                    if (i + 1 < len && code[i] == '*' && code[i + 1] == '/') 
-                    {
-                        inMultilineComment = false;
-                        ++i; // Skip '/'
-                    }
-                } 
-                else 
-                {
-                    // Start of multiline comment
-                    if (i + 1 < len && code[i] == '/' && code[i + 1] == '*') 
-                    {
-                        inMultilineComment = true;
-                        ++i; // Skip '*'
-                    }
-                    // Start of inline comment (// or #)
-                    else if ((i + 1 < len && code[i] == '/' && code[i + 1] == '/') || code[i] == '#') 
-                    {
-                        break; // Ignore the rest of the line
-                    }
-                    // Regular character
-                    else 
-                    {
-                        result += code[i];
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        // Function to split a command string into individual commands by ';'
-        std::vector<std::string> SplitCommands(const std::string& cmd) 
-        {
-            std::string cleanedCmd = RemoveComments(cmd);
-            std::vector<std::string> commands;
-            std::stringstream ss(cleanedCmd);
-            std::string token;
-            while (std::getline(ss, token, ';')) 
-            {
-                token = Trim(token);
-                if (!token.empty()) 
-                {
-                    commands.push_back(token);
-                }
-            }
-            return commands;
-        }
-
-        void ProcessCommand(const std::string& command);
        
     };
 

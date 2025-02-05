@@ -107,6 +107,8 @@ namespace alce
 
 		String& Insert(unsigned int position, String str);
 
+		String& RemoveComments();
+
 		String& Clear();
 
 		String& Reverse();

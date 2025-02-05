@@ -2,22 +2,22 @@
 
 #include "../String/String.hpp"
 
-#define ARLIM ARLIMessages::Instance()
+#define ARLPM ARLPMessages::Instance()
 
 namespace alce
 {
-    class ARLIMessages
+    class ARLPMessages
     {
     public:
 
-        static ARLIMessages& Instance()
+        static ARLPMessages& Instance()
 		{
-			static ARLIMessages arlim;
-			return arlim;
+			static ARLPMessages arlpm;
+			return arlpm;
 		}
 
     private:
-        friend class Scene;
+        friend class ARL_PROCESSOR;
 
     String help = R"(
 
