@@ -58,8 +58,6 @@ Vector2 KERNEL::GetWindowSize()
 	return Vector2(window.getSize());
 }
 
-#ifdef _WIN32 
-
 Vector2 KERNEL::GetScreenResolution() 
 {
     RECT desktop;
@@ -67,32 +65,6 @@ Vector2 KERNEL::GetScreenResolution()
     GetWindowRect(hDesktop, &desktop);
     return Vector2(desktop.right, desktop.bottom);
 }
-
-#elif __linux__  // Linux
-
-Vector2 Kernel::GetScreenResolution() 
-{
-    Display* display = XOpenDisplay(NULL);
-    Screen* screen = DefaultScreenOfDisplay(display);
-    int width = WidthOfScreen(screen);
-    int height = HeightOfScreen(screen);
-    XCloseDisplay(display);
-    return Vector2(width, height);
-}
-
-#elif __APPLE__  // macOS
-#include <CoreGraphics/CoreGraphics.h>
-
-Vector2 Kernel::GetScreenResolution() 
-{
-    CGSize screenSize = CGDisplayScreenSize(CGMainDisplayID());
-    return Vector2(screenSize.width, screenSize.height);
-}
-
-#else
-#error Unsupported platform
-#endif
-
 
 void KERNEL::SetWindowIcon(String file)
 {
@@ -282,6 +254,211 @@ void KERNEL::SetClearColor(Color color)
 float KERNEL::GetFPS()
 {
 	return fps;
+}
+
+String KERNEL::GetArchitecture()
+{
+	SYSTEM_INFO sysInfo;
+    GetNativeSystemInfo(&sysInfo);
+
+    std::ostringstream oss;
+    oss << "Architecture: ";
+
+    switch (sysInfo.wProcessorArchitecture) 
+	{
+        case PROCESSOR_ARCHITECTURE_AMD64: oss << "x86_64 (64-bit)"; break;
+        case PROCESSOR_ARCHITECTURE_INTEL: oss << "x86 (32-bit)"; break;
+        case PROCESSOR_ARCHITECTURE_ARM: oss << "ARM"; break;
+        case PROCESSOR_ARCHITECTURE_ARM64: oss << "ARM64"; break;
+        default: oss << "Unknown"; break;
+    }
+
+    return String(oss.str());
+}
+
+String KERNEL::GetWindowsVersion()
+{
+	RTL_OSVERSIONINFOW osvi = {0};
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+
+    HMODULE hMod = GetModuleHandleW(L"ntdll.dll");
+    if (hMod) 
+	{
+        RtlGetVersionPtr RtlGetVersion = (RtlGetVersionPtr)GetProcAddress(hMod, "RtlGetVersion");
+        if (RtlGetVersion) 
+		{
+            if (RtlGetVersion(&osvi) == STATUS_SUCCESS) 
+			{
+                std::ostringstream oss;
+                oss << osvi.dwMajorVersion << "." << osvi.dwMinorVersion;
+                if (osvi.dwBuildNumber >= 22000) 
+				{
+                    oss << " (Windows 11)";
+                } else if (osvi.dwBuildNumber >= 10240) 
+				{
+                    oss << " (Windows 10)";
+                }
+                return String(oss.str());
+            }
+        }
+    }
+    return "Not available";
+}
+
+String KERNEL::GetRAM()
+{
+	MEMORYSTATUSEX memInfo;
+    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&memInfo);
+
+    std::ostringstream oss;
+    oss << (memInfo.ullTotalPhys / (1024 * 1024)) << " MB";
+    return String(oss.str());
+}
+
+String KERNEL::GetRAMinUse()
+{
+	MEMORYSTATUSEX memInfo;
+    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&memInfo);
+
+    std::ostringstream oss;
+    oss <<((memInfo.ullTotalPhys - memInfo.ullAvailPhys) / (1024 * 1024)) << " MB";
+    return String(oss.str());
+}
+
+String KERNEL::GetCPU()
+{
+	HKEY hKey;
+    TCHAR cpuName[256];
+    DWORD size = sizeof(cpuName);
+    std::ostringstream oss;
+
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0"), 0, KEY_READ, &hKey) == ERROR_SUCCESS) 
+	{
+        if (RegQueryValueEx(hKey, _T("ProcessorNameString"), nullptr, nullptr, (LPBYTE)cpuName, &size) == ERROR_SUCCESS) 
+		{
+            oss << cpuName;
+        } 
+		else 
+		{
+            oss << "Not available";
+        }
+        RegCloseKey(hKey);
+    } 
+	else 
+	{
+        oss << "Error accessing processor registry";
+    }
+    
+    return String(oss.str());
+}
+
+String KERNEL::GetGPU()
+{
+	DISPLAY_DEVICE displayDevice;
+    displayDevice.cb = sizeof(DISPLAY_DEVICE);
+    std::ostringstream oss;
+
+    if (EnumDisplayDevices(nullptr, 0, &displayDevice, 0)) 
+	{
+        oss << displayDevice.DeviceString;
+    } 
+	else 
+	{
+        oss << "Not available";
+    }
+    
+    return oss.str();
+}
+
+String KERNEL::GetVRAM()
+{
+	DWORD vram = 0;
+    DISPLAY_DEVICE displayDevice;
+    displayDevice.cb = sizeof(DISPLAY_DEVICE);
+    std::ostringstream oss;
+
+    if (EnumDisplayDevices(nullptr, 0, &displayDevice, 0)) 
+	{
+        DEVMODE devMode;
+        devMode.dmSize = sizeof(DEVMODE);
+        if (EnumDisplaySettings(displayDevice.DeviceName, ENUM_CURRENT_SETTINGS, &devMode)) 
+		{
+            vram = devMode.dmPelsWidth * devMode.dmPelsHeight * (devMode.dmBitsPerPel / 8) / (1024 * 1024);
+        }
+    }
+    
+    oss << vram << " MB";
+    return String(oss.str());
+}
+
+String KERNEL::GetDirectXVersion()
+{
+	DWORD version = 0;
+    std::ostringstream oss;
+
+    if (RegGetValue(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\DirectX"), _T("Version"), RRF_RT_REG_SZ, nullptr, nullptr, &version) == ERROR_SUCCESS) 
+	{
+        oss << version;
+    } 
+	else 
+	{
+        oss << "Not available";
+    }
+
+    return oss.str();
+}
+
+String KERNEL::GetMonitorInfo()
+{
+	std::ostringstream oss;
+    
+    DISPLAY_DEVICE displayDevice;
+    displayDevice.cb = sizeof(DISPLAY_DEVICE);
+    int deviceIndex = 0;
+    
+    while (EnumDisplayDevices(nullptr, deviceIndex, &displayDevice, 0)) 
+	{
+		if(deviceIndex > 0) oss << "\n";
+        oss << "Monitor " << deviceIndex + 1 << ": " << displayDevice.DeviceString << "\n";
+        
+        DEVMODE devMode;
+        devMode.dmSize = sizeof(DEVMODE);
+        if (EnumDisplaySettings(displayDevice.DeviceName, ENUM_CURRENT_SETTINGS, &devMode)) 
+		{
+            oss << "  Resolution: " << devMode.dmPelsWidth << "x" << devMode.dmPelsHeight << "\n";
+            oss << "  Refresh Rate: " << devMode.dmDisplayFrequency << " Hz\n";
+            oss << "  Bits Per Pixel: " << devMode.dmBitsPerPel;
+        }
+        
+        deviceIndex++;
+    }
+    
+    return String(oss.str());
+}
+
+String KERNEL::GetWindowInfo()
+{
+	std::ostringstream oss;
+
+    oss << "Window Title: " << windowTitle.ToAnsiString() << "\n";
+
+    sf::Vector2u windowSize = window.getSize();
+    oss << "Window Size: " << windowSize.x << "x" << windowSize.y << "\n";
+
+    sf::Vector2i windowPosition = window.getPosition();
+    oss << "Window Position: (" << windowPosition.x << ", " << windowPosition.y << ")\n";
+
+    sf::ContextSettings settings = window.getSettings();
+    oss << "OpenGL Version: " << settings.majorVersion << "." << settings.minorVersion << "\n";
+    oss << "Depth Bits: " << settings.depthBits << "\n";
+    oss << "Stencil Bits: " << settings.stencilBits << "\n";
+    oss << "Antialiasing Level: " << settings.antialiasingLevel << "\n";
+
+    oss << "Window is Open: " << (window.isOpen() ? "Yes" : "No");
+
+    return String(oss.str());
 }
 
 EventEmitterPtr KERNEL::GetEventEmitter()

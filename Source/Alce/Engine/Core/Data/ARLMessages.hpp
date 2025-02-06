@@ -2,17 +2,17 @@
 
 #include "../String/String.hpp"
 
-#define ARLPM ARLPMessages::Instance()
+#define ARLM ARLMessages::Instance()
 
 namespace alce
 {
-    class ARLPMessages
+    class ARLMessages
     {
     public:
 
-        static ARLPMessages& Instance()
+        static ARLMessages& Instance()
 		{
-			static ARLPMessages arlpm;
+			static ARLMessages arlpm;
 			return arlpm;
 		}
 

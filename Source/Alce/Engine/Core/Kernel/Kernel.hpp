@@ -8,17 +8,6 @@
 #include <SFML/Window/Joystick.hpp>
 #include <fstream>
 
-
-#ifdef _WIN32 
-    #include <windows.h>
-    #include "wtypes.h"
-#elif __linux__ 
-    #include <X11/Xlib.h>
-    #undef None
-#elif __APPLE__
-    #include <CoreGraphics/CoreGraphics.h>
-#endif
-
 #include "../../../Libs/Libs.hpp"
 #include "../Chrono/Chrono.hpp"
 #include "../Math/Math.hpp"
@@ -26,6 +15,13 @@
 #include "../Color/Color.hpp"
 #include "../Event/Event.hpp"
 #include "../Event/EventEmitter.hpp"
+
+#include <sstream>
+#include <tchar.h>
+#include <ntstatus.h>
+#include <winternl.h>
+#include <windows.h>
+#include "wtypes.h"
 
 #define Alce alce::KERNEL::Instance()
 
@@ -36,6 +32,8 @@ namespace alce
     typedef std::shared_ptr<sf::Font> FontPtr;
 
     typedef std::function<void()> Lambda;
+
+    typedef LONG (NTAPI *RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
 
     enum DisplayMode
     {
@@ -101,6 +99,26 @@ namespace alce
         void SetClearColor(Color color);
 
         float GetFPS();
+
+        String GetArchitecture();
+
+        String GetWindowsVersion();
+
+        String GetRAM();
+
+        String GetRAMinUse();
+
+        String GetCPU();
+
+        String GetGPU();
+
+        String GetVRAM();
+
+        String GetDirectXVersion();
+
+        String GetMonitorInfo();
+
+        String GetWindowInfo();
 
         EventEmitterPtr GetEventEmitter();
 

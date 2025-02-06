@@ -44,7 +44,7 @@ namespace alce
 		friend class KERNEL;
 		friend class ARL_PROCESSOR;
 
-		void ARLPMessage(String str, List<String> values = {});
+		void ARLMessage(String str, List<String> values = {});
 
 		bool initialized = false;
 		bool persist = false;

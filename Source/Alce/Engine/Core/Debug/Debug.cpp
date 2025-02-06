@@ -88,7 +88,7 @@ void DEBUG::Warning(String str, List<String> values, bool persist)
 	}
 }
 
-void DEBUG::ARLPMessage(String str, List<String> values)
+void DEBUG::ARLMessage(String str, List<String> values)
 {
 	if(clock.getElapsedTime().asMilliseconds() < waitTime && initialized) return;
 	if(!initialized) initialized = true;
@@ -99,7 +99,7 @@ void DEBUG::ARLPMessage(String str, List<String> values)
 	auto t = std::time(nullptr);
 	auto tm = *std::localtime(&t);
 
-	timess << std::put_time(&tm, "(ARLI) [%d/%m/%y %H:%M - %Ss]");
+	timess << std::put_time(&tm, "(ARL) [%d/%m/%y %H:%M - %Ss]");
 	oss << "\033[35m" << timess.str() << ":" << "\033[0m\n";
 	auto message = FormatString(str, values);
 

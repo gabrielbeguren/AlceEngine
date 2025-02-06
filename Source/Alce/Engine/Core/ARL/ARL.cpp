@@ -1,6 +1,7 @@
 #include "ARL.hpp"
-#include "../Data/ARLPMessages.hpp"
+#include "../Data/ARLMessages.hpp"
 #include "../Debug/Debug.hpp"
+#include "../Kernel/Kernel.hpp"
 
 using namespace alce;
 
@@ -28,103 +29,109 @@ void ARL_PROCESSOR::Process(const std::string& command)
 
         if(subCmd == "")
         {
-            Debug.ARLPMessage(ARLPM.help);
+            Debug.ARLMessage(ARLM.help);
         }
         else if(subCmd == "system")
         {
-            Debug.ARLPMessage(ARLPM.helpSystem);
+            Debug.ARLMessage(ARLM.helpSystem);
         }
         else if(subCmd == "window")
         {
-            Debug.ARLPMessage(ARLPM.helpWindow);
+            Debug.ARLMessage(ARLM.helpWindow);
         }
         else if(subCmd == "screen")
         {
-            Debug.ARLPMessage(ARLPM.helpScreen);
+            Debug.ARLMessage(ARLM.helpScreen);
         }
         else if(subCmd == "stop")
         {
-            Debug.ARLPMessage(ARLPM.helpStop);
+            Debug.ARLMessage(ARLM.helpStop);
         }
         else if(subCmd == "play")
         {
-            Debug.ARLPMessage(ARLPM.helpPlay);
+            Debug.ARLMessage(ARLM.helpPlay);
         }
         else if(subCmd == "help")
         {
-            Debug.ARLPMessage(ARLPM.helpHelp);
+            Debug.ARLMessage(ARLM.helpHelp);
         }
         else if(subCmd == "standby")
         {
-            Debug.ARLPMessage(ARLPM.helpStandby);
+            Debug.ARLMessage(ARLM.helpStandby);
         }
         else if(subCmd == "grid scale")
         {
-            Debug.ARLPMessage(ARLPM.helpGridScale);
+            Debug.ARLMessage(ARLM.helpGridScale);
         }
         else if(subCmd == "grid size")
         {
-            Debug.ARLPMessage(ARLPM.helpGridSize);
+            Debug.ARLMessage(ARLM.helpGridSize);
         }
         else if(subCmd == "change to")
         {
-            Debug.ARLPMessage(ARLPM.helpChangeTo);
+            Debug.ARLMessage(ARLM.helpChangeTo);
         }
         else if(subCmd == "add object")
         {
-            Debug.ARLPMessage(ARLPM.helpAddObject);
+            Debug.ARLMessage(ARLM.helpAddObject);
         }
         else if(subCmd == "add component")
         {
-            Debug.ARLPMessage(ARLPM.helpAddComponent);
+            Debug.ARLMessage(ARLM.helpAddComponent);
         }
         else if(subCmd == "delete object")
         {
-            Debug.ARLPMessage(ARLPM.helpDeleteObject);
+            Debug.ARLMessage(ARLM.helpDeleteObject);
         }
         else if(subCmd == "delete component")
         {
-            Debug.ARLPMessage(ARLPM.helpDeleteComponent);
+            Debug.ARLMessage(ARLM.helpDeleteComponent);
         }
         else if(subCmd == "enable object")
         {
-            Debug.ARLPMessage(ARLPM.helpEnableObject);
+            Debug.ARLMessage(ARLM.helpEnableObject);
         }
         else if(subCmd == "disable component")
         {
-            Debug.ARLPMessage(ARLPM.helpDisableComponent);
+            Debug.ARLMessage(ARLM.helpDisableComponent);
         }
         else if(subCmd == "disable object")
         {
-            Debug.ARLPMessage(ARLPM.helpDisableObject);
+            Debug.ARLMessage(ARLM.helpDisableObject);
         }
         else if(subCmd == "set object")
         {
-            Debug.ARLPMessage(ARLPM.helpSetObject);
+            Debug.ARLMessage(ARLM.helpSetObject);
         }
         else if(subCmd == "set component")
         {
-            Debug.ARLPMessage(ARLPM.helpSetComponent);
+            Debug.ARLMessage(ARLM.helpSetComponent);
         }
         else
         {
-            Debug.ARLPMessage("Unknown Command {}\n\nUse help for more info.\n", {subCmd});
+            Debug.ARLMessage("Unknown Command {}\n\nUse help for more info.\n", {subCmd});
         }
     } 
     else if (mainCmd == "system") 
     {
-        //TODO: system command
-        std::cout << "Executing 'system'" << std::endl;
-    } 
-    else if (mainCmd == "window") 
-    {
-        //TODO: window command
-        std::cout << "Executing 'window'" << std::endl;
+        Debug.ARLMessage("\nOperating System: {}\nArchitecture: {}\nProcessor{}\nGraphics Card: {}\nTotal RAM: {}\nRAM in use: {}\nVideo Memory: {}\nDirectX Version: {}", {
+            Alce.GetWindowsVersion(),
+            Alce.GetArchitecture(),
+            Alce.GetCPU(),
+            Alce.GetGPU(),
+            Alce.GetRAM(),
+            Alce.GetRAMinUse(),
+            Alce.GetVRAM(),
+            Alce.GetDirectXVersion()
+        });
     } 
     else if (mainCmd == "screen") 
     {
-        //TODO: screen command
-        std::cout << "Executing 'screen'" << std::endl;
+        Debug.ARLMessage("\n{}", {Alce.GetMonitorInfo()});
+    } 
+    else if (mainCmd == "window") 
+    {
+        Debug.ARLMessage("\n{}", {Alce.GetWindowInfo()});
     } 
     else if (mainCmd == "stop") 
     {
