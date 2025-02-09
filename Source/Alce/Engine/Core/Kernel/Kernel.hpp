@@ -128,6 +128,8 @@ namespace alce
 
     private:
 
+        friend class ARL_PROCESSOR;
+
         ScenePtr currentScene = nullptr;
         bool restart = false;
 

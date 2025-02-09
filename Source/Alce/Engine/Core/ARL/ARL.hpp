@@ -26,7 +26,7 @@ namespace alce
 
         void Shell(String prompt, Scene* scene);
 
-        void Process(const std::string& command);
+        void Process(String command);
 
     };
 };

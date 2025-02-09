@@ -129,41 +129,41 @@ void SampleScene::Player::Start()
     //     Storage.Delete("lista de la compra");
     // };
     //
-    ButtonPtr button3 = std::make_shared<Button>(); 
-    canvas->AddElement(button3);
-    button3->position = Vector2(20, 100);
-    button3->borderRadius = 5;
-    button3->borderWidth = 2;
-    button3->padding = Vector2(15, 10);
-    button3->borderColor = Colors::White;
-    button3->text = "-";
-    button3->onClick = [](){
-        if(Alce.GetCurrentScene()->GridScale > 1)
-        {
-            Alce.GetCurrentScene()->GridScale -= 1;
-            Debug.Log(Alce.GetCurrentScene()->GridScale);
-        }
+    // ButtonPtr button3 = std::make_shared<Button>(); 
+    // canvas->AddElement(button3);
+    // button3->position = Vector2(20, 100);
+    // button3->borderRadius = 5;
+    // button3->borderWidth = 2;
+    // button3->padding = Vector2(15, 10);
+    // button3->borderColor = Colors::White;
+    // button3->text = "-";
+    // button3->onClick = [](){
+    //     if(Alce.GetCurrentScene()->GridScale > 1)
+    //     {
+    //         Alce.GetCurrentScene()->GridScale -= 1;
+    //         Debug.Log(Alce.GetCurrentScene()->GridScale);
+    //     }
 
-    };
+    // };
 
-    ButtonPtr button4 = std::make_shared<Button>(); 
-    canvas->AddElement(button4);
-    button4->position = Vector2(70, 100);
-    button4->borderRadius = 5;
-    button4->borderWidth = 2;
-    button4->padding = Vector2(13, 10);
-    button4->borderColor = Colors::White;
-    button4->text = "+";
-    button4->onClick = [&](){
-        Alce.GetCurrentScene()->GridScale += 1;
-        Debug.Log(Alce.GetCurrentScene()->GridScale);
-    };
+    // ButtonPtr button4 = std::make_shared<Button>(); 
+    // canvas->AddElement(button4);
+    // button4->position = Vector2(70, 100);
+    // button4->borderRadius = 5;
+    // button4->borderWidth = 2;
+    // button4->padding = Vector2(13, 10);
+    // button4->borderColor = Colors::White;
+    // button4->text = "+";
+    // button4->onClick = [&](){
+    //     Alce.GetCurrentScene()->GridScale += 1;
+    //     Debug.Log(Alce.GetCurrentScene()->GridScale);
+    // };
 
-    ImagePtr image = std::make_shared<Image>();
-    canvas->AddElement(image);
-    image->position = Vector2(300, 25);
-    image->AddTexture("meteor.png", "meteor");
-    image->SetTexture("meteor");
+    // ImagePtr image = std::make_shared<Image>();
+    // canvas->AddElement(image);
+    // image->position = Vector2(300, 25);
+    // image->AddTexture("meteor.png", "meteor");
+    // image->SetTexture("meteor");
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)
@@ -220,6 +220,11 @@ void SampleScene::Player::Update()
         if(status == "walk-backward") status = "jump-backward";
         if(status == "idle-backward") status = "jump-backward";
         grounded = false; 
+    }
+
+    if(Input.IsKeyDown(Keyboard::G))
+    {
+        Alce.GetCurrentScene()->Shell("change to Test1;");
     }
 
     AnimationManager();

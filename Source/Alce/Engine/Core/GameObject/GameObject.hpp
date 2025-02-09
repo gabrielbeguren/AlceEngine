@@ -118,6 +118,7 @@ namespace alce
     private:
 
         friend class Scene;
+        friend class ARL_PROCESSOR;
 
         List<unsigned int> layers;
         List<String> tags;

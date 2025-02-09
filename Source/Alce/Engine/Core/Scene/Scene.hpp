@@ -75,6 +75,7 @@ namespace alce
 
         friend class KERNEL;
         friend class GameObject;
+        friend class ARL_PROCESSOR;
         
         B2WorldPtr world = nullptr;
 

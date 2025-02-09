@@ -9,13 +9,13 @@ int main()
 
     Debug.SetWaitTime(0);
 
-    //Alce.AddScene<Test1Scene::Test1>();
+    Alce.AddScene<Test1Scene::Test1>();
     Alce.AddScene<SampleScene::Sample>();
     
     Alce.SetCurrentScene("Sample");
-    Alce.GetCurrentScene()->Shell("system;screen;window;");
+    // Alce.GetCurrentScene()->Shell("system;screen;window;");
     
-    //Alce.Run();
+    Alce.Run();
 
     return 0;
 }

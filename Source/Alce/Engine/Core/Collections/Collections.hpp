@@ -31,17 +31,21 @@ namespace alce
 			
 		}
 
-		void Add(const T& element)
+		List<T>& Add(const T& element)
 		{
 			vector.push_back(element);
+
+			return *this;
 		}
 
-		void AddFirst(const T& element)
+		List<T>& AddFirst(const T& element)
 		{
 			vector.insert(vector.begin(), element);
+
+			return *this;
 		}
 
-		void SetFirst(size_t index)
+		List<T>& SetFirst(size_t index)
 		{
 			if (index >= this->Length()) 
 			{
@@ -51,22 +55,28 @@ namespace alce
         	T element = vector[index];
         	vector.erase(vector.begin() + index);
         	vector.insert(vector.begin(), element);
+
+			return *this;
 		}
 
-		void PopFirst()
+		List<T>& PopFirst()
 		{
 			if (this->Length() == 0) 
 				throw exception::collections::EmptyListException("<?> Here -> alce::List::PopFirst()\n<!> Reason -> Empty list");
 
 			this->vector.erase(this->vector.begin());
+
+			return *this;
 		}
 
-		void PopLast()
+		List<T>& PopLast()
 		{
 			if (this->Length() == 0) 
 				throw exception::collections::EmptyListException("<?> Here -> alce::List::PopLast()\n<!> Reason -> Empty list");
 
 			vector.pop_back();
+
+			return *this;
 		}
 
 		T& Last()
@@ -85,9 +95,11 @@ namespace alce
 			return vector[0];
 		}
 
-		void Clear()
+		List<T>& Clear()
 		{
 			vector.clear();
+
+			return *this;
 		}
 
 		T& Get(size_t index)
@@ -98,12 +110,14 @@ namespace alce
 			return vector[index];
 		}
 
-		void Set(size_t index, const T& value)
+		List<T>& Set(size_t index, const T& value)
 		{
 			if (index >= vector.size()) 
 				throw exception::collections::OutOfBoundsException("<?> Here -> alce::List::Set(size_t index, T value)\n<!> Reason -> Index out of bounds");
 
 			vector[index] = value;
+
+			return *this;
 		}
 
 		size_t Length()
@@ -137,32 +151,40 @@ namespace alce
 			return -1;
 		}
 
-		void FindAndRemove(const T& element)
+		List<T>& FindAndRemove(const T& element)
 		{
 			auto it = std::find(vector.begin(), vector.end(), element);
 			if (it != vector.end())
 			{
 				vector.erase(it);
 			}
+
+			return *this;
 		}
 
-		void RemoveIndex(unsigned int index)
+		List<T>& RemoveIndex(unsigned int index)
 		{
 			vector.erase(vector.begin() + index);
+
+			return *this;
 		}
 
 		template<typename Predicate>
-		void RemoveIf(Predicate condition)
+		List<T>& RemoveIf(Predicate condition)
 		{
 			vector.erase(std::remove_if(vector.begin(), vector.end(), condition), vector.end());
+			
+			return *this;
 		}
 
-		void Sort(CompareFunction compare)
+		List<T>& Sort(CompareFunction compare)
 	    {
         	std::sort(vector.begin(), vector.end(), compare);
+			
+			return *this;
     	}
 
-		void Merge(List<T> other)
+		List<T>& Merge(List<T> other)
 		{
 			for (const T& element : other.vector)
 			{
@@ -171,15 +193,19 @@ namespace alce
 					this->Add(element);
 				}
 			}
+
+			return *this;
 		}
 
 		template<typename Func>
-		void ForEach(Func func)
+		List<T>& ForEach(Func func)
 		{
 			for(auto& element : vector)
 			{
 				func(element);
 			}
+
+			return *this;
 		}
 
 		bool Contains(const T& element)

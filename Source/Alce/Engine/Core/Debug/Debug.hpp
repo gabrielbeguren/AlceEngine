@@ -46,6 +46,8 @@ namespace alce
 
 		void ARLMessage(String str, List<String> values = {});
 
+		void ARLError(String str, List<String> values = {});
+
 		bool initialized = false;
 		bool persist = false;
 		File logFile = File("Debug/logFile.txt");
