@@ -22,6 +22,12 @@ void ARL_PROCESSOR::Process(String command)
 
     auto args = command.Split(" ");
 
+    if(args.Length() == 0)
+    {
+        Debug.ARLError("There is no command to run.");
+        return;
+    }
+
     args.ForEach([](String& arg) {
         arg.Trim();
     }).RemoveIf([](String arg) {
@@ -32,13 +38,15 @@ void ARL_PROCESSOR::Process(String command)
 
     if (mainCmd == "help") 
     {
-        String subCmd = args[1];
-
-        if(subCmd == "")
+        if(args.Length() == 1)
         {
             Debug.ARLMessage(ARLM.help);
+            return;
         }
-        else if(subCmd == "system")
+
+        String subCmd = args[1];
+
+        if(subCmd == "system")
         {
             Debug.ARLMessage(ARLM.helpSystem);
         }
@@ -66,25 +74,17 @@ void ARL_PROCESSOR::Process(String command)
         {
             Debug.ARLMessage(ARLM.helpStandby);
         }
-        else if(subCmd == "grid scale")
+        else if(subCmd == "grid")
         {
-            Debug.ARLMessage(ARLM.helpGridScale);
-        }
-        else if(subCmd == "grid size")
-        {
-            Debug.ARLMessage(ARLM.helpGridSize);
+            Debug.ARLMessage("{}\n{}", {ARLM.helpGridScale, ARLM.helpGridSize});
         }
         else if(subCmd == "change to")
         {
             Debug.ARLMessage(ARLM.helpChangeTo);
         }
-        else if(subCmd == "add object")
+        else if(subCmd == "add")
         {
-            Debug.ARLMessage(ARLM.helpAddObject);
-        }
-        else if(subCmd == "add component")
-        {
-            Debug.ARLMessage(ARLM.helpAddComponent);
+            Debug.ARLMessage("{}\n{}\n{}", {ARLM.helpAddObject, ARLM.helpAddComponent});
         }
         else if(subCmd == "delete object")
         {
@@ -174,6 +174,12 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "standby") 
     {
+        if(args.Length() < 2)
+        {
+            Debug.ARLError("Syntax error, please check out 'help standby' for more info.");
+            return;
+        }
+
         String option = args[1];
         
         if(option == "on")
@@ -201,6 +207,12 @@ void ARL_PROCESSOR::Process(String command)
     }
     else if (mainCmd == "grid") 
     {
+        if(args.Length() < 2)
+        {
+            Debug.ARLError("Syntax error, please check out 'help grid' for more info.");
+            return;
+        }
+
         String subCmd = args[1];
 
         if(subCmd == "scale")
@@ -235,6 +247,12 @@ void ARL_PROCESSOR::Process(String command)
         //     std::cout << "\"" << s.first.ToAnsiString() << "\"\n";
         // }
 
+        if(args.Length() < 2)
+        {
+            Debug.ARLError("Syntax error, please check out 'help change to' for more info.");
+            return;
+        }
+
         String subCmd = args[1];
 
         if(subCmd == "to")
@@ -251,7 +269,14 @@ void ARL_PROCESSOR::Process(String command)
         }
     } 
     else if (mainCmd == "add") 
-    {
+    {   
+        if(args.Length() < 2)
+        {
+            Debug.ARLError("Syntax error, please check out 'help add' for more info.");
+            return;
+        }
+
+        String type = args[1];
         // std::string type;
         // ss >> type;
         // if (type == "object") 

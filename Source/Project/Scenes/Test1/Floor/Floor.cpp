@@ -27,8 +27,6 @@ void Test1Scene::Floor::Init()
     RectShapePtr rs = std::make_shared<RectShape>(Vector2(1000.0f, 50.0f));
 
     rb2d->CreateBody(rs, BodyType::kinematic_body, true);
-
-    Debug.Log("Ejecutando Init en Floor de Test1");
 }
 
 void Test1Scene::Floor::Start()

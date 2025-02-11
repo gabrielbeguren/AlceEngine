@@ -20,7 +20,6 @@ namespace alce
         friend class ARL_PROCESSOR;
 
     String help = R"(
-
 Commands can be executed un group using semicolons as separators:
 
 For example "system;window;" will execute first the order "system" and then "window".
