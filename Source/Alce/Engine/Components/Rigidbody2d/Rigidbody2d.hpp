@@ -92,6 +92,11 @@ namespace alce
 
         String GetTag();
 
+        bool HasBody()
+        {
+            return body != nullptr;
+        }
+
     private:
 
         friend class GameObject;

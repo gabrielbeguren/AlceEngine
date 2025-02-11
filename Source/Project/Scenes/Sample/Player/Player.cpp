@@ -40,22 +40,6 @@ void SampleScene::Player::Init()
 
     canvas = std::make_shared<Canvas>();
     AddComponent(canvas);
-}
-
-void SampleScene::Player::Start()
-{   
-    walking = false;
-    status = "idle-forward";
-
-    //transform.position = Vector2(0.0f, 0.0f);
-    velocity = 1.0f;
-    rigidbody2d->CreateBody(
-        std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
-        BodyType::dynamic_body,
-        true,
-        MaskType::mask_2
-    );
-    rigidbody2d->SetFixedRotation();
 
     animation->AddAnimation("player/walk-forward.png", "walk-forward", 1, 4, 54, 63);
     animation->AddAnimation("player/walk-backward.png", "walk-backward", 1, 4, 54, 63);
@@ -64,15 +48,14 @@ void SampleScene::Player::Start()
     animation->AddAnimation("player/jump-forward.png", "jump-forward", 1, 1, 54, 63);
     animation->AddAnimation("player/jump-backward.png", "jump-backward", 1, 1, 54, 63);
 
-
-    animation->transform->scale = Vector2(0, 0);
-    leftRaycast2d->direction = Vector2(-0.447f, -0.894f);
-    leftRaycast2d->length = 1.5f;
-
-    rightRaycast2d->direction = Vector2(0.447f, -0.894f);
-    rightRaycast2d->length = 1.5f;
-
-
+    rigidbody2d->CreateBody(
+        std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
+        BodyType::dynamic_body,
+        true,
+        MaskType::mask_2
+    );
+    rigidbody2d->SetFixedRotation();
+    
     TextPtr text = std::make_shared<Text>();
     canvas->AddElement(text);
     text->position = Vector2(20, 20);
@@ -85,6 +68,33 @@ void SampleScene::Player::Start()
     text->borderWidth = 3;
     text->borderColor = Colors::Yellow;
     text->backgroundColor = Colors::Black;
+
+    animation->transform->scale = Vector2(0, 0);
+    leftRaycast2d->direction = Vector2(-0.447f, -0.894f);
+    leftRaycast2d->length = 1.5f;
+
+    rightRaycast2d->direction = Vector2(0.447f, -0.894f);
+    rightRaycast2d->length = 1.5f;
+
+    walking = false;
+    status = "idle-forward";
+    velocity = 1.0f;
+}
+
+void SampleScene::Player::Start()
+{   
+    // TextPtr text = std::make_shared<Text>();
+    // canvas->AddElement(text);
+    // text->position = Vector2(20, 20);
+    // text->padding = Vector2(10, 10);
+
+    // text->font = "fonts/Merriweather/Merriweather-Black.ttf";
+    // *text += "<color='green'>Alce Engine</color> Sample Project";
+    // *text += "\nby @gabrielbeguren";
+    // text->borderRadius = 7;
+    // text->borderWidth = 3;
+    // text->borderColor = Colors::Yellow;
+    // text->backgroundColor = Colors::Black;
 
     // TextInputPtr ti = std::make_shared<TextInput>();
     // canvas->AddElement(ti);

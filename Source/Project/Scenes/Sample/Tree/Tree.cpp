@@ -21,12 +21,14 @@ void SampleScene::Tree::Init()
 {    
 	spriteRenderer = std::make_shared<SpriteRenderer>();
     AddComponent(spriteRenderer);
+
+    spriteRenderer->AddTexture("tree/sprite.png", "sprite");
+    spriteRenderer->SetTexture("sprite");
 }
 
 void SampleScene::Tree::Start()
 {
-	spriteRenderer->AddTexture("tree/sprite.png", "sprite");
-    spriteRenderer->SetTexture("sprite");
+	
 }
 
 void SampleScene::Tree::Update()

@@ -17,9 +17,6 @@ void ARL_PROCESSOR::Shell(String prompt, Scene* scene)
 
 void ARL_PROCESSOR::Process(String command)
 {
-    // std::stringstream ss(command);
-    // std::string mainCmd;
-    // ss >> mainCmd;
     command.Replace("\t", "");
     command.Replace("\n", "");
 
@@ -232,11 +229,11 @@ void ARL_PROCESSOR::Process(String command)
     else if (mainCmd == "change") 
     {
         //TODO: BUG AL PASAR DE ESCENA A OTRA: 
-        std::cout << "Debug list:\n";
-        for(auto& s: Alce.scenes)
-        {
-            std::cout << "\"" << s.first.ToAnsiString() << "\"\n";
-        }
+        // std::cout << "Debug list:\n";
+        // for(auto& s: Alce.scenes)
+        // {
+        //     std::cout << "\"" << s.first.ToAnsiString() << "\"\n";
+        // }
 
         String subCmd = args[1];
 

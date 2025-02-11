@@ -70,6 +70,8 @@ void Test1Scene::Body::Init()
     }));
 
     AddComponent(ps);
+
+    Debug.Log("Ejecutando Init de Body de Test1");
 }
 
 void Test1Scene::Body::Start()
