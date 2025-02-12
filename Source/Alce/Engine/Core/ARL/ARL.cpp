@@ -240,13 +240,6 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "change") 
     {
-        //TODO: BUG AL PASAR DE ESCENA A OTRA: 
-        // std::cout << "Debug list:\n";
-        // for(auto& s: Alce.scenes)
-        // {
-        //     std::cout << "\"" << s.first.ToAnsiString() << "\"\n";
-        // }
-
         if(args.Length() < 2)
         {
             Debug.ARLError("Syntax error, please check out 'help change to' for more info.");
@@ -270,29 +263,42 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "add") 
     {   
-        if(args.Length() < 2)
+        if(args.Length() < 5)
         {
             Debug.ARLError("Syntax error, please check out 'help add' for more info.");
             return;
         }
 
         String type = args[1];
-        // std::string type;
-        // ss >> type;
-        // if (type == "object") 
-        // {
-        //     std::string className, asKeyword, alias;
-        //     ss >> className >> asKeyword >> alias;
-        //     //TODO: add object command with className and alias
-        //     std::cout << "Executing 'add object' with className: " << className << ", alias: " << alias << std::endl;
-        // } 
-        // else if (type == "component") 
-        // {
-        //     std::string className, toKeyword, alias;
-        //     ss >> className >> toKeyword >> alias;
-        //     //TODO: add component command with className and alias
-        //     std::cout << "Executing 'add component' with className: " << className << ", alias: " << alias << std::endl;
-        // }
+        String className = args[2];
+        String alias = args[4];
+        
+        if(type == "object")
+        {
+            if(args[3] != "as")
+            {
+                Debug.ARLError("Syntax error, please check out 'help add' for more info.");
+                return;
+            }
+
+            //Comprobar que existe la clase y que el alias esta disponible en la escena
+
+
+        }
+        else if(type == "component")
+        {
+            if(args[3] != "to")
+            {
+                Debug.ARLError("Syntax error, please check out 'help add' for more info.");
+                return;
+            }
+            
+            //Comprobar que existe el componente y que el alias esta disponible en la escena
+        }
+        else
+        {
+            Debug.ARLError("Syntax error, please check out 'help add' for more info.");
+        }
     } 
     else if (mainCmd == "set") 
     {
@@ -312,6 +318,15 @@ void ARL_PROCESSOR::Process(String command)
         //     //TODO: set component command with className, field, alias, and value
         //     std::cout << "Executing 'set component' with className: " << className << ", field: " << field << ", alias: " << alias << ", value: " << value << std::endl;
         // }
+
+        if(args.Length() < 2)
+        {
+            Debug.ARLError("Syntax error, please check out 'help set' for more info.");
+            return;
+        }
+
+        String type = args[1];
+
     } 
     else if (mainCmd == "delete") 
     {

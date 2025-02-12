@@ -82,7 +82,7 @@ void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
             gameObject->scene = this;
 
             gameObject->alias = alias;
-
+            
             if(persist)
             {
                 UpdateJson();
@@ -100,7 +100,7 @@ void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
         gameObject->scene = this;
 
         gameObject->alias = alias;
-
+        
         if(persist)
         {
             UpdateJson();
