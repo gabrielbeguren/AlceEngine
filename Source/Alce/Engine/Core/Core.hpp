@@ -12,6 +12,7 @@
 #include "Event/Event.hpp"
 #include "Event/EventEmitter.hpp"
 #include "Event/Listener.hpp"
+#include "Factory/Factory.hpp"
 #include "FileSystem/FileSystem.hpp"
 #include "GameObject/GameObject.hpp"
 #include "Generic/Generic.hpp"
