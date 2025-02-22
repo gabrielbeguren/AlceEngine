@@ -1,6 +1,6 @@
 #include "Math.hpp"
 #include "../Kernel/Kernel.hpp"
-#include <sstream>  // Para std::stringstream
+#include <sstream>  
 #include <stdexcept>
 
 using namespace alce;

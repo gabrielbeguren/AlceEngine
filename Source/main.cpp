@@ -13,8 +13,6 @@ int main()
     Alce.AddScene<SampleScene::Sample>();
     
     Alce.SetCurrentScene("Sample");
-    //Alce.GetCurrentScene()->Shell("help; help grid;");
-    // Alce.GetCurrentScene()->Shell("system;screen;window;");
     
     Alce.Run();
 

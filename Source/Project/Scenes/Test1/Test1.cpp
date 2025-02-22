@@ -21,11 +21,11 @@ Test1Scene::Test1::Test1() : Scene("Test1")
 
 void Test1Scene::Test1::Init()
 {
-	Test1Scene::BodyPtr body = std::make_shared<Test1Scene::Body>();
-	AddGameObject(body);	
+	// Test1Scene::BodyPtr body = std::make_shared<Test1Scene::Body>();
+	// AddGameObject(body);	
 
-	Test1Scene::FloorPtr floor = std::make_shared<Test1Scene::Floor>();
-	AddGameObject(floor);
+	// Test1Scene::FloorPtr floor = std::make_shared<Test1Scene::Floor>();
+	// AddGameObject(floor);
 }
 
 void Test1Scene::Test1::Start()
