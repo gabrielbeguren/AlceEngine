@@ -28,12 +28,12 @@ void SampleScene::Tree::Init()
 
 void SampleScene::Tree::Start()
 {
-	
+
 }
 
 void SampleScene::Tree::Update()
 {
-	
+
 }
 
 #pragma endregion

@@ -234,12 +234,23 @@ void SampleScene::Player::Update()
 
     if(Input.IsKeyDown(Keyboard::G))
     {
-        Alce.GetCurrentScene()->Shell("change to Test1;");
+        Alce.GetCurrentScene()->Shell("add object Tree as t3;");
+    }
+
+    if(Input.IsKeyDown(Keyboard::H))
+    {
+        Alce.GetCurrentScene()->Shell("change to Test1");
+    }
+
+    if(Input.IsKeyDown(Keyboard::L))
+    {
+        Alce.GetCurrentScene()->Shell("list");
     }
 
     AnimationManager();
 }
 #pragma endregion
+
 
 void SampleScene::Player::AnimationManager()
 {

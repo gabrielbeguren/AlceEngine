@@ -73,6 +73,18 @@ void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
 {
     try
     {
+        if(alias != false)
+        {   
+            for(auto& go: GetAllGameObjects())
+            {
+                if(go->alias == alias) 
+                {
+                    Debug.Warning("Scene already contains alias name \"{}\"", {alias});
+                    return;
+                }
+            }
+        }
+
         if(!sortingLayers.GetKeyList().Contains(gameObject->sortingLayer))
         {
             GameObjectListPtr list = std::make_shared<List<GameObjectPtr>>();
@@ -82,6 +94,13 @@ void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
             gameObject->scene = this;
 
             gameObject->alias = alias;
+            
+            gameObject->Init();
+
+            for(auto& c: gameObject->GetComponents())
+            {
+                c->Init();
+            }
             
             if(persist)
             {
@@ -100,6 +119,13 @@ void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
         gameObject->scene = this;
 
         gameObject->alias = alias;
+
+        gameObject->Init();
+            
+        for(auto& c: gameObject->GetComponents())
+        {
+            c->Init();
+        }
         
         if(persist)
         {

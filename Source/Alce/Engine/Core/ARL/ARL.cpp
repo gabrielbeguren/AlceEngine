@@ -2,6 +2,8 @@
 #include "../Data/ARLMessages.hpp"
 #include "../Debug/Debug.hpp"
 #include "../Kernel/Kernel.hpp"
+#include "../Factory/Factory.hpp"
+#include "../Debug/Debug.hpp"
 
 using namespace alce;
 
@@ -270,7 +272,7 @@ void ARL_PROCESSOR::Process(String command)
         }
 
         String type = args[1];
-        String className = args[2];
+        String creator = args[2];
         String alias = args[4];
         
         if(type == "object")
@@ -281,9 +283,14 @@ void ARL_PROCESSOR::Process(String command)
                 return;
             }
 
-            //Comprobar que existe la clase y que el alias esta disponible en la escena
+            if(!Factory.Has(creator))
+            {
+                Debug.ARLError("There is no creator \"{}\" registrated in the instance factory.", {creator});
+                return;
+            }
 
-
+            auto instance = Factory.Create<GameObject>(creator);
+            currentScene->AddGameObject(instance, alias);
         }
         else if(type == "component")
         {

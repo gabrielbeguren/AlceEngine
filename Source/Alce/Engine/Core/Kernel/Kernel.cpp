@@ -105,19 +105,6 @@ void KERNEL::AddScene(ScenePtr scene)
 		}
 	}
 
-	for(auto& sl: scene->sortingLayers)
-	{
-		for(auto& go: *sl.second.get())
-		{
-			go->Init();
-
-			for(auto& c: go->GetComponents())
-			{
-				c->Init();
-			}
-		}
-	}
-
 	scenes.Set(scene->GetName(), scene);
 }
 

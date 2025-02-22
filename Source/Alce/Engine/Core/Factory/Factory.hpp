@@ -2,11 +2,12 @@
 
 #include <iostream>
 #include <memory>
-#include <unordered_map>
 #include <functional>
 #include <stdexcept>
 
 #include "../String/String.hpp"
+#include "../Collections/Collections.hpp"
+#include "../Debug/Debug.hpp"
 
 #define Factory FactorySingleton::getInstance()
 
@@ -15,7 +16,6 @@ namespace alce
     class FactorySingleton 
     {
     public:
-
         using Creator = std::function<std::shared_ptr<void>()>;
 
         static FactorySingleton& getInstance() 
@@ -26,36 +26,40 @@ namespace alce
 
         void RegisterCreator(String key, Creator creator) 
         {
-            std::string _key = key.ToAnsiString();
-
-            if (creators.find(_key) != creators.end()) 
+            if (creators.HasKey(key)) 
             {
-                throw std::runtime_error("Creator with key '" + _key + "' already exists.");
+                Debug.Warning("Creator with key '" + key.ToAnsiString() + "' already exists.");
+                return;
             }
-            creators[_key] = std::move(creator);
+            creators.Set(key, std::move(creator));
         }
 
         template <typename T>
         std::shared_ptr<T> Create(String key) 
         {
-            std::string _key = key.ToAnsiString();
-
-            auto it = creators.find(_key);
-            if (it == creators.end()) 
+            if (!creators.HasKey(key)) 
             {
-                throw std::runtime_error("No creator registered for key '" + _key + "'.");
+                Debug.Warning("No creator registered for key '" + key.ToAnsiString() + "'.");
+                return nullptr;
             }
-            return std::static_pointer_cast<T>(it->second());
+            return std::static_pointer_cast<T>(creators.Get(key)());
+        }
+
+        bool Has(String key)
+        {
+            return creators.HasKey(key);
         }
 
     private:
 
+        friend class ARL_PROCESSOR;
+        
         FactorySingleton() = default;
 
         FactorySingleton(const FactorySingleton&) = delete;
         FactorySingleton& operator=(const FactorySingleton&) = delete;
 
-        std::unordered_map<std::string, Creator> creators;
+        Dictionary<String, Creator> creators;
     };
 
 }

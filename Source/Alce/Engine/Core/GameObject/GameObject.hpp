@@ -70,6 +70,11 @@ namespace alce
             return parent != nullptr;
         }
 
+        String GetAlias()
+        {
+            return alias;
+        }
+
         template<typename Predicate>
         List<GameObjectPtr> FindParents(Predicate predicate)
         {
