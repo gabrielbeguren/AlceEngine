@@ -10,7 +10,6 @@
 #include "../Json/Json.hpp"
 #include <thread>
 
-
 using namespace alce;
 
 Scene::Scene(String name)
@@ -94,7 +93,7 @@ void Scene::AddGameObject(GameObjectPtr gameObject, String alias)
             gameObject->scene = this;
 
             gameObject->alias = alias;
-            
+
             gameObject->Init();
 
             for(auto& c: gameObject->GetComponents())

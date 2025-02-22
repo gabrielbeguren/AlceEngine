@@ -285,9 +285,19 @@ void ARL_PROCESSOR::Process(String command)
 
             if(!Factory.Has(creator))
             {
-                Debug.ARLError("There is no creator \"{}\" registrated in the instance factory.", {creator});
+                Debug.ARLError("There is no creator \"" + creator.ToAnsiString() + "\" registrated in the instance factory.");
                 return;
             }
+
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return alias == go->alias;
+            });
+
+            if(result.Length() > 0) 
+            {
+                Debug.ARLError("An object under the alias name \"" + alias.ToAnsiString() + "\" already exists in the scene.");
+                return;
+            }   
 
             auto instance = Factory.Create<GameObject>(creator);
             currentScene->AddGameObject(instance, alias);
@@ -326,13 +336,30 @@ void ARL_PROCESSOR::Process(String command)
         //     std::cout << "Executing 'set component' with className: " << className << ", field: " << field << ", alias: " << alias << ", value: " << value << std::endl;
         // }
 
-        if(args.Length() < 2)
+        if(args.Length() < 6)
         {
             Debug.ARLError("Syntax error, please check out 'help set' for more info.");
             return;
         }
 
         String type = args[1];
+
+        if(type == "object")
+        {
+            String alias = args[2];
+
+            if(currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return alias == go->alias;
+            }).Length() == 0) {
+                Debug.ARLError("There is no object under the alias name \"{}\" in the scene.", {alias});
+                return;
+            }   
+
+            String field = args[2];
+
+            //TODO: comprobar que existe ese campo
+
+        }
 
     } 
     else if (mainCmd == "delete") 
@@ -355,42 +382,70 @@ void ARL_PROCESSOR::Process(String command)
         // }
     } 
     else if (mainCmd == "enable") 
-    {
-        // std::string type;
-        // ss >> type;
-        // if (type == "object") 
-        // {
-        //     std::string alias;
-        //     ss >> alias;
-        //     //TODO: enable object command with alias
-        //     std::cout << "Executing 'enable object' with alias: " << alias << std::endl;
-        // } 
-        // else if (type == "component") 
-        // {
-        //     std::string className, ofKeyword, alias;
-        //     ss >> className >> ofKeyword >> alias;
-        //     //TODO: enable component command with className and alias
-        //     std::cout << "Executing 'enable component' with className: " << className << ", alias: " << alias << std::endl;
-        // }
+    {   
+        if(args.Length() < 3)
+        {
+            Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
+            return;
+        }
+
+        String type = args[1];
+
+        if(type == "object")
+        {
+            String alias = args[2];
+
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return alias == go->alias;
+            });
+
+            if(result.Length() == 0) 
+            {
+                Debug.ARLError("There is no object under the alias name \"" + alias.ToAnsiString() + "\" in the scene.");
+                return;
+            }   
+
+            result.First()->enabled = true;
+            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" enabled");
+        }
+
+        if(type == "component")
+        {
+            //TODO:
+        }
     } 
     else if (mainCmd == "disable") 
     {
-        // std::string type;
-        // ss >> type;
-        // if (type == "object") 
-        // {
-        //     std::string alias;
-        //     ss >> alias;
-        //     //TODO: disable object command with alias
-        //     std::cout << "Executing 'disable object' with alias: " << alias << std::endl;
-        // } 
-        // else if (type == "component") 
-        // {
-        //     std::string className, ofKeyword, alias;
-        //     ss >> className >> ofKeyword >> alias;
-        //     //TODO: disable component command with className and alias
-        //     std::cout << "Executing 'disable component' with className: " << className << ", alias: " << alias << std::endl;
-        // }
+        if(args.Length() < 3)
+        {
+            Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
+            return;
+        }
+
+        String type = args[1];
+
+        if(type == "object")
+        {
+            String alias = args[2];
+
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return alias == go->alias;
+            });
+
+            if(result.Length() == 0) 
+            {
+                Debug.ARLError("There is no object under the alias name \"" + alias.ToAnsiString() + "\" in the scene.");
+                return;
+            }   
+
+            result.First()->enabled = false;
+            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" disabled");
+        }
+
+        if(type == "component")
+        {
+            //TODO:
+        }
     } 
     else 
     {

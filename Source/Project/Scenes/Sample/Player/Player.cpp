@@ -237,6 +237,16 @@ void SampleScene::Player::Update()
         Alce.GetCurrentScene()->Shell("add object Tree as t3;");
     }
 
+    if(Input.IsKeyDown(Keyboard::T))
+    {
+        Alce.GetCurrentScene()->Shell("disable object t3;");
+    }
+
+    if(Input.IsKeyDown(Keyboard::Y))
+    {
+        Alce.GetCurrentScene()->Shell("enable object t3;");
+    }
+
     if(Input.IsKeyDown(Keyboard::H))
     {
         Alce.GetCurrentScene()->Shell("change to Test1");
