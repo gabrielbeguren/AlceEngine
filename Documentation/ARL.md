@@ -30,7 +30,7 @@ change to mainScene;
 ```
 
 
-## 2. Basic Commands
+## 2. Command List
 
 ### system
 - **Description:** Displays System Data.
@@ -62,10 +62,6 @@ change to mainScene;
 - **Example:**
   ```play;```
 
----
-
-## 3. Commands with Parameters
-
 ### help
 - **Description:** Displays help for a subcommand.
 - **Syntax:** ```help <subcommand>;```
@@ -84,16 +80,6 @@ change to mainScene;
 - **Example:**
   ```grid scale 2.5;```
 
-### grid size
-- **Description:** Sets the grid size with a float value.
-- **Syntax:** ```grid size <value>;```
-- **Example:**
-  ```grid size 10;```
-
----
-
-## 3. Complex Commands
-
 ### change to
 - **Description:** Changes the current scene to the specified one.
 - **Syntax:** ```change to <scene>;```
@@ -111,10 +97,6 @@ change to mainScene;
 - **Syntax:** ```add component <className> to <alias>;```
 - **Example:**
   ```add component Physics to Player;```
-
----
-
-## 4. Other Commands
 
 ### delete object
 - **Description:** Deletes an object by its alias.

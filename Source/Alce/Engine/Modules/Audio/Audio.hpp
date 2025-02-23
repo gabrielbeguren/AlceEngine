@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Audio.hpp>
-#include "../Kernel/Kernel.hpp"
+#include "../Core/Core.hpp"
 
 #define Audio alce::AUDIO::Instance()
 

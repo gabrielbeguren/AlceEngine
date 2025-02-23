@@ -1,5 +1,5 @@
 #include "Math.hpp"
-#include "../Kernel/Kernel.hpp"
+#include "../Core/Core.hpp"
 #include <sstream>  
 #include <stdexcept>
 

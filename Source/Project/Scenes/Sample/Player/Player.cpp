@@ -246,6 +246,11 @@ void SampleScene::Player::Update()
     {
         Alce.GetCurrentScene()->Shell("enable object t3;");
     }
+    
+    if(Input.IsKeyDown(Keyboard::U))
+    {
+        Alce.GetCurrentScene()->Shell("delete object t3;");
+    }
 
     if(Input.IsKeyDown(Keyboard::H))
     {

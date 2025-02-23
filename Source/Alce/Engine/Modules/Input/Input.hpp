@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Kernel/Kernel.hpp"
+#include "../Core/Core.hpp"
 #include "../Debug/Debug.hpp"
 
 #define Input alce::INPUT::Instance()
@@ -36,7 +36,7 @@ namespace alce
 
         private:
 
-            friend class alce::KERNEL;
+            friend class alce::CORE;
             friend class INPUT;
 
             Button lastButtonPressed;
@@ -157,7 +157,7 @@ namespace alce
     private:
 
         friend class Scene;
-        friend class KERNEL;
+        friend class CORE;
         friend class Joystick::Joystick;
         friend class TextInput;
 

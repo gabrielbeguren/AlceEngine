@@ -41,7 +41,7 @@ namespace alce
 
 	private:
 
-		friend class KERNEL;
+		friend class CORE;
 		friend class ARL_PROCESSOR;
 
 		void ARLMessage(String str, List<String> values = {});

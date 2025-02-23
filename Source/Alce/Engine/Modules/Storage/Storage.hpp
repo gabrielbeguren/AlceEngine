@@ -38,7 +38,7 @@ namespace alce
 
     private:
 
-        friend class KERNEL;
+        friend class CORE;
 
         void Init()
         {

@@ -1,5 +1,5 @@
 #include "Interface.hpp"
-#include "../Kernel/Kernel.hpp"
+#include "../Core/Core.hpp"
 
 using namespace alce;
 

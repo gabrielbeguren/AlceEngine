@@ -1,7 +1,7 @@
 #include "ARL.hpp"
 #include "../Data/ARLMessages.hpp"
 #include "../Debug/Debug.hpp"
-#include "../Kernel/Kernel.hpp"
+#include "../Core/Core.hpp"
 #include "../Factory/Factory.hpp"
 #include "../Debug/Debug.hpp"
 
@@ -295,7 +295,7 @@ void ARL_PROCESSOR::Process(String command)
 
             if(result.Length() > 0) 
             {
-                Debug.ARLError("An object under the alias name \"" + alias.ToAnsiString() + "\" already exists in the scene.");
+                Debug.ARLError("An object with the alias name \"" + alias.ToAnsiString() + "\" already exists in the scene.");
                 return;
             }   
 
@@ -310,7 +310,7 @@ void ARL_PROCESSOR::Process(String command)
                 return;
             }
             
-            //Comprobar que existe el componente y que el alias esta disponible en la escena
+            //TODO:
         }
         else
         {
@@ -319,23 +319,6 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "set") 
     {
-        // std::string type;
-        // ss >> type;
-        // if (type == "object") 
-        // {
-        //     std::string alias, field, asKeyword, value;
-        //     ss >> alias >> field >> asKeyword >> value;
-        //     //TODO: set object command with alias, field, and value
-        //     std::cout << "Executing 'set object' with alias: " << alias << ", field: " << field << ", value: " << value << std::endl;
-        // } 
-        // else if (type == "component") 
-        // {
-        //     std::string className, field, ofKeyword, alias, asKeyword, value;
-        //     ss >> className >> field >> ofKeyword >> alias >> asKeyword >> value;
-        //     //TODO: set component command with className, field, alias, and value
-        //     std::cout << "Executing 'set component' with className: " << className << ", field: " << field << ", alias: " << alias << ", value: " << value << std::endl;
-        // }
-
         if(args.Length() < 6)
         {
             Debug.ARLError("Syntax error, please check out 'help set' for more info.");
@@ -348,10 +331,13 @@ void ARL_PROCESSOR::Process(String command)
         {
             String alias = args[2];
 
-            if(currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
                 return alias == go->alias;
-            }).Length() == 0) {
-                Debug.ARLError("There is no object under the alias name \"{}\" in the scene.", {alias});
+            });
+            
+            if(result.Length() == 0)
+            {
+                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
                 return;
             }   
 
@@ -361,25 +347,43 @@ void ARL_PROCESSOR::Process(String command)
 
         }
 
+        if(type == "component")
+        {
+            //TODO:
+        }
     } 
     else if (mainCmd == "delete") 
     {
-        // std::string type;
-        // ss >> type;
-        // if (type == "object") 
-        // {
-        //     std::string alias;
-        //     ss >> alias;
-        //     //TODO: delete object command with alias
-        //     std::cout << "Executing 'delete object' with alias: " << alias << std::endl;
-        // } 
-        // else if (type == "component") 
-        // {
-        //     std::string className, ofKeyword, alias;
-        //     ss >> className >> ofKeyword >> alias;
-        //     //TODO: delete component command with className and alias
-        //     std::cout << "Executing 'delete component' with className: " << className << ", alias: " << alias << std::endl;
-        // }
+        if(args.Length() < 3)
+        {
+            Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
+            return;
+        }
+
+        String type = args[1];
+
+        if(type == "object")
+        {
+            String alias = args[2];
+
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return go->alias == alias;
+            });
+
+            if(result.Length() == 0)
+            {
+                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
+                return;
+            }
+
+            result.First()->Destroy();
+            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" destroyed.");
+        }
+
+        if(type == "component")
+        {
+            //TODO:
+        }
     } 
     else if (mainCmd == "enable") 
     {   
@@ -401,12 +405,12 @@ void ARL_PROCESSOR::Process(String command)
 
             if(result.Length() == 0) 
             {
-                Debug.ARLError("There is no object under the alias name \"" + alias.ToAnsiString() + "\" in the scene.");
+                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
                 return;
             }   
 
             result.First()->enabled = true;
-            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" enabled");
+            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" enabled.");
         }
 
         if(type == "component")
@@ -434,12 +438,12 @@ void ARL_PROCESSOR::Process(String command)
 
             if(result.Length() == 0) 
             {
-                Debug.ARLError("There is no object under the alias name \"" + alias.ToAnsiString() + "\" in the scene.");
+                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
                 return;
             }   
 
             result.First()->enabled = false;
-            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" disabled");
+            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" disabled.");
         }
 
         if(type == "component")

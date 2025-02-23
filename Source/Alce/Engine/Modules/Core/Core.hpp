@@ -23,7 +23,7 @@
 #include <windows.h>
 #include "wtypes.h"
 
-#define Alce alce::KERNEL::Instance()
+#define Alce alce::CORE::Instance()
 
 namespace alce
 {
@@ -53,13 +53,13 @@ namespace alce
         gigabyte
     };
 
-    class KERNEL
+    class CORE
     {
     public:
 
-        static KERNEL& Instance()
+        static CORE& Instance()
         {
-            static KERNEL kernel;
+            static CORE kernel;
             return kernel;
         }
 
@@ -148,7 +148,7 @@ namespace alce
         bool exit = false;
         float fps = 0;
 
-        KERNEL() { };
-        KERNEL(KERNEL const&);
+        CORE() { };
+        CORE(CORE const&);
     };
 }

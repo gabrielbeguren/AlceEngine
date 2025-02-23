@@ -1,5 +1,5 @@
 #include "Scene.hpp"
-#include "../Kernel/Kernel.hpp"
+#include "../Core/Core.hpp"
 #include "../../Components/Camera/Camera.hpp"
 #include "../../Components/Rigidbody2d/Rigidbody2d.hpp"
 #include "../../Components/ParticleSystem/ParticleSystem.hpp"

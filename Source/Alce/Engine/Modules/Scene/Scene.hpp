@@ -73,7 +73,7 @@ namespace alce
 
     private:
 
-        friend class KERNEL;
+        friend class CORE;
         friend class GameObject;
         friend class ARL_PROCESSOR;
         

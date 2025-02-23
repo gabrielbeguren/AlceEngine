@@ -1,10 +1,10 @@
-#include "Kernel.hpp"
+#include "Core.hpp"
 #include "../Input/Input.hpp"
 #include "../Storage/Storage.hpp"
 
 using namespace alce;
 
-void KERNEL::Window(String windowTitle, DisplayMode displayMode, Vector2 size, int antialiasing)
+void CORE::Window(String windowTitle, DisplayMode displayMode, Vector2 size, int antialiasing)
 {
 	sf::Uint32 style = sf::Style::Default;
 
@@ -48,17 +48,17 @@ void KERNEL::Window(String windowTitle, DisplayMode displayMode, Vector2 size, i
 	Storage.Init();
 }
 
-sf::RenderWindow& KERNEL::GetWindow()
+sf::RenderWindow& CORE::GetWindow()
 {
 	return window;
 }
 
-Vector2 KERNEL::GetWindowSize()
+Vector2 CORE::GetWindowSize()
 {
 	return Vector2(window.getSize());
 }
 
-Vector2 KERNEL::GetScreenResolution() 
+Vector2 CORE::GetScreenResolution() 
 {
     RECT desktop;
     const HWND hDesktop = GetDesktopWindow();
@@ -66,7 +66,7 @@ Vector2 KERNEL::GetScreenResolution()
     return Vector2(desktop.right, desktop.bottom);
 }
 
-void KERNEL::SetWindowIcon(String file)
+void CORE::SetWindowIcon(String file)
 {
 	file = "./Assets/" + file.ToAnsiString();
 
@@ -80,7 +80,7 @@ void KERNEL::SetWindowIcon(String file)
 	else Debug.Warning("Error loading file \"{}\"", {file});
 }
 
-void KERNEL::AddScene(ScenePtr scene)
+void CORE::AddScene(ScenePtr scene)
 {
 	if(scenes.GetKeyList().Contains(scene->GetName()))
 	{
@@ -108,7 +108,7 @@ void KERNEL::AddScene(ScenePtr scene)
 	scenes.Set(scene->GetName(), scene);
 }
 
-void KERNEL::RemoveScene(String name)
+void CORE::RemoveScene(String name)
 {
 	if(!scenes.GetKeyList().Contains(name))
 	{
@@ -120,7 +120,7 @@ void KERNEL::RemoveScene(String name)
 	scenes.RemoveByKey(name);
 }
 
-ScenePtr KERNEL::GetScene(String name)
+ScenePtr CORE::GetScene(String name)
 {
 	try
 	{
@@ -133,7 +133,7 @@ ScenePtr KERNEL::GetScene(String name)
 	}
 }
 
-void KERNEL::SetCurrentScene(String name)
+void CORE::SetCurrentScene(String name)
 {
 	if(!scenes.GetKeyList().Contains(name))
 	{
@@ -174,12 +174,12 @@ void KERNEL::SetCurrentScene(String name)
 	}
 }
 
-ScenePtr KERNEL::GetCurrentScene()
+ScenePtr CORE::GetCurrentScene()
 {
 	return currentScene;
 }
 
-TexturePtr KERNEL::GetTexture(String file)
+TexturePtr CORE::GetTexture(String file)
 { 
 	file = "./Assets/" + file.ToAnsiString();
 
@@ -196,7 +196,7 @@ TexturePtr KERNEL::GetTexture(String file)
 	return texture;
 }
 
-SoundBufferPtr KERNEL::GetSoundBuffer(String file)
+SoundBufferPtr CORE::GetSoundBuffer(String file)
 {
 	file = "./Assets/" + file.ToAnsiString();
 
@@ -214,7 +214,7 @@ SoundBufferPtr KERNEL::GetSoundBuffer(String file)
 	return sound;
 }
 
-FontPtr KERNEL::GetFont(String file)
+FontPtr CORE::GetFont(String file)
 {
 	file = "./Assets/" + file.ToAnsiString();
 
@@ -233,17 +233,17 @@ FontPtr KERNEL::GetFont(String file)
 	return font;
 }
 
-void KERNEL::SetClearColor(Color color)
+void CORE::SetClearColor(Color color)
 {
 	clearColor = color;
 }
 
-float KERNEL::GetFPS()
+float CORE::GetFPS()
 {
 	return fps;
 }
 
-String KERNEL::GetArchitecture()
+String CORE::GetArchitecture()
 {
 	SYSTEM_INFO sysInfo;
     GetNativeSystemInfo(&sysInfo);
@@ -263,7 +263,7 @@ String KERNEL::GetArchitecture()
     return String(oss.str());
 }
 
-String KERNEL::GetWindowsVersion()
+String CORE::GetWindowsVersion()
 {
 	RTL_OSVERSIONINFOW osvi = {0};
     osvi.dwOSVersionInfoSize = sizeof(osvi);
@@ -292,7 +292,7 @@ String KERNEL::GetWindowsVersion()
     return "Not available";
 }
 
-String KERNEL::GetRAM()
+String CORE::GetRAM()
 {
 	MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
@@ -303,7 +303,7 @@ String KERNEL::GetRAM()
     return String(oss.str());
 }
 
-String KERNEL::GetRAMinUse()
+String CORE::GetRAMinUse()
 {
 	MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
@@ -314,7 +314,7 @@ String KERNEL::GetRAMinUse()
     return String(oss.str());
 }
 
-String KERNEL::GetCPU()
+String CORE::GetCPU()
 {
 	HKEY hKey;
     TCHAR cpuName[256];
@@ -341,7 +341,7 @@ String KERNEL::GetCPU()
     return String(oss.str());
 }
 
-String KERNEL::GetGPU()
+String CORE::GetGPU()
 {
 	DISPLAY_DEVICE displayDevice;
     displayDevice.cb = sizeof(DISPLAY_DEVICE);
@@ -359,7 +359,7 @@ String KERNEL::GetGPU()
     return oss.str();
 }
 
-String KERNEL::GetVRAM()
+String CORE::GetVRAM()
 {
 	DWORD vram = 0;
     DISPLAY_DEVICE displayDevice;
@@ -380,7 +380,7 @@ String KERNEL::GetVRAM()
     return String(oss.str());
 }
 
-String KERNEL::GetDirectXVersion()
+String CORE::GetDirectXVersion()
 {
 	DWORD version = 0;
     std::ostringstream oss;
@@ -397,7 +397,7 @@ String KERNEL::GetDirectXVersion()
     return oss.str();
 }
 
-String KERNEL::GetMonitorInfo()
+String CORE::GetMonitorInfo()
 {
 	std::ostringstream oss;
     
@@ -425,7 +425,7 @@ String KERNEL::GetMonitorInfo()
     return String(oss.str());
 }
 
-String KERNEL::GetWindowInfo()
+String CORE::GetWindowInfo()
 {
 	std::ostringstream oss;
 
@@ -448,12 +448,12 @@ String KERNEL::GetWindowInfo()
     return String(oss.str());
 }
 
-EventEmitterPtr KERNEL::GetEventEmitter()
+EventEmitterPtr CORE::GetEventEmitter()
 {
 	return eventEmitter;
 }
 
-void KERNEL::Run()
+void CORE::Run()
 {
     sf::Clock clock;
     sf::Event event;
