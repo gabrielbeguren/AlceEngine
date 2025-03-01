@@ -3,6 +3,10 @@
 #include <memory>
 #include "../Transform/Transform.hpp"
 #include "../../../Libs/Libs.hpp"
+#include "../Collections/Collections.hpp"
+#include "../String/String.hpp"
+#include <typeindex>
+#include <any>
 
 namespace alce
 {
@@ -35,10 +39,16 @@ namespace alce
 
         }
 
+        virtual void SetterManager(String name, String value)
+        {
+
+        }
+
         Transform transform;
     
     protected:
-
+        
+        friend class ARL_PROCESSOR;
         friend class Scene;
         friend class ParticleSystem;
         friend class RaycastCallback;
@@ -47,7 +57,6 @@ namespace alce
         String id;
 
         Object* scene = nullptr;
-
     };
 
     typedef std::shared_ptr<Generic> GenericPtr;

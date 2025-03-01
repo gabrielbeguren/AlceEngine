@@ -265,125 +265,99 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "add") 
     {   
-        if(args.Length() < 5)
+        if(args.Length() < 4)
         {
             Debug.ARLError("Syntax error, please check out 'help add' for more info.");
             return;
         }
 
-        String type = args[1];
-        String creator = args[2];
-        String alias = args[4];
-        
-        if(type == "object")
-        {
-            if(args[3] != "as")
-            {
-                Debug.ARLError("Syntax error, please check out 'help add' for more info.");
-                return;
-            }
+        String creator = args[1];
+        String alias = args[3];
 
-            if(!Factory.Has(creator))
-            {
-                Debug.ARLError("There is no creator \"" + creator.ToAnsiString() + "\" registrated in the instance factory.");
-                return;
-            }
-
-            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
-                return alias == go->alias;
-            });
-
-            if(result.Length() > 0) 
-            {
-                Debug.ARLError("An object with the alias name \"" + alias.ToAnsiString() + "\" already exists in the scene.");
-                return;
-            }   
-
-            auto instance = Factory.Create<GameObject>(creator);
-            currentScene->AddGameObject(instance, alias);
-        }
-        else if(type == "component")
-        {
-            if(args[3] != "to")
-            {
-                Debug.ARLError("Syntax error, please check out 'help add' for more info.");
-                return;
-            }
-            
-            //TODO:
-        }
-        else
+        if(args[2] != "as")
         {
             Debug.ARLError("Syntax error, please check out 'help add' for more info.");
+            return;
         }
+
+        if(!Factory.Has(creator))
+        {
+            Debug.ARLError("There is no creator \"" + creator.ToAnsiString() + "\" registrated in the instance factory.");
+            return;
+        }
+
+        auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+            return alias == go->alias;
+        });
+
+        if(result.Length() > 0) 
+        {
+            Debug.ARLError("An object with the alias name \"" + alias.ToAnsiString() + "\" already exists in the scene.");
+            return;
+        }   
+
+        auto instance = Factory.Create<GameObject>(creator);
+        currentScene->AddGameObject(instance, alias);
+
     } 
     else if (mainCmd == "set") 
     {
-        if(args.Length() < 6)
+        if(args.Length() < 5)
         {
             Debug.ARLError("Syntax error, please check out 'help set' for more info.");
             return;
         }
 
-        String type = args[1];
+        String alias = args[1];
 
-        if(type == "object")
+        auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+            return alias == go->alias;
+        });
+        
+        if(result.Length() == 0)
         {
-            String alias = args[2];
+            Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
+            return;
+        }   
 
-            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
-                return alias == go->alias;
-            });
-            
-            if(result.Length() == 0)
-            {
-                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
-                return;
-            }   
+        String field = args[2];
 
-            String field = args[2];
-
-            //TODO: comprobar que existe ese campo
-
+        if(args[3] != "as")
+        {
+            Debug.ARLError("Syntax error, please check out 'help set' for more info.");
+            return;
         }
 
-        if(type == "component")
-        {
-            //TODO:
-        }
+        String value = args[4];
+        result.First()->SetterManager(field, value);
+
     } 
+    else if (mainCmd == "get")
+    {
+        //TODO:
+    }
     else if (mainCmd == "delete") 
     {
-        if(args.Length() < 3)
+        if(args.Length() < 2)
         {
             Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
             return;
         }
 
-        String type = args[1];
+        String alias = args[1];
 
-        if(type == "object")
+        auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+            return go->alias == alias;
+        });
+
+        if(result.Length() == 0)
         {
-            String alias = args[2];
-
-            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
-                return go->alias == alias;
-            });
-
-            if(result.Length() == 0)
-            {
-                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
-                return;
-            }
-
-            result.First()->Destroy();
-            Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" destroyed.");
+            Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
+            return;
         }
 
-        if(type == "component")
-        {
-            //TODO:
-        }
+        result.First()->Destroy();
+        Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" destroyed.");
     } 
     else if (mainCmd == "enable") 
     {   
@@ -412,10 +386,43 @@ void ARL_PROCESSOR::Process(String command)
             result.First()->enabled = true;
             Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" enabled.");
         }
-
-        if(type == "component")
+        else if(type == "component")
         {
-            //TODO:
+            String componentId = args[2];
+            String alias = args[4];
+                
+            if(args[3] != "from")
+            {
+                Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
+                return;
+            }
+
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return go->alias == alias;
+            });
+
+            if(result.Length() == 0)
+            {
+                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
+                return;
+            }
+
+            auto components = result.First()->GetComponents().Filter([&](ComponentPtr c) {
+                return c->GetId() == componentId;
+            });
+
+            if(components.Length() == 0)
+            {
+                Debug.ARLError("object \"" + alias.ToAnsiString() + "\" doest not contains any component with the ID \"" + componentId.ToAnsiString() + "\".");
+                return;
+            }
+
+            components.First()->enabled = true;
+            Debug.ARLMessage("Component \"" + alias.ToAnsiString() + "::" + componentId.ToAnsiString() + "\" enabled.");
+        }
+        else
+        {
+            Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
         }
     } 
     else if (mainCmd == "disable") 
@@ -445,10 +452,43 @@ void ARL_PROCESSOR::Process(String command)
             result.First()->enabled = false;
             Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" disabled.");
         }
-
-        if(type == "component")
+        else if(type == "component")
         {
-            //TODO:
+            String componentId = args[2];
+            String alias = args[4];
+                
+            if(args[3] != "from")
+            {
+                Debug.ARLError("Syntax error, please check out 'help enable' for more info.");
+                return;
+            }
+
+            auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+                return go->alias == alias;
+            });
+
+            if(result.Length() == 0)
+            {
+                Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
+                return;
+            }
+
+            auto components = result.First()->GetComponents().Filter([&](ComponentPtr c) {
+                return c->GetId() == componentId;
+            });
+
+            if(components.Length() == 0)
+            {
+                Debug.ARLError("object \"" + alias.ToAnsiString() + "\" doest not contains any component with the ID \"" + componentId.ToAnsiString() + "\".");
+                return;
+            }
+
+            components.First()->enabled = false;
+            Debug.ARLMessage("Component \"" + alias.ToAnsiString() + "::" + componentId.ToAnsiString() + "\" disabled.");
+        }
+        else
+        {
+            Debug.ARLError("Syntax error, please check out 'help disable' for more info.");
         }
     } 
     else 

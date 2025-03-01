@@ -234,17 +234,17 @@ void SampleScene::Player::Update()
 
     if(Input.IsKeyDown(Keyboard::G))
     {
-        Alce.GetCurrentScene()->Shell("add object Tree as t3;");
+        Alce.GetCurrentScene()->Shell("add Tree as t3;");
     }
 
     if(Input.IsKeyDown(Keyboard::T))
     {
-        Alce.GetCurrentScene()->Shell("disable object t3;");
+        Alce.GetCurrentScene()->Shell("disable component SpriteRenderer from t3;");
     }
 
     if(Input.IsKeyDown(Keyboard::Y))
     {
-        Alce.GetCurrentScene()->Shell("enable object t3;");
+        Alce.GetCurrentScene()->Shell("enable component SpriteRenderer from t3;");
     }
     
     if(Input.IsKeyDown(Keyboard::U))
@@ -262,10 +262,24 @@ void SampleScene::Player::Update()
         Alce.GetCurrentScene()->Shell("list");
     }
 
+    if(Input.IsKeyDown(Keyboard::F))
+    {
+        Alce.GetCurrentScene()->Shell("set player velocity as 2");
+    }
+
+    // if(Input.IsKeyDown(Keyboard::G))
+    // {
+    //     Alce.GetCurrentScene()->Shell("set player velocity as 1");
+    // }
+
     AnimationManager();
 }
 #pragma endregion
 
+void SampleScene::Player::SetterManager(String name, String value)
+{
+    if(name == "velocity") velocity =  value.ParseFloat();
+}
 
 void SampleScene::Player::AnimationManager()
 {

@@ -71,7 +71,7 @@ void DEBUG::Warning(String str, List<String> values, bool persist)
 	timess << std::put_time(&tm, "(!) [%d/%m/%y %H:%M - %Ss]");
 	auto message = FormatString(str, values);
 
-	std::wcout << "\033[33m" << String(timess.str()).ToWideString() 
+	std::wcout << "\033[38;5;214m" << String(timess.str()).ToWideString() 
 	<< " >> " << message.ToWideString() << "\033[0m\n";
 
 	if(this->persist || persist)
@@ -87,6 +87,7 @@ void DEBUG::Warning(String str, List<String> values, bool persist)
 		task.join();
 	}
 }
+
 
 void DEBUG::ARLMessage(String str, List<String> values)
 {
