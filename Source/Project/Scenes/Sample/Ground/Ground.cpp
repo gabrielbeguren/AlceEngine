@@ -22,15 +22,17 @@ void SampleScene::Ground::Init()
     sortingLayer = 0;
     rigidbody2d = std::make_shared<Rigidbody2D>();
     AddComponent(rigidbody2d);
-}
 
-void SampleScene::Ground::Start()
-{
     rigidbody2d->CreateBody(
         std::make_shared<RectShape>(Vector2(1000.0f, 50.0f)),
         BodyType::kinematic_body,
         true
     );
+}
+
+void SampleScene::Ground::Start()
+{
+    
 }
 
 void SampleScene::Ground::Update()

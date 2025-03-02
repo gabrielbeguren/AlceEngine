@@ -33,12 +33,16 @@ void SampleScene::Sample::Init()
 	AddGameObject(tree1, "tree1");	
 	
 	SampleScene::TreePtr tree2 = std::make_shared<SampleScene::Tree>(Vector2(3, 3.5));
-	AddGameObject(tree2, "tree2");
+	AddGameObject(tree2, "tree2");	
+
+	Factory.RegisterCreator("Tree", []() {
+		return std::make_shared<SampleScene::Tree>(Vector2(-5.0f, 3.5f));
+	});
 }
 
 void SampleScene::Sample::Start()
 {
-	
+
 }
 
 #pragma endregion

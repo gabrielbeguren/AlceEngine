@@ -20,6 +20,10 @@ namespace SampleScene
 
 		void OnImpactEnd(GameObject* other);
 
+		void SetterManager(String name, String value);
+
+		String GetterManager(String name);
+
 		void Update();
 
 

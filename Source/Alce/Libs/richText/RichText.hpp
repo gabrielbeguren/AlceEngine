@@ -4,7 +4,7 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
-#include "../../Engine/Core/String/String.hpp"
+#include "../../Engine/Modules/String/String.hpp"
 
 typedef sf::Text::Style TextStyle;
 

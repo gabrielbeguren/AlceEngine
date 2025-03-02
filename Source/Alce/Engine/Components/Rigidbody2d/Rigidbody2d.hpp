@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Core/Core.hpp"
+#include "../../Modules/Modules.hpp"
 
 namespace alce
 {
@@ -91,6 +91,11 @@ namespace alce
         void SetTag(String tag);
 
         String GetTag();
+
+        bool HasBody()
+        {
+            return body != nullptr;
+        }
 
     private:
 

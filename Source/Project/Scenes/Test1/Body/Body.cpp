@@ -86,7 +86,8 @@ void Test1Scene::Body::Update()
         
     if(Input.IsKeyDown(Keyboard::G))
     {
-        Alce.SetCurrentScene("Sample");
+        // Alce.SetCurrentScene("Sample");
+        Alce.GetCurrentScene()->Shell("change to Sample;");
     }
 
 

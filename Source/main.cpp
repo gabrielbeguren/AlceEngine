@@ -9,7 +9,7 @@ int main()
 
     Debug.SetWaitTime(0);
 
-    //Alce.AddScene<Test1Scene::Test1>();
+    Alce.AddScene<Test1Scene::Test1>();
     Alce.AddScene<SampleScene::Sample>();
     
     Alce.SetCurrentScene("Sample");
@@ -18,3 +18,4 @@ int main()
 
     return 0;
 }
+

@@ -40,22 +40,6 @@ void SampleScene::Player::Init()
 
     canvas = std::make_shared<Canvas>();
     AddComponent(canvas);
-}
-
-void SampleScene::Player::Start()
-{   
-    walking = false;
-    status = "idle-forward";
-
-    //transform.position = Vector2(0.0f, 0.0f);
-    velocity = 1.0f;
-    rigidbody2d->CreateBody(
-        std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
-        BodyType::dynamic_body,
-        true,
-        MaskType::mask_2
-    );
-    rigidbody2d->SetFixedRotation();
 
     animation->AddAnimation("player/walk-forward.png", "walk-forward", 1, 4, 54, 63);
     animation->AddAnimation("player/walk-backward.png", "walk-backward", 1, 4, 54, 63);
@@ -64,15 +48,14 @@ void SampleScene::Player::Start()
     animation->AddAnimation("player/jump-forward.png", "jump-forward", 1, 1, 54, 63);
     animation->AddAnimation("player/jump-backward.png", "jump-backward", 1, 1, 54, 63);
 
-
-    animation->transform->scale = Vector2(0, 0);
-    leftRaycast2d->direction = Vector2(-0.447f, -0.894f);
-    leftRaycast2d->length = 1.5f;
-
-    rightRaycast2d->direction = Vector2(0.447f, -0.894f);
-    rightRaycast2d->length = 1.5f;
-
-
+    rigidbody2d->CreateBody(
+        std::make_shared<RectShape>(Vector2(40.0f, 65.0f)),
+        BodyType::dynamic_body,
+        true,
+        MaskType::mask_2
+    );
+    rigidbody2d->SetFixedRotation();
+    
     TextPtr text = std::make_shared<Text>();
     canvas->AddElement(text);
     text->position = Vector2(20, 20);
@@ -85,6 +68,33 @@ void SampleScene::Player::Start()
     text->borderWidth = 3;
     text->borderColor = Colors::Yellow;
     text->backgroundColor = Colors::Black;
+
+    animation->transform->scale = Vector2(0, 0);
+    leftRaycast2d->direction = Vector2(-0.447f, -0.894f);
+    leftRaycast2d->length = 1.5f;
+
+    rightRaycast2d->direction = Vector2(0.447f, -0.894f);
+    rightRaycast2d->length = 1.5f;
+
+    walking = false;
+    status = "idle-forward";
+    velocity = 1.0f;
+}
+
+void SampleScene::Player::Start()
+{   
+    // TextPtr text = std::make_shared<Text>();
+    // canvas->AddElement(text);
+    // text->position = Vector2(20, 20);
+    // text->padding = Vector2(10, 10);
+
+    // text->font = "fonts/Merriweather/Merriweather-Black.ttf";
+    // *text += "<color='green'>Alce Engine</color> Sample Project";
+    // *text += "\nby @gabrielbeguren";
+    // text->borderRadius = 7;
+    // text->borderWidth = 3;
+    // text->borderColor = Colors::Yellow;
+    // text->backgroundColor = Colors::Black;
 
     // TextInputPtr ti = std::make_shared<TextInput>();
     // canvas->AddElement(ti);
@@ -129,41 +139,41 @@ void SampleScene::Player::Start()
     //     Storage.Delete("lista de la compra");
     // };
     //
-    ButtonPtr button3 = std::make_shared<Button>(); 
-    canvas->AddElement(button3);
-    button3->position = Vector2(20, 100);
-    button3->borderRadius = 5;
-    button3->borderWidth = 2;
-    button3->padding = Vector2(15, 10);
-    button3->borderColor = Colors::White;
-    button3->text = "-";
-    button3->onClick = [](){
-        if(Alce.GetCurrentScene()->GridScale > 1)
-        {
-            Alce.GetCurrentScene()->GridScale -= 1;
-            Debug.Log(Alce.GetCurrentScene()->GridScale);
-        }
+    // ButtonPtr button3 = std::make_shared<Button>(); 
+    // canvas->AddElement(button3);
+    // button3->position = Vector2(20, 100);
+    // button3->borderRadius = 5;
+    // button3->borderWidth = 2;
+    // button3->padding = Vector2(15, 10);
+    // button3->borderColor = Colors::White;
+    // button3->text = "-";
+    // button3->onClick = [](){
+    //     if(Alce.GetCurrentScene()->GridScale > 1)
+    //     {
+    //         Alce.GetCurrentScene()->GridScale -= 1;
+    //         Debug.Log(Alce.GetCurrentScene()->GridScale);
+    //     }
 
-    };
+    // };
 
-    ButtonPtr button4 = std::make_shared<Button>(); 
-    canvas->AddElement(button4);
-    button4->position = Vector2(70, 100);
-    button4->borderRadius = 5;
-    button4->borderWidth = 2;
-    button4->padding = Vector2(13, 10);
-    button4->borderColor = Colors::White;
-    button4->text = "+";
-    button4->onClick = [&](){
-        Alce.GetCurrentScene()->GridScale += 1;
-        Debug.Log(Alce.GetCurrentScene()->GridScale);
-    };
+    // ButtonPtr button4 = std::make_shared<Button>(); 
+    // canvas->AddElement(button4);
+    // button4->position = Vector2(70, 100);
+    // button4->borderRadius = 5;
+    // button4->borderWidth = 2;
+    // button4->padding = Vector2(13, 10);
+    // button4->borderColor = Colors::White;
+    // button4->text = "+";
+    // button4->onClick = [&](){
+    //     Alce.GetCurrentScene()->GridScale += 1;
+    //     Debug.Log(Alce.GetCurrentScene()->GridScale);
+    // };
 
-    ImagePtr image = std::make_shared<Image>();
-    canvas->AddElement(image);
-    image->position = Vector2(300, 25);
-    image->AddTexture("meteor.png", "meteor");
-    image->SetTexture("meteor");
+    // ImagePtr image = std::make_shared<Image>();
+    // canvas->AddElement(image);
+    // image->position = Vector2(300, 25);
+    // image->AddTexture("meteor.png", "meteor");
+    // image->SetTexture("meteor");
 }
 
 void SampleScene::Player::OnImpact(GameObject* other)
@@ -222,9 +232,66 @@ void SampleScene::Player::Update()
         grounded = false; 
     }
 
+    if(Input.IsKeyDown(Keyboard::F))
+    {
+        Alce.GetCurrentScene()->Shell("exit;");
+    }
+
+    // if(Input.IsKeyDown(Keyboard::T))
+    // {
+    //     Alce.GetCurrentScene()->Shell("disable component SpriteRenderer from t3;");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::Y))
+    // {
+    //     Alce.GetCurrentScene()->Shell("enable component SpriteRenderer from t3;");
+    // }
+    
+    // if(Input.IsKeyDown(Keyboard::U))
+    // {
+    //     Alce.GetCurrentScene()->Shell("delete object t3;");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::H))
+    // {
+    //     Alce.GetCurrentScene()->Shell("change to Test1");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::L))
+    // {
+    //     Alce.GetCurrentScene()->Shell("list");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::F))
+    // {
+    //     Alce.GetCurrentScene()->Shell("set player velocity as 2");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::P))
+    // {
+    //     Alce.GetCurrentScene()->Shell("grid 10");
+    // }
+
+    // // if(Input.IsKeyDown(Keyboard::G))
+    // // {
+    // //     Alce.GetCurrentScene()->Shell("set player velocity as 1");
+    // // }
+
     AnimationManager();
 }
 #pragma endregion
+
+void SampleScene::Player::SetterManager(String name, String value)
+{
+    if(name == "velocity") velocity =  value.ParseFloat();
+}
+
+String SampleScene::Player::GetterManager(String name)
+{
+    if(name == "velocity") return velocity;
+
+    return "undefined";
+}
 
 void SampleScene::Player::AnimationManager()
 {
