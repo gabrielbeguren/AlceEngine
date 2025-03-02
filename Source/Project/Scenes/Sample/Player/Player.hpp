@@ -22,6 +22,8 @@ namespace SampleScene
 
 		void SetterManager(String name, String value);
 
+		String GetterManager(String name);
+
 		void Update();
 
 

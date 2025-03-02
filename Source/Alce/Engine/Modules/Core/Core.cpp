@@ -453,6 +453,30 @@ EventEmitterPtr CORE::GetEventEmitter()
 	return eventEmitter;
 }
 
+void CORE::ConsoleInputHandler()
+{
+    std::string input;
+
+    while (!exit)
+    {
+        std::cout << ">> ";
+
+        if (!std::getline(std::cin, input)) 
+            break;
+
+        if (input == "exit")
+        {
+            exit = true;
+            break;
+        }
+
+        if (!input.empty())
+        {
+            GetCurrentScene()->Shell(input);
+        }
+    }
+}
+
 void CORE::Run()
 {
     sf::Clock clock;
@@ -461,6 +485,8 @@ void CORE::Run()
     int frameCount = 0;
     sf::Time second = sf::seconds(1.0f);
     sf::Time elapsed, accTime;
+
+    std::thread inputThread([this]() { ConsoleInputHandler(); });
 
     while (window.isOpen() && !exit)
     {
@@ -485,7 +511,7 @@ void CORE::Run()
                 accTime -= second;
                 frameCount = 0;
             }
-			
+            
             // Update joysticks
             sf::Joystick::update();
 
@@ -502,7 +528,6 @@ void CORE::Run()
                     for (unsigned int j = 0; j < sf::Joystick::AxisCount; ++j)
                     {
                         float position = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(j));
-                        // Asigna al eje correspondiente en función de j
                         switch(j) {
                             case 0: case 1:
                                 joystick->xyAxis = Vector2(
@@ -548,8 +573,7 @@ void CORE::Run()
         }
         else
         {
-            // TODO: Escena por defecto
-
+            //TODO: DEFAULT SCENE
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
@@ -559,5 +583,19 @@ void CORE::Run()
             window.clear(~clearColor);
             window.display();
         }
+    }
+
+    exit = true;
+    
+    try
+    {
+        std::cin.rdbuf(nullptr); 
+    }
+    catch(const std::exception& e) { }
+    
+    if (inputThread.joinable()) 
+    {
+        inputThread.detach();
+        std::terminate(); 
     }
 }

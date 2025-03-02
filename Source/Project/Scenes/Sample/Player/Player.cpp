@@ -232,45 +232,50 @@ void SampleScene::Player::Update()
         grounded = false; 
     }
 
-    if(Input.IsKeyDown(Keyboard::G))
-    {
-        Alce.GetCurrentScene()->Shell("add Tree as t3;");
-    }
-
-    if(Input.IsKeyDown(Keyboard::T))
-    {
-        Alce.GetCurrentScene()->Shell("disable component SpriteRenderer from t3;");
-    }
-
-    if(Input.IsKeyDown(Keyboard::Y))
-    {
-        Alce.GetCurrentScene()->Shell("enable component SpriteRenderer from t3;");
-    }
-    
-    if(Input.IsKeyDown(Keyboard::U))
-    {
-        Alce.GetCurrentScene()->Shell("delete object t3;");
-    }
-
-    if(Input.IsKeyDown(Keyboard::H))
-    {
-        Alce.GetCurrentScene()->Shell("change to Test1");
-    }
-
-    if(Input.IsKeyDown(Keyboard::L))
-    {
-        Alce.GetCurrentScene()->Shell("list");
-    }
-
     if(Input.IsKeyDown(Keyboard::F))
     {
-        Alce.GetCurrentScene()->Shell("set player velocity as 2");
+        Alce.GetCurrentScene()->Shell("exit;");
     }
 
-    // if(Input.IsKeyDown(Keyboard::G))
+    // if(Input.IsKeyDown(Keyboard::T))
     // {
-    //     Alce.GetCurrentScene()->Shell("set player velocity as 1");
+    //     Alce.GetCurrentScene()->Shell("disable component SpriteRenderer from t3;");
     // }
+
+    // if(Input.IsKeyDown(Keyboard::Y))
+    // {
+    //     Alce.GetCurrentScene()->Shell("enable component SpriteRenderer from t3;");
+    // }
+    
+    // if(Input.IsKeyDown(Keyboard::U))
+    // {
+    //     Alce.GetCurrentScene()->Shell("delete object t3;");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::H))
+    // {
+    //     Alce.GetCurrentScene()->Shell("change to Test1");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::L))
+    // {
+    //     Alce.GetCurrentScene()->Shell("list");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::F))
+    // {
+    //     Alce.GetCurrentScene()->Shell("set player velocity as 2");
+    // }
+
+    // if(Input.IsKeyDown(Keyboard::P))
+    // {
+    //     Alce.GetCurrentScene()->Shell("grid 10");
+    // }
+
+    // // if(Input.IsKeyDown(Keyboard::G))
+    // // {
+    // //     Alce.GetCurrentScene()->Shell("set player velocity as 1");
+    // // }
 
     AnimationManager();
 }
@@ -279,6 +284,13 @@ void SampleScene::Player::Update()
 void SampleScene::Player::SetterManager(String name, String value)
 {
     if(name == "velocity") velocity =  value.ParseFloat();
+}
+
+String SampleScene::Player::GetterManager(String name)
+{
+    if(name == "velocity") return velocity;
+
+    return "undefined";
 }
 
 void SampleScene::Player::AnimationManager()

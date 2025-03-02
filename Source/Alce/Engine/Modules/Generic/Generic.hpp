@@ -44,6 +44,11 @@ namespace alce
 
         }
 
+        virtual String GetterManager(String name)
+        {
+            return "undefined";
+        }
+
         Transform transform;
     
     protected:

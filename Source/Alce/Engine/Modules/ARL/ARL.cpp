@@ -42,13 +42,17 @@ void ARL_PROCESSOR::Process(String command)
     {
         if(args.Length() == 1)
         {
-            Debug.ARLMessage(ARLM.help);
+            Debug.ARLMessage("To consult ARL commands info, please insert the command name after \"help\".");
             return;
         }
 
         String subCmd = args[1];
 
-        if(subCmd == "system")
+        if(subCmd == "arl")
+        {
+            Debug.ARLMessage("[system]\n[screen]\n[window]\n[stop]\n[play]\n[exit]\n[switch]\n[list]\n[standby]\n[scene]\n[grid]\n[has]\n[change]\n[add]\n[set]\n[get]\n[delete]\n[enable]\n[disable]");
+        }
+        else if(subCmd == "system")
         {
             Debug.ARLMessage(ARLM.helpSystem);
         }
@@ -68,53 +72,49 @@ void ARL_PROCESSOR::Process(String command)
         {
             Debug.ARLMessage(ARLM.helpPlay);
         }
-        else if(subCmd == "help")
-        {
-            Debug.ARLMessage(ARLM.helpHelp);
-        }
         else if(subCmd == "standby")
         {
             Debug.ARLMessage(ARLM.helpStandby);
         }
         else if(subCmd == "grid")
         {
-            Debug.ARLMessage("{}\n{}", {ARLM.helpGridScale, ARLM.helpGridSize});
+            Debug.ARLMessage(ARLM.helpGrid);
         }
-        else if(subCmd == "change to")
+        else if(subCmd == "change")
         {
-            Debug.ARLMessage(ARLM.helpChangeTo);
+            Debug.ARLMessage(ARLM.helpChange);
         }
         else if(subCmd == "add")
         {
-            Debug.ARLMessage("{}\n{}\n{}", {ARLM.helpAddObject, ARLM.helpAddComponent});
+            Debug.ARLMessage(ARLM.helpAdd);
         }
-        else if(subCmd == "delete object")
+        else if(subCmd == "get")
         {
-            Debug.ARLMessage(ARLM.helpDeleteObject);
+            Debug.ARLMessage(ARLM.helpGet);
         }
-        else if(subCmd == "delete component")
+        else if(subCmd == "delete")
         {
-            Debug.ARLMessage(ARLM.helpDeleteComponent);
+            Debug.ARLMessage(ARLM.helpDelete);
         }
-        else if(subCmd == "enable object")
+        else if(subCmd == "enable")
         {
-            Debug.ARLMessage(ARLM.helpEnableObject);
+            Debug.ARLMessage(ARLM.helpEnable);
         }
-        else if(subCmd == "disable component")
+        else if(subCmd == "disable")
         {
-            Debug.ARLMessage(ARLM.helpDisableComponent);
+            Debug.ARLMessage(ARLM.helpDisable);
         }
-        else if(subCmd == "disable object")
+        else if(subCmd == "set")
         {
-            Debug.ARLMessage(ARLM.helpDisableObject);
+            Debug.ARLMessage(ARLM.helpSet);
         }
-        else if(subCmd == "set object")
+        else if(subCmd == "list")
         {
-            Debug.ARLMessage(ARLM.helpSetObject);
+            Debug.ARLMessage(ARLM.helpList);
         }
-        else if(subCmd == "set component")
+        else if(subCmd == "has")
         {
-            Debug.ARLMessage(ARLM.helpSetComponent);
+            Debug.ARLMessage(ARLM.helpHas);
         }
         else
         {
@@ -215,18 +215,19 @@ void ARL_PROCESSOR::Process(String command)
             return;
         }
 
-        String subCmd = args[1];
+        int value = args[1].ParseInt();
+        currentScene->GridScale = value;
 
-        if(subCmd == "scale")
-        {
-            int value = args[2].ParseInt();
-            currentScene->GridScale = value;
-
-            Debug.ARLMessage("Grid scale set to {}", {value});
-        }
+        Debug.ARLMessage("Grid scale set to {}", {value});
     } 
     else if (mainCmd == "has") 
     {
+        if(args.Length() < 2) 
+        {
+            Debug.ARLError("Syntax error, please check out 'help has' for more info.");
+            return;
+        }
+
         String alias = args[1];
 
         for(auto& go: currentScene->GetAllGameObjects())
@@ -265,20 +266,14 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "add") 
     {   
-        if(args.Length() < 4)
+        if(args.Length() < 3)
         {
             Debug.ARLError("Syntax error, please check out 'help add' for more info.");
             return;
         }
 
         String creator = args[1];
-        String alias = args[3];
-
-        if(args[2] != "as")
-        {
-            Debug.ARLError("Syntax error, please check out 'help add' for more info.");
-            return;
-        }
+        String alias = args[2];
 
         if(!Factory.Has(creator))
         {
@@ -302,7 +297,7 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "set") 
     {
-        if(args.Length() < 5)
+        if(args.Length() < 4)
         {
             Debug.ARLError("Syntax error, please check out 'help set' for more info.");
             return;
@@ -322,19 +317,33 @@ void ARL_PROCESSOR::Process(String command)
 
         String field = args[2];
 
-        if(args[3] != "as")
-        {
-            Debug.ARLError("Syntax error, please check out 'help set' for more info.");
-            return;
-        }
-
-        String value = args[4];
+        String value = args[3];
         result.First()->SetterManager(field, value);
 
     } 
     else if (mainCmd == "get")
     {
-        //TODO:
+        if(args.Length() < 3)
+        {
+            Debug.ARLError("Syntax error, please check out 'help set' for more info.");
+            return;
+        }
+
+        String alias = args[1];
+        String field = args[2];
+
+        auto result = currentScene->GetAllGameObjects().Filter([&](GameObjectPtr go) {
+            return alias == go->alias;
+        });
+        
+        if(result.Length() == 0)
+        {
+            Debug.ARLError("There is no object with the alias \"" + alias.ToAnsiString() + "\" in the scene.");
+            return;
+        }   
+
+        String value = result.First()->GetterManager(field);
+        Debug.ARLMessage(alias.ToAnsiString() + "::" + field.ToAnsiString() + ": {" + value.ToAnsiString() + "}");
     }
     else if (mainCmd == "delete") 
     {
