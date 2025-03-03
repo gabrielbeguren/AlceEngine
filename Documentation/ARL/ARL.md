@@ -226,7 +226,7 @@ Enables a game object or component.
 
 > enable object <alias\>
 
-> enable component <componentId> from <alias>
+> enable component <componentId\> from <alias\>
 
 Example:
 ```
@@ -241,9 +241,9 @@ enable component SpriteRenderer from enemy1
 
 Disables a game object or component.
 
-> disable object <alias>
+> disable object <alias\>
 
-> disable component <componentId> from <alias>
+> disable component <componentId\> from <alias\>
 
 Example:
 ```
