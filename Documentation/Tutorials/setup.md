@@ -27,7 +27,13 @@ Start by installing MSYS2 following the instructions on its [website](https://ww
 Once the program is installed, launch it and run the following command within the integrated terminal:
 
 ```bash
-$ pacman -S mingw-w64-i686-toolchain
+pacman -S mingw-w64-i686-toolchain
+```
+
+If you want to also develop and contribute to the project, it is recommended to install pip:
+
+```bash
+pacman -S mingw-w64-i686-python-pip
 ```
 
 After the installation is complete, navigate to your local folder "<i>C:\msys64</i>" and locate the mingw32 folder and its subfolder bin. Ensure it's not empty and contains the following files:
