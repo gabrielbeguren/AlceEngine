@@ -10,7 +10,6 @@
 #include <thread>
 #include <atomic>
 #include <iostream>
-#include <condition_variable>
 
 #include "../../../Libs/Libs.hpp"
 #include "../Chrono/Chrono.hpp"
@@ -150,9 +149,6 @@ namespace alce
         EventEmitterPtr eventEmitter = nullptr;
 
         std::atomic<bool> exit = {false};
-        std::condition_variable cv;
-        std::mutex mtx;
-    
         float fps = 0;
 
         void ConsoleInputHandler();

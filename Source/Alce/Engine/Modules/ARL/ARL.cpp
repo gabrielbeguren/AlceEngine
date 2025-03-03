@@ -118,7 +118,7 @@ void ARL_PROCESSOR::Process(String command)
         }
         else
         {
-            Debug.ARLMessage("Unknown Command {}\n\nUse help for more info.\n", {subCmd});
+            Debug.ARLMessage("\nInvalid Command " + subCmd.ToAnsiString() + "\nUse help for more info.");
         }
     } 
     else if (mainCmd == "system") 
@@ -163,7 +163,7 @@ void ARL_PROCESSOR::Process(String command)
     } 
     else if (mainCmd == "list") 
     {
-        String message = String("Scene: " + currentScene->GetName().ToAnsiString() + "\n");
+        String message = String("[Scene: " + currentScene->GetName().ToAnsiString() + "]\n");
 
         for(auto& go: currentScene->GetAllGameObjects())
         {
@@ -293,6 +293,7 @@ void ARL_PROCESSOR::Process(String command)
 
         auto instance = Factory.Create<GameObject>(creator);
         currentScene->AddGameObject(instance, alias);
+        Debug.ARLMessage("Object \"" + alias.ToAnsiString() + "\" added to the scene.");
 
     } 
     else if (mainCmd == "set") 
