@@ -40,7 +40,7 @@ Just write your prompts in the console while the game is running!
     * [TextInput](Source/Alce/Engine/UI/TextInput/)
 
 * Modules:
-    * [Kernel](Source/Alce/Engine/Modules/Core/): engine's core module.
+    * [Core](Source/Alce/Engine/Modules/Core/): engine's core module.
     * [Audio](Source/Alce/Engine/Modules/Audio/): shared audio management module.
     * [Storage](Source/Alce/Engine/Modules/Storage): LocalStorage-like management module.
     * [Chrono](Source/Alce/Engine/Modules/Chrono/): time handling module.
