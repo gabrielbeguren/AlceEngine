@@ -48,14 +48,6 @@ namespace alce
         Titlebar
     };
 
-    enum MemoryUnit 
-    {
-        byte,
-        kilobyte,
-        megabyte,
-        gigabyte
-    };
-
     class CORE
     {
     public:
