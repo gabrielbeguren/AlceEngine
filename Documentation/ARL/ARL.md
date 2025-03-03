@@ -1,9 +1,8 @@
-# Alce Runtime Language (ARL) > Usage Guide
-
+# Alce Runtime Language (ARL)
 ARL is a lightweight, human-readable command language designed for dynamic scene development and modification during runtime. It allows you to make real-time changes without the need for recompilation, streamlining iterative workflows in applications such as game development or interactive simulations.
 
----
-## 1. Syntax
+
+## Syntax
 
 Commands can be executed un group using semicolons as separators:
 
@@ -30,7 +29,7 @@ change to mainScene;
 ```
 
 
-## 2. Command List
+## Command List
 
 ### help
 

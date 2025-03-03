@@ -12,6 +12,17 @@
 
 Alce Game Engine is a feature-rich game engine based on SFML and Box2D, designed to simplify the development of 2D games. Its primary goal is to provide a comprehensive suite of tools and components that streamline the creation process—from physics simulations and animations to user interface management and local storage.
 
+# News and Updates
+
+### > (03/03/2025) Release: Alce Runtime Language (ARL)
+
+A lightweight, human-readable command language designed for dynamic scene development and modification during runtime. It allows you to make real-time changes without the need for recompilation, streamlining iterative workflows in applications such as game development or interactive simulations.
+ 
+Just write your prompts in the console while the game is running!
+
+[ARL Documentation](Documentation/ARL/ARL.md)
+
+
 # Features
 
 * Components:
