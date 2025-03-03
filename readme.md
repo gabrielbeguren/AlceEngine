@@ -39,14 +39,14 @@ Just write your prompts in the console while the game is running!
     * [Text](Source/Alce/Engine/UI/Text/)
     * [TextInput](Source/Alce/Engine/UI/TextInput/)
 
-* Core Modules:
-    * [Kernel](Source/Alce/Engine/Core/Kernel/): engine's core module.
-    * [Audio](Source/Alce/Engine/Core/Audio/): shared audio management module.
-    * [Storage](Source/Alce/Engine/Core/Storage): LocalStorage-like management module.
-    * [Chrono](Source/Alce/Engine/Core/Chrono/): time handling module.
-    * [Debug](Source/Alce/Engine/Core/Debug/): log/tracking module.
-    * [Input](Source/Alce/Engine/Core/Input/): keyboard/mouse input management module.
-    * [Math](Source/Alce/Engine/Core/Math/): math engine module.
+* Modules:
+    * [Kernel](Source/Alce/Engine/Modules/Core/): engine's core module.
+    * [Audio](Source/Alce/Engine/Modules/Audio/): shared audio management module.
+    * [Storage](Source/Alce/Engine/Modules/Storage): LocalStorage-like management module.
+    * [Chrono](Source/Alce/Engine/Modules/Chrono/): time handling module.
+    * [Debug](Source/Alce/Engine/Modules/Debug/): log/tracking module.
+    * [Input](Source/Alce/Engine/Modules/Input/): keyboard/mouse input management module.
+    * [Math](Source/Alce/Engine/Modules/Math/): math engine module.
 * Utils:
     * [Collections](Source/Alce/Engine/Core/Collections/): Custom Dictionary and List data structures.
     * [String](Source/Alce/Engine/Core/String/): sf::String Wrapper Class.
