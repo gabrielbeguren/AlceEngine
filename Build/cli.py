@@ -89,7 +89,7 @@ def printHelp():
     prints(" file.\n\n")
 
 def printVersion():    
-    prints("Alce CLI 1.0.1 (2024)\n", "magenta")
+    prints("Alce CLI 1.0.2 (2025)\n", "magenta")
 
 #endregion
 
@@ -541,7 +541,7 @@ def generateScene(name):
     cpp.write("using namespace alce;\n\n")
     cpp.write(f"{name}Scene::{name}::{name}() : Scene(\"{name}\")\n")
     cpp.write("{\n")
-    cpp.write("\tDebugMode(true);\n")
+    cpp.write("\tDevelopmentMode(true);\n")
     cpp.write("\tInitPhysics(Vector2(0.0f, -9.8f));\n")
     cpp.write("}\n\n")
     cpp.write("//Custom methods implementation\n")
@@ -591,6 +591,8 @@ def generateObject(scene, name):
     hpp.write("\t\tvoid Init();\n\n")
     hpp.write("\t\tvoid Start();\n\n")
     hpp.write("\t\tvoid Update();\n\n")
+    hpp.write("\t\tvoid SetterManager(String name, String value);\n\n")
+    hpp.write("\t\tString GetterManager(String name);\n\n")
     hpp.write("\t};\n")
     hpp.write(f"\ttypedef std::shared_ptr<{name}> {name}Ptr;\n")
     hpp.write("}")
@@ -612,6 +614,10 @@ def generateObject(scene, name):
     cpp.write("{\n\t\n}\n\n")
     cpp.write(f"void {scene}Scene::{name}::Update()\n")
     cpp.write("{\n\t\n}\n\n")
+    cpp.write(f"void {scene}Scene::{name}::SetterManager(String name, String value)\n")
+    cpp.write("{\n\t\n}\n\n")
+    cpp.write(f"String {scene}Scene::{name}::GetterManager(String name)\n")
+    cpp.write("{\n\t\n\treturn \"undefined\";\n}\n\n")
     cpp.write("#pragma endregion")
     cpp.close()
 
@@ -622,10 +628,20 @@ def generateObject(scene, name):
     include = open(f"./../Source/Project/Scenes/{scene}/{scene}.cpp", "w")
     include.write("")
 
+    flag = 0
     for line in lines:
         include.write(line)
         if line == f"#include \"{scene}.hpp\"\n":
             include.write(f"#include \"{name}/{name}.hpp\"\n")
+        if line == f"void {scene}Scene::{scene}::Init()\n":
+            flag = 1
+            continue
+        if flag == 1:
+            include.write(f"\tFactory.RegisterCreator(\"{scene}Scene::{name}\", []() ")
+            include.write("{\n\t\treturn std::make_shared")
+            include.write(f"<{scene}Scene::{name}>();\n\t")
+            include.write("});\n\n");
+            flag = 0
 
     include.close()
     prints(f"Generated -> Source/Project/Scenes/{scene}/{name}/{name}.hpp\n", "green")
@@ -887,25 +903,29 @@ def initCompile():
     #endregion
 
 def build():
+    try:
+        if len(compile_stack) == 0:
+            return True
 
-    if len(compile_stack) == 0:
-        return True
+        makefile = open("Temp/Makefile", "w")
+        makefile.write("all:\n")
 
-    makefile = open("Temp/Makefile", "w")
-    makefile.write("all:\n")
+        for file in compile_stack:
+            makefile.write("\tg++ -std=c++2a -ISFML-2.6.1/include -c " + file + " -o ./Objects/" + file.split("/")[-1].replace("cpp", "o") + "\n")
 
-    for file in compile_stack:
-        makefile.write("\tg++ -std=c++2a -ISFML-2.6.1/include -c " + file + " -o ./Objects/" + file.split("/")[-1].replace("cpp", "o") + "\n")
+        makefile.close()
 
-    makefile.close()
+        if os.system("mingw32-make -f Temp/Makefile") != 0:
+            os.remove("Temp/Makefile")
+            return False
+        else:
+            os.remove("Temp/Makefile")
+            return True
 
-    if os.system("mingw32-make -f Temp/Makefile") != 0:
-        os.remove("Temp/Makefile")
-        return False
-    else:
-        os.remove("Temp/Makefile")
-        return True
-    
+    except KeyboardInterrupt:
+        prints("⚠️  Operation aborted by user", "yellow")
+        sys.exit(1)
+
 def createIcon():
 
     if not os.path.exists(project_icon):
@@ -934,59 +954,65 @@ def createIcon():
 
 def link(alias):
 
-    if not os.path.exists("./Out/" + alias):
-        os.makedirs("./Out/" + alias)
+    try:
 
-    makefile = open("Temp/Makefile", "w")
-    makefile.write("all:\n")
+        if not os.path.exists("./Out/" + alias):
+            os.makedirs("./Out/" + alias)
 
-    o_files = glob.glob("./Objects/*.o")
-    c = 0
+        makefile = open("Temp/Makefile", "w")
+        makefile.write("all:\n")
 
-    for o in o_files:
-        o_files[c] = o.replace("\\", "/")
-        c += 1
-    
-    makefile.write("\tg++ ")
+        o_files = glob.glob("./Objects/*.o")
+        c = 0
 
-    for o in o_files:
-        makefile.write(o + " ")
-    
-    if createIcon():
-        makefile.write("Temp/icon.res")
-    
-    makefile.write(" -o " + "./Out/" + alias + "/" + project_name + " -LSFML-2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio ")
-
-    if build_mode == "release":
-        makefile.write("-mwindows ")
-    
-    makefile.close()
-
-    if os.system("mingw32-make -f Temp/Makefile") != 0:
-        os.remove("Makefile")
-        return False
-    else:
-
-        if os.path.exists("./Out/" + alias + "/Assets"):
-            shutil.rmtree("./Out/" + alias + "/Assets")
+        for o in o_files:
+            o_files[c] = o.replace("\\", "/")
+            c += 1
         
-        shutil.copytree("./Assets", os.path.join("./Out/" + alias, "Assets"))
+        makefile.write("\tg++ ")
 
-        sfml_dlls = glob.glob("./SFML-2.6.1/bin/*.dll")
-
-        for dll in sfml_dlls:
-            shutil.copy(dll, "./Out/" + alias)
+        for o in o_files:
+            makefile.write(o + " ")
         
-        compiler_dlls = glob.glob(f"{compiler_bin_path}/*.dll")
+        if createIcon():
+            makefile.write("Temp/icon.res")
+        
+        makefile.write(" -o " + "./Out/" + alias + "/" + project_name + " -LSFML-2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio ")
 
-        for dll in compiler_dlls:
-            shutil.copy(dll, "./Out/" + alias)
+        if build_mode == "release":
+            makefile.write("-mwindows ")
+        
+        makefile.close()
 
-        if os.path.exists("Temp/icon.res"):
-            os.remove("Temp/icon.res")
+        if os.system("mingw32-make -f Temp/Makefile") != 0:
+            os.remove("Makefile")
+            return False
+        else:
 
-        os.remove("Temp/Makefile")
-        return True
+            if os.path.exists("./Out/" + alias + "/Assets"):
+                shutil.rmtree("./Out/" + alias + "/Assets")
+            
+            shutil.copytree("./Assets", os.path.join("./Out/" + alias, "Assets"))
+
+            sfml_dlls = glob.glob("./SFML-2.6.1/bin/*.dll")
+
+            for dll in sfml_dlls:
+                shutil.copy(dll, "./Out/" + alias)
+            
+            compiler_dlls = glob.glob(f"{compiler_bin_path}/*.dll")
+
+            for dll in compiler_dlls:
+                shutil.copy(dll, "./Out/" + alias)
+
+            if os.path.exists("Temp/icon.res"):
+                os.remove("Temp/icon.res")
+
+            os.remove("Temp/Makefile")
+            return True
+    
+    except KeyboardInterrupt:
+        prints("⚠️  Operation aborted by user", "yellow")
+        sys.exit(1)
 
 #endregion
 
